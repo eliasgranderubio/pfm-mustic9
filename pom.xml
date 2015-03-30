@@ -1,0 +1,72 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>es.uem.cracking</groupId>
+  <artifactId>pfm-mustic9</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>pfm-mustic9</name>
+  <description>pfm-mustic9: Distributed computing systems to do cracking</description>
+  
+  <properties>
+        <!-- Global properties -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+        
+        <!-- Plugins version -->
+		<maven.javadoc.plugin.version>2.9.1</maven.javadoc.plugin.version>
+	
+        <!-- Dependencies version -->
+        <javax.ejb-api.version>3.2</javax.ejb-api.version>
+        <jaxb-api.version>2.2.12</jaxb-api.version>
+        <persistence-api.version>1.0.2</persistence-api.version>
+  </properties>
+  
+
+  <build>
+    <!-- Plugins management -->
+  	<pluginManagement>
+  		<plugins>
+  		  <!-- Javadoc Plugin -->
+	      <plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-javadoc-plugin</artifactId>
+	        <version>${maven.javadoc.plugin.version}</version>
+	        <configuration>
+	          <show>protected</show>
+	        </configuration>
+	      </plugin>
+  		</plugins>
+  	</pluginManagement>
+  </build>
+  
+  
+  <!-- Dependencies management -->
+  <dependencyManagement>
+  	<dependencies>
+  		<dependency>
+  			<groupId>javax.ejb</groupId>
+  			<artifactId>javax.ejb-api</artifactId>
+  			<version>${javax.ejb-api.version}</version>
+  		</dependency>
+  		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>${jaxb-api.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<version>${persistence-api.version}</version>	
+  		</dependency>
+  	</dependencies>
+  </dependencyManagement>
+  
+  <!-- Modules -->
+  <modules>
+  	<module>master</module>
+	<module>name_server</module>
+	<module>slave</module>
+  </modules>
+  
+</project>

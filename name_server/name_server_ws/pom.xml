@@ -1,0 +1,56 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>es.uem.cracking</groupId>
+    <artifactId>name_server</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>name_server_ws</artifactId>
+  <packaging>war</packaging>
+  <name>Name Server WS Tier</name>
+  <description>Web service tier of the Name Server node</description>
+  
+  <build>
+  	<!-- Plugins -->
+  	<plugins>
+      <!-- Javadoc Plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <executions>
+          <execution>
+          	<id>javadoc</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>javadoc</goal>
+            </goals>
+          </execution>
+          <execution>
+          	<id>test-javadoc</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>test-javadoc</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  
+  
+  <!-- Dependencies -->
+  <dependencies>
+  	<dependency>
+  		<groupId>javax.ejb</groupId>
+  		<artifactId>javax.ejb-api</artifactId>
+  	</dependency>
+  	<dependency>
+		<groupId>javax.xml.bind</groupId>
+		<artifactId>jaxb-api</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>javax.persistence</groupId>
+		<artifactId>persistence-api</artifactId>
+  	</dependency>
+  </dependencies>
+</project>

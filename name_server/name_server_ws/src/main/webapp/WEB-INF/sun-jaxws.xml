@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<endpoints version="2.0" xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime"
+    	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    	   xsi:schemaLocation="http://java.sun.com/xml/ns/jax-ws/ri/runtime http://java.sun.com/webservices/docs/2.0/jaxws/sun-jaxws.xsd">
+    
+    <endpoint name='Name_Server_WS' implementation='es.uem.cracking.name_server.ws.Name_Server_WS' url-pattern='/Name_Server_WS' />
+</endpoints> 
