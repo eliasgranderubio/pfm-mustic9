@@ -1,2 +1,2 @@
-# pfm-mustic9
-Distributed computing systems to do cracking
+# pfm-mustic9: Distributed computing systems for cracking
+Distributed computing systems for cracking
