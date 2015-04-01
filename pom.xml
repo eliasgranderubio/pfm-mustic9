@@ -15,18 +15,43 @@
         
         <!-- Plugins version -->
 		<maven.javadoc.plugin.version>2.9.1</maven.javadoc.plugin.version>
+		<jaxws.maven.plugin.version>2.3</jaxws.maven.plugin.version>
 	
         <!-- Dependencies version -->
         <javax.ejb-api.version>3.2</javax.ejb-api.version>
         <jaxb-api.version>2.2.12</jaxb-api.version>
         <persistence-api.version>1.0.2</persistence-api.version>
+        <jaxws-rt.version>2.2.10</jaxws-rt.version>
+        <tomcat.version>7.0.57</tomcat.version>
   </properties>
   
 
   <build>
     <!-- Plugins management -->
   	<pluginManagement>
-  		<plugins>
+  	  <plugins>
+  	    <!-- JAXWS Maven Plugin -->
+  	    <plugin>
+             <groupId>org.jvnet.jax-ws-commons</groupId>
+             <artifactId>jaxws-maven-plugin</artifactId>
+             <version>${jaxws.maven.plugin.version}</version>
+             <executions>
+                 <execution>
+                     <goals>
+                         <goal>wsimport</goal>
+                     </goals>
+                 </execution>
+             </executions>
+             <configuration>
+	             <args>
+			        <arg>-B-XautoNameResolution</arg>
+			     </args>
+                 <wsdlDirectory>${basedir}/src/main/resources/wsdl/</wsdlDirectory>
+                 <sourceDestDir>${basedir}/target/generated-sources/</sourceDestDir>
+                 <keep>true</keep>
+             </configuration>
+          </plugin>
+  	
   		  <!-- Javadoc Plugin -->
 	      <plugin>
 	        <groupId>org.apache.maven.plugins</groupId>
@@ -36,7 +61,39 @@
 	          <show>protected</show>
 	        </configuration>
 	      </plugin>
-  		</plugins>
+
+  		  <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+  		  <plugin>
+			<groupId>org.eclipse.m2e</groupId>
+			<artifactId>lifecycle-mapping</artifactId>
+			<version>1.0.0</version>
+			<configuration>
+				<lifecycleMappingMetadata>
+					<pluginExecutions>
+						<pluginExecution>
+							<pluginExecutionFilter>
+								<groupId>
+									org.jvnet.jax-ws-commons
+								</groupId>
+								<artifactId>
+									jaxws-maven-plugin
+								</artifactId>
+								<versionRange>
+									[2.3,)
+								</versionRange>
+								<goals>
+									<goal>wsimport</goal>
+								</goals>
+							</pluginExecutionFilter>
+							<action>
+								<ignore></ignore>
+							</action>
+						</pluginExecution>
+					</pluginExecutions>
+				</lifecycleMappingMetadata>
+			</configuration>
+  		  </plugin>
+  	  </plugins>
   	</pluginManagement>
   </build>
   
@@ -59,6 +116,21 @@
 			<artifactId>persistence-api</artifactId>
 			<version>${persistence-api.version}</version>	
   		</dependency>
+  		<dependency>
+			<groupId>com.sun.xml.ws</groupId>
+			<artifactId>jaxws-rt</artifactId>
+			<version>${jaxws-rt.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-catalina</artifactId>
+			<version>${tomcat.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-coyote</artifactId>
+			<version>${tomcat.version}</version>
+		</dependency>
   	</dependencies>
   </dependencyManagement>
   

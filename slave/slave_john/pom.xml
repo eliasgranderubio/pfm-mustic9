@@ -8,4 +8,32 @@
   <artifactId>slave_john</artifactId>
   <name>Slave John The Ripper Tools</name>
   <description>John The Ripper Tools of the Slave node</description>
+  
+  <build>
+  	<!-- Plugins -->
+  	<plugins>
+      <!-- Javadoc Plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <executions>
+          <execution>
+          	<id>javadoc</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>javadoc</goal>
+            </goals>
+          </execution>
+          <execution>
+          	<id>test-javadoc</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>test-javadoc</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+    
 </project>

@@ -16,6 +16,13 @@ import es.uem.cracking.name_server.ws.messages.GetAvailableSlavesResponse;
 import es.uem.cracking.name_server.ws.messages.RegisterRequest;
 import es.uem.cracking.name_server.ws.messages.RegisterResponse;
 
+/**
+ * 
+ * Name server web service
+ * 
+ * @author egrande
+ *
+ */
 @Stateless
 @WebService(
 		portName = "Name_Server_WS_Port",

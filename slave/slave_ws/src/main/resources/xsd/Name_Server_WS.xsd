@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema version="1.0" targetNamespace="http://ws.name_server.cracking.uem.es/" xmlns:tns="http://ws.name_server.cracking.uem.es/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="deleteLockedSlave" type="tns:deleteLockedSlave"/>
+  <xs:element name="deleteLockedSlaveResponse" type="tns:deleteLockedSlaveResponse"/>
+  <xs:element name="getAvailableSlaves" type="tns:getAvailableSlaves"/>
+  <xs:element name="getAvailableSlavesResponse" type="tns:getAvailableSlavesResponse"/>
+  <xs:element name="register" type="tns:register"/>
+  <xs:element name="registerResponse" type="tns:registerResponse"/>
+  <xs:complexType name="register">
+    <xs:sequence>
+      <xs:element name="registerRequest" type="tns:RegisterRequest" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RegisterRequest">
+    <xs:sequence>
+      <xs:element name="ip" type="xs:string" minOccurs="0"/>
+      <xs:element name="port" type="xs:int"/>
+      <xs:element name="processor_name" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="registerResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:RegisterResponse" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RegisterResponse">
+    <xs:sequence>
+      <xs:element name="registered" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getAvailableSlaves">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getAvailableSlavesResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:GetAvailableSlavesResponse" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetAvailableSlavesResponse">
+    <xs:sequence>
+      <xs:element name="availableSlaves" type="tns:AvailableSlave" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AvailableSlave">
+    <xs:sequence>
+      <xs:element name="id" type="xs:int"/>
+      <xs:element name="ip" type="xs:string" minOccurs="0"/>
+      <xs:element name="port" type="xs:int"/>
+      <xs:element name="processor_name" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deleteLockedSlave">
+    <xs:sequence>
+      <xs:element name="deleteLockedSlaveRequest" type="tns:DeleteLockedSlaveRequest" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="DeleteLockedSlaveRequest">
+    <xs:sequence>
+      <xs:element name="id" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deleteLockedSlaveResponse">
+    <xs:sequence/>
+  </xs:complexType>
+</xs:schema>
