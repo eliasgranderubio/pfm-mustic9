@@ -11,7 +11,7 @@
   <description>Web Service tier of the Slave node</description>
   
   <build>
-  	<finalName>${artifactId}</finalName>
+  	<finalName>${project.artifactId}</finalName>
   	<resources>
         <resource>
             <directory>src/main/resources</directory>
@@ -72,12 +72,12 @@
   	<dependency>
   		<groupId>es.uem.cracking</groupId>
   		<artifactId>slave_john</artifactId>
-  		<version>${version}</version>
+  		<version>${project.version}</version>
   	</dependency>
   	<dependency>
   		<groupId>es.uem.cracking</groupId>
   		<artifactId>slave_hydra</artifactId>
-  		<version>${version}</version>
+  		<version>${project.version}</version>
   	</dependency>  	
   	<dependency>
   		<groupId>javax.ejb</groupId>
