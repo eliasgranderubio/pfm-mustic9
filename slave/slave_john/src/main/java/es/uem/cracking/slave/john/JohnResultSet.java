@@ -16,7 +16,7 @@ public class JohnResultSet {
 	/** Clear password */
 	private String clearPass;
 	/** .rec file with John state in Base64 */
-	private String recFileBase64; 
+	private String recFileInBase64; 
 	
 	
 	// Getters and Setters
@@ -50,17 +50,17 @@ public class JohnResultSet {
 	}
 
 	/**
-	 * Gets {@link #recFileBase64}
+	 * Gets {@link #recFileInBase64}
 	 */
-	public String getRecFileBase64() {
-		return recFileBase64;
+	public String getRecFileInBase64() {
+		return recFileInBase64;
 	}
 
 	/**
-	 * Sets {@link #recFileBase64}
+	 * Sets {@link #recFileInBase64}
 	 */
-	public void setRecFileBase64(String recFileBase64) {
-		this.recFileBase64 = recFileBase64;
+	public void setRecFileInBase64(String recFileInBase64) {
+		this.recFileInBase64 = recFileInBase64;
 	}
 		
 }

@@ -10,5 +10,15 @@ package es.uem.cracking.slave.jms;
  */
 public class SlaveJMSUtils {
 
-	// TODO egrande: implements
+	// Public methods
+	
+	/**
+	 * Sends JMS notification about attack information to Master node
+	 */
+	public static synchronized void sendJMSNotificationToMaster(long activeAttackId, long attackWindowId, String processorName,
+			                                                    int total_words_processed, long total_time_processing, boolean isPasswordFound,
+			                                                    String clearPass, String recFileInBase64) {
+		// TODO egrande: implements JMS Notification
+	}
+	
 }

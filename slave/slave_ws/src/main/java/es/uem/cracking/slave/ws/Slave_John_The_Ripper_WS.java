@@ -8,9 +8,11 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
+import es.uem.cracking.slave.jms.SlaveJMSUtils;
 import es.uem.cracking.slave.john.JohnResultSet;
 import es.uem.cracking.slave.john.John_The_Ripper_Wrapper;
 import es.uem.cracking.slave.utils.SlaveRecorder;
+import es.uem.cracking.slave.utils.SlaveUtils;
 import es.uem.cracking.slave.ws.messages.JohnTheRipperAttackRequest;
 
 
@@ -64,7 +66,14 @@ public class Slave_John_The_Ripper_WS {
 		
 		if(!isStandalone){
 			// Send JMS notification
-			// TODO egrande: send JMS notification
+			SlaveJMSUtils.sendJMSNotificationToMaster(johnTheRipperAttackRequest.getActiveAttackId(),
+													  johnTheRipperAttackRequest.getAttackWindowId(),
+													  SlaveUtils.getProcessorName(),
+													  (johnTheRipperAttackRequest.getDictionary()!=null && johnTheRipperAttackRequest.getDictionary().getWords()!=null) ? johnTheRipperAttackRequest.getDictionary().getWords().size(): 0,
+													  taskTimeMs,
+													  result.isPasswordFound(),
+													  result.getClearPass(),
+													  result.getRecFileInBase64());
 			
 			// Register myself in the name server again as available
 			register();

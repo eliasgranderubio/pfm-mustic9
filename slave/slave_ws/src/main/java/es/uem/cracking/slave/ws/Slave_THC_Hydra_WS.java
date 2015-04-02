@@ -10,7 +10,9 @@ import javax.jws.WebService;
 
 import es.uem.cracking.slave.hydra.HydraResultSet;
 import es.uem.cracking.slave.hydra.THC_Hydra_Wrapper;
+import es.uem.cracking.slave.jms.SlaveJMSUtils;
 import es.uem.cracking.slave.utils.SlaveRecorder;
+import es.uem.cracking.slave.utils.SlaveUtils;
 import es.uem.cracking.slave.ws.messages.ThcHydraAttackRequest;
 
 
@@ -65,8 +67,15 @@ public class Slave_THC_Hydra_WS {
 		
 		if(!isStandalone){
 			// Send JMS notification
-			// TODO egrande: send JMS notification
-			
+			SlaveJMSUtils.sendJMSNotificationToMaster(thcHydraAttackRequest.getActiveAttackId(),
+													  thcHydraAttackRequest.getAttackWindowId(),
+													  SlaveUtils.getProcessorName(),
+													  (thcHydraAttackRequest.getDictionary()!=null && thcHydraAttackRequest.getDictionary().getWords()!=null) ? thcHydraAttackRequest.getDictionary().getWords().size() : 0,
+													  taskTimeMs,
+													  result.isPasswordFound(),
+													  result.getClearPass(),
+													  null);
+													  
 			// Register myself in the name server again as available
 			register();
 		}
