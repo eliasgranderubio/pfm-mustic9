@@ -16,12 +16,14 @@
         <!-- Plugins version -->
 		<maven.javadoc.plugin.version>2.9.1</maven.javadoc.plugin.version>
 		<jaxws.maven.plugin.version>2.3</jaxws.maven.plugin.version>
+		<maven.install.plugin.version>2.4</maven.install.plugin.version>
 	
         <!-- Dependencies version -->
         <javax.ejb-api.version>3.2</javax.ejb-api.version>
         <jaxb-api.version>2.2.12</jaxb-api.version>
         <persistence-api.version>1.0.2</persistence-api.version>
         <jaxws-rt.version>2.2.10</jaxws-rt.version>
+        <javax.jms-api.version>2.0.1</javax.jms-api.version>
         <tomcat.version>7.0.57</tomcat.version>
   </properties>
   
@@ -61,6 +63,13 @@
 	          <show>protected</show>
 	        </configuration>
 	      </plugin>
+	      
+	      <!-- Maven Install Plugin -->
+	      <plugin>
+	          <groupId>org.apache.maven.plugins</groupId>
+	          <artifactId>maven-install-plugin</artifactId>
+	          <version>${maven.install.plugin.version}</version>
+          </plugin>
 
   		  <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
   		  <plugin>
@@ -122,6 +131,11 @@
 			<version>${jaxws-rt.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>javax.jms</groupId>
+			<artifactId>javax.jms-api</artifactId>
+			<version>${javax.jms-api.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-catalina</artifactId>
 			<version>${tomcat.version}</version>
@@ -136,6 +150,7 @@
   
   <!-- Modules -->
   <modules>
+	<module>3rd_party_jars</module>
   	<module>master</module>
 	<module>name_server</module>
 	<module>slave</module>

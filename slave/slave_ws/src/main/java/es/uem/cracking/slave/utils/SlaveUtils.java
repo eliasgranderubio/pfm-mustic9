@@ -35,7 +35,7 @@ import es.uem.cracking.name_server.ws.RegisterRequest;
 public class SlaveUtils {
 
 	/** Public name server endpoint */
-	// TODO egrande: move this to a properties file
+	// TODO egrande: move this name server endpoint to a properties file
 	public static final String NAME_SERVER_ENDPOINT = "http://masterandnameserver.ddns.net:7001/name_server/Name_Server_WS";
 	
 	

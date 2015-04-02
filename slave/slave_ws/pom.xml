@@ -92,6 +92,10 @@
 		<artifactId>jaxws-rt</artifactId>
 	</dependency>
 	<dependency>
+		<groupId>javax.jms</groupId>
+		<artifactId>javax.jms-api</artifactId>
+	</dependency>
+	<dependency>
 		<groupId>org.apache.tomcat</groupId>
 		<artifactId>tomcat-catalina</artifactId>
 		<scope>provided</scope>
@@ -100,6 +104,13 @@
 		<groupId>org.apache.tomcat</groupId>
 		<artifactId>tomcat-coyote</artifactId>
 		<scope>provided</scope>
+	</dependency>
+	
+	<!-- Exclusive dependency installed by 3rd party jars project -->
+	<dependency>
+	    <groupId>com.oracle.weblogic</groupId>
+	    <artifactId>wlthint3client</artifactId>
+	    <version>10.3.6.0</version>
 	</dependency>
   </dependencies>
   
