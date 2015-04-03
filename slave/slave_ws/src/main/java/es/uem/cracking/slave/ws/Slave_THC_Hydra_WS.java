@@ -62,30 +62,40 @@ public class Slave_THC_Hydra_WS {
 														thcHydraAttackRequest.getRemotePort(),
 														thcHydraAttackRequest.getType().getValue(),
 														thcHydraAttackRequest.getExtraParam());
-		HydraResultSet result = hydra.attack();
+		HydraResultSet result = null;
+		boolean exception = false;
+		try {
+			result = hydra.attack();
+		} catch(Exception ex) {
+			ex.printStackTrace(System.err);
+			exception = true;
+		}
 		long taskTimeMs  = System.currentTimeMillis( ) - startTimeMs;
 		
-		if(!isStandalone){
-			// Send JMS notification
-			SlaveJMSUtils.sendJMSNotificationToMaster(thcHydraAttackRequest.getActiveAttackId(),
-													  thcHydraAttackRequest.getAttackWindowId(),
-													  SlaveUtils.getProcessorName(),
-													  (thcHydraAttackRequest.getDictionary()!=null && thcHydraAttackRequest.getDictionary().getWords()!=null) ? thcHydraAttackRequest.getDictionary().getWords().size() : 0,
-													  taskTimeMs,
-													  result.isPasswordFound(),
-													  result.getClearPass(),
-													  null);
-													  
-			// Register myself in the name server again as available
-			register();
-		}
-		else {
-			// Only for development purpose in standalone mode
-			if(result.isPasswordFound() && result.getClearPass()!=null) {
-				System.out.println("The clear password is: " + result.getClearPass());
+		// Prepare feedback
+		if(!exception) {
+			if(!isStandalone){
+				// Send JMS notification
+				SlaveJMSUtils.sendJMSNotificationToMaster(thcHydraAttackRequest.getActiveAttackId(),
+														  thcHydraAttackRequest.getAttackWindowId(),
+														  SlaveUtils.getProcessorName(),
+														  (thcHydraAttackRequest.getDictionary()!=null && thcHydraAttackRequest.getDictionary().getWords()!=null) ? thcHydraAttackRequest.getDictionary().getWords().size() : 0,
+														  taskTimeMs,
+														  result.isPasswordFound(),
+														  result.getClearPass(),
+														  null);
+														  
+				// Register myself in the name server again as available
+				register();
 			}
 			else {
-				System.out.println("Password was not found this time!!");
+				// Only for development purpose in standalone mode
+				if(result.isPasswordFound() && result.getClearPass()!=null) {
+					System.out.println("The clear password is: " + result.getClearPass());
+				}
+				else {
+					System.out.println("Password was not found this time!!");
+				}
 			}
 		}
 	}
