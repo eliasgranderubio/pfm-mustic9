@@ -38,6 +38,10 @@ public class WellKnownResultsDaoImpl implements WellKnownResultsDao<String,Well_
     
     
     // Override methods
+    
+	/**
+	 * Overrides updateWellKnownResults method
+	 */
 	@Override
 	public synchronized boolean updateWellKnownResults(String clearPass) {
 		Well_Known_Results result = findById(clearPass);

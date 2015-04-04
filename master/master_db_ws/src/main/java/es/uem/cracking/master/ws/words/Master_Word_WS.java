@@ -8,9 +8,15 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
+import es.uem.cracking.master.dao.words.DictionaryDaoImpl;
 import es.uem.cracking.master.dao.words.WellKnownResultsDaoImpl;
 import es.uem.cracking.master.jpa.Well_Known_Results;
+import es.uem.cracking.master.ws.words.messages.GetTotalWordsWithinOfDictionaryResponse;
 import es.uem.cracking.master.ws.words.messages.GetWellKnownResultsResponse;
+import es.uem.cracking.master.ws.words.messages.GetWordRequest;
+import es.uem.cracking.master.ws.words.messages.GetWordResponse;
+import es.uem.cracking.master.ws.words.messages.GetWordsRangeRequest;
+import es.uem.cracking.master.ws.words.messages.GetWordsRangeResponse;
 import es.uem.cracking.master.ws.words.messages.UpdateWellKnownResultsRequest;
 import es.uem.cracking.master.ws.words.messages.UpdateWellKnownResultsResponse;
 import es.uem.cracking.master.ws.words.messages.WellKnownResult;
@@ -30,6 +36,7 @@ public class Master_Word_WS {
 
 	// Private attributes
 	private WellKnownResultsDaoImpl wellKnownResultsDao;
+	private DictionaryDaoImpl dictionaryDao;
 	
 	
 	// Public methods
@@ -39,6 +46,52 @@ public class Master_Word_WS {
 	 */
 	public Master_Word_WS() {
 		wellKnownResultsDao = new WellKnownResultsDaoImpl();
+		dictionaryDao = new DictionaryDaoImpl();
+	}
+	
+	/**
+	 * Gets words range
+	 */
+	@WebMethod
+	public GetWordsRangeResponse getWordsRange(@WebParam(name="getWordsRangeRequest") GetWordsRangeRequest getWordsRangeRequest) {
+		List<String> words = new ArrayList<String>();
+		//Execute query
+		if(getWordsRangeRequest.getIncludeFromWord()!= null && getWordsRangeRequest.getIncludeToWord()!=null){
+			words = dictionaryDao.getWordsRange(getWordsRangeRequest.getIncludeFromWord(), getWordsRangeRequest.getIncludeToWord());
+		}
+		
+		// Prepare response
+		GetWordsRangeResponse response = new GetWordsRangeResponse();
+		response.setWord(words);
+		return response;
+	}
+	
+	/**
+	 * Gets word
+	 */
+	@WebMethod
+	public GetWordResponse getWord(@WebParam(name="getWordRequest") GetWordRequest getWordRequest) {
+		// Execute query
+		String word = dictionaryDao.getWord(getWordRequest.getPositionWithinOfDictionary());
+		
+		// Prepare response
+		GetWordResponse response = new GetWordResponse();
+		response.setWord(word);
+		return response;
+	}
+	
+	/**
+	 * Gets total words
+	 */
+	@WebMethod
+	public GetTotalWordsWithinOfDictionaryResponse getTotalWordsWithinOfDictionary() {
+		// Execute query
+		long count = dictionaryDao.getTotalWordsWithinOfDictionary();
+		
+		// Prepare response
+		GetTotalWordsWithinOfDictionaryResponse response = new GetTotalWordsWithinOfDictionaryResponse();
+		response.setTotalWords(count);
+		return response;
 	}
 	
 	/**
