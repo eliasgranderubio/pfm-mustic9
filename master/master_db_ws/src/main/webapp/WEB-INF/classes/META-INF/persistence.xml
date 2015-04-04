@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence"
+		     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		     xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+
+    <persistence-unit name="master_server_pu">
+        <jta-data-source>jdbc/MasterCrackingUemJDBC</jta-data-source>
+
+        
+        <!-- Classes -->
+        <class>es.uem.cracking.master.jpa.Well_Known_Results</class>
+        <class>es.uem.cracking.master.jpa.Processors_Performance_Offline</class>
+        <class>es.uem.cracking.master.jpa.Processors_Performance_Online</class>
+        <class>es.uem.cracking.master.jpa.Dictionary_Words</class>
+        <!--  
+        <class>es.uem.cracking.master.jpa.Active_Attacks</class>
+        <class>es.uem.cracking.master.jpa.Attack_Windows</class>
+        -->
+        
+        <properties>
+        	<property name="jdbc.driver" value="oracle.jdbc.OracleDriver"/>
+        </properties>
+    </persistence-unit>
+    
+</persistence>

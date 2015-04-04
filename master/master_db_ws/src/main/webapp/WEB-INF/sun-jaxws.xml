@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<endpoints version="2.0" xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime"
+    	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    	   xsi:schemaLocation="http://java.sun.com/xml/ns/jax-ws/ri/runtime http://java.sun.com/webservices/docs/2.0/jaxws/sun-jaxws.xsd">
+    
+    <endpoint name='Master_Processor_WS' implementation='es.uem.cracking.master.ws.processors.Master_Processor_WS' url-pattern='/Master_Processor_WS' />
+	
+	<endpoint name='Master_Word_WS' implementation='es.uem.cracking.master.ws.words.Master_Word_WS' url-pattern='/Master_Word_WS' />
+	
+</endpoints> 
