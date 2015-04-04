@@ -8,6 +8,10 @@
         
         <!-- Classes -->
         <class>es.uem.cracking.name_server.jpa.Servers</class>
+        
+        <properties>
+        	<property name="jdbc.driver" value="oracle.jdbc.OracleDriver"/>
+        </properties>
     </persistence-unit>
     
 </persistence>
