@@ -1,11 +1,10 @@
 package es.uem.cracking.slave.john;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.io.File;
-import java.io.PrintWriter;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
+import java.io.PrintWriter;
+import java.util.List;
 
 
 /**
@@ -18,9 +17,9 @@ import java.io.FileReader;
 public class John_The_Ripper_Wrapper {
 	
 	public static final String DICTIONARY_NAME = "dic.txt";
-	public static final String OUTPUT_FILE = "/root/.john/john.pot";
+	public static final String OUTPUT_FILE = System.getProperty("user.home") + File.separator + ".john" + File.separator + "john.pot";
 	public static final String CONFIG_FILE = "john.conf";
-	
+	public static final String HASH_FILENAME = "hash.txt";
 	
 	// Private attributes
 	
@@ -58,11 +57,14 @@ public class John_The_Ripper_Wrapper {
 			throw new Exception("Incomplete input parameters (Dictionary, Format or Hash to Crack)");
 		}
 		
+		// Prepare dictionary and cmd
 		File dictionaryFile = doDictionary();
 		File hashFile = hashToFile();
+		File confFile = null;
 		String cmd = "john";
 		if (this.configParam != null){
-			cmd += " --config=" + CONFIG_FILE; 
+			confFile = doConfFile();
+			cmd += " --config=" + confFile.getAbsolutePath(); 
 		}
 		cmd += " --wordlist=" + dictionaryFile.getAbsolutePath();
 		cmd += " --format=" + this.format;
@@ -72,40 +74,41 @@ public class John_The_Ripper_Wrapper {
 		if (!System.getProperty("os.name").equals("Linux")) {
 			throw new Exception("Funcionality not yet implemented in this OS");
 		}
-		// TODO egrande: you implement wrapper logic here
 		Runtime rt = Runtime.getRuntime();
 		Process proc = rt.exec(cmd);
 		proc.waitFor();	
-		//Delete dictionary file
+		
+		//Delete input files
 		dictionaryFile.delete();
-		//Delete hash file
 		hashFile.delete();
+		if (this.configParam != null){
+			confFile.delete();
+		}
 		
 		//Parse John output
 		boolean found = false;
 		String clearPass = null;
 		
-		File f = new File(OUTPUT_FILE);
-		if (f.exists()){	
-			BufferedReader br = new BufferedReader(new FileReader(OUTPUT_FILE));
-			String rawLine = br.readLine();	//read hash+clearpass
+		File outputfile = new File(OUTPUT_FILE);
+		if(!outputfile.exists()) {
+			throw new Exception("John could not create the output file '" + outputfile.getAbsolutePath() + "'");
+		}
+		BufferedReader br = new BufferedReader(new FileReader(outputfile));
+		String rawLine = br.readLine();	//read hash+clearpass
+		if(rawLine!=null) {
 			String password[] = rawLine.split(":");
 			clearPass = password[1];
 			found = true;
-
-			br.close();
-		
-			//Delete john.pot file
-			Runtime rt1 = Runtime.getRuntime();
-			Process proc1 = rt1.exec("rm /root/.john/john.pot");
-			proc1.waitFor();
 		}
+
+		//Delete john.pot file
+		br.close();
+		outputfile.delete();
 		
 		// Prepare response and return
 		JohnResultSet response = new JohnResultSet();
 		response.setPasswordFound(found);
 		response.setClearPass(clearPass);
-		// TODO egrande: set response
 		return response;
 	}
 
@@ -148,9 +151,10 @@ public class John_The_Ripper_Wrapper {
 	}
 	
 	// Private methods
-	/**
-	* Creates dictionary file
-	*/
+	
+    /**
+	 * Creates dictionary file
+	 */
 	private File doDictionary() throws Exception {
 		if(dictionary.size() == 0) {
 			throw new Exception("Dictionary must not be empty");
@@ -164,51 +168,32 @@ public class John_The_Ripper_Wrapper {
 			return f;
 	}
 	
+	/**
+	 * Creates hash file
+	 */
 	private File hashToFile() throws Exception {
 		if(this.hashToCrack == null) {
 			throw new Exception("Hash must not be empty");
 		}
-			File f = new File("hash.txt");
-			PrintWriter writer = new PrintWriter(f);
-			writer.println(this.hashToCrack);
-			writer.close();
-			return f;
+		File f = new File(HASH_FILENAME);
+		PrintWriter writer = new PrintWriter(f);
+		writer.println(this.hashToCrack);
+		writer.close();
+		return f;
 	}
 
 	/**
-	* Creates John configuration file
-	*/
-	/*
-	private File doConf() throws Exception {
-		if(configParam.size() == 0) {
+	 * Creates John configuration file
+	 */
+	private File doConfFile() throws Exception {
+		if(configParam == null) {
 			throw new Exception("John configuration file must not be empty");
 		}
-			File f = new File(CONFIG_FILE);
-			PrintWriter writer = new PrintWriter(f);
-			for(String word : configParam) {
-				writer.println(word);
-			}
-			writer.close();
-			return f;
-	}*/
-
-	/**
-	 * Main test method
-	 */
-	/*public static void main(String [] args) throws Exception{
-		
-		List <String> dictionary = new ArrayList();
-		
-		dictionary.add("1234");
-		dictionary.add("123456");
-		dictionary.add("1234567");
-		dictionary.add("123456789");	
-	
-		John_The_Ripper_Wrapper j= new John_The_Ripper_Wrapper(null, null, dictionary, "raw-md5","25f9e794323b453885f5181f1b624d0b");
-	
-		j.attack();
-	
-	
-	}*/
+		File f = new File(CONFIG_FILE);
+		PrintWriter writer = new PrintWriter(f);
+		writer.println(this.configParam);
+		writer.close();
+		return f;
+	}
 
 }

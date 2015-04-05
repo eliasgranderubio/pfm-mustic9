@@ -71,27 +71,30 @@ public class Slave_John_The_Ripper_WS {
 		}
 		long taskTimeMs  = System.currentTimeMillis( ) - startTimeMs;
 		
-		if(!isStandalone){
-			// Send JMS notification
-			SlaveJMSUtils.sendJMSNotificationToMaster(johnTheRipperAttackRequest.getActiveAttackId(),
-													  johnTheRipperAttackRequest.getAttackWindowId(),
-													  SlaveUtils.getProcessorName(),
-													  (johnTheRipperAttackRequest.getDictionary()!=null && johnTheRipperAttackRequest.getDictionary().getWords()!=null) ? johnTheRipperAttackRequest.getDictionary().getWords().size(): 0,
-													  taskTimeMs,
-													  result.isPasswordFound(),
-													  result.getClearPass(),
-													  result.getRecFileInBase64());
-			
-			// Register myself in the name server again as available
-			register();
-		}
-		else {
-			// Only for development purpose in standalone mode
-			if(result.isPasswordFound() && result.getClearPass()!=null) {
-				System.out.println("The clear password is: " + result.getClearPass());
+		// Prepare feedback
+		if(!exception) {
+			if(!isStandalone){
+				// Send JMS notification
+				SlaveJMSUtils.sendJMSNotificationToMaster(johnTheRipperAttackRequest.getActiveAttackId(),
+														  johnTheRipperAttackRequest.getAttackWindowId(),
+														  SlaveUtils.getProcessorName(),
+														  (johnTheRipperAttackRequest.getDictionary()!=null && johnTheRipperAttackRequest.getDictionary().getWords()!=null) ? johnTheRipperAttackRequest.getDictionary().getWords().size(): 0,
+														  taskTimeMs,
+														  result.isPasswordFound(),
+														  result.getClearPass(),
+														  result.getRecFileInBase64());
+				
+				// Register myself in the name server again as available
+				register();
 			}
 			else {
-				System.out.println("Password was not found this time!!");
+				// Only for development purpose in standalone mode
+				if(result.isPasswordFound() && result.getClearPass()!=null) {
+					System.out.println("The clear password is: " + result.getClearPass());
+				}
+				else {
+					System.out.println("Password was not found this time!!");
+				}
 			}
 		}
 	}
