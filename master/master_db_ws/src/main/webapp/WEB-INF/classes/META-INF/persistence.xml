@@ -11,11 +11,9 @@
         <class>es.uem.cracking.master.jpa.Well_Known_Results</class>
         <class>es.uem.cracking.master.jpa.Processors_Performance_Offline</class>
         <class>es.uem.cracking.master.jpa.Processors_Performance_Online</class>
-        <class>es.uem.cracking.master.jpa.Dictionary_Words</class>
-        <!--  
+        <class>es.uem.cracking.master.jpa.Dictionary_Words</class> 
         <class>es.uem.cracking.master.jpa.Active_Attacks</class>
         <class>es.uem.cracking.master.jpa.Attack_Windows</class>
-        -->
         
         <properties>
         	<property name="jdbc.driver" value="oracle.jdbc.OracleDriver"/>
