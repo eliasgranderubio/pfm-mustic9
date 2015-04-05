@@ -1,11 +1,15 @@
-package es.uem.cracking.slave.john;
+package test;
+
 
 import java.util.List;
 import java.util.ArrayList;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
 
 
 /**
@@ -66,8 +70,8 @@ public class John_The_Ripper_Wrapper {
 		}
 		cmd += " --wordlist=" + dictionaryFile.getAbsolutePath();
 		cmd += " --format=" + this.format;
+		//cmd += " " + this.hashToCrack;
 		cmd += " " + hashFile.getAbsolutePath();
-		
 		// Execute linux cmd
 		if (!System.getProperty("os.name").equals("Linux")) {
 			throw new Exception("Funcionality not yet implemented in this OS");
@@ -105,6 +109,7 @@ public class John_The_Ripper_Wrapper {
 		JohnResultSet response = new JohnResultSet();
 		response.setPasswordFound(found);
 		response.setClearPass(clearPass);
+		System.out.println("password: "+clearPass);
 		// TODO egrande: set response
 		return response;
 	}
@@ -192,23 +197,21 @@ public class John_The_Ripper_Wrapper {
 			return f;
 	}*/
 
-	/**
-	 * Main test method
-	 */
-	/*public static void main(String [] args) throws Exception{
-		
-		List <String> dictionary = new ArrayList();
-		
-		dictionary.add("1234");
-		dictionary.add("123456");
-		dictionary.add("1234567");
-		dictionary.add("123456789");	
+public static void main(String [] args) throws Exception{
 	
-		John_The_Ripper_Wrapper j= new John_The_Ripper_Wrapper(null, null, dictionary, "raw-md5","25f9e794323b453885f5181f1b624d0b");
+	List <String> dictionary = new ArrayList();
 	
-		j.attack();
-	
-	
-	}*/
+	dictionary.add("1234");
+	dictionary.add("123456");
+	dictionary.add("1234567");
+	dictionary.add("123456789");	
+
+	John_The_Ripper_Wrapper j= new John_The_Ripper_Wrapper(null, null, dictionary, "raw-md5","25f9e794323b453885f5181f1b624d0b");
+
+	j.attack();
+
 
 }
+
+}
+
