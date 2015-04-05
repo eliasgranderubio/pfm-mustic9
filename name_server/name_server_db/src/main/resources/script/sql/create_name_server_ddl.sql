@@ -42,6 +42,8 @@ create or replace trigger servers_trig
 before insert on servers
 for each row
 begin
-	select id_seq.nextval into :new.id from dual;
+	if :new.id is null or :new.id <= 0 then
+		select id_seq.nextval into :new.id from dual;
+	end if;
 end;
 /

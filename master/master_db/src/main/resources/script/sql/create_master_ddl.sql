@@ -2,11 +2,13 @@
 -- Drop triggers
 --------------------------------------------
 drop trigger active_attacks_trig;
+drop trigger attack_windows_trig;
 
 --------------------------------------------
 -- Drop sequences
 --------------------------------------------
 drop sequence active_attacks_seq;
+drop sequence attack_windows_seq;
 
 --------------------------------------------
 -- Drop tables
@@ -58,19 +60,15 @@ create table active_attacks (
 );
 
 create table attack_windows (
-	active_attack_id			number,
-	id							number,
+	id							number primary key,
+	active_attack_id			number not null,
 	attemps						number default 0 not null,
 	sent_timestamp				timestamp,
 	bf_pattern					varchar2(100),
 	processed					number(1) default 0 not null,
 	factor						number default 0 not null,
 	first_dictionary_word		varchar2(50),
-	last_dictionary_word		varchar2(50),
-	constraint attack_windows_pk primary key (active_attack_id, id),
-	constraint active_attack_id_fk foreign key (active_attack_id) references active_attacks(id),
-	constraint first_dictionary_word_fk foreign key (first_dictionary_word) references dictionary_words(word),
-	constraint last_dictionary_word_fk foreign key (last_dictionary_word) references dictionary_words(word)
+	last_dictionary_word		varchar2(50)
 );
 
 --------------------------------------------
@@ -82,7 +80,13 @@ create sequence active_attacks_seq
   start with 1
   increment by 1
   nocache;
-  
+
+create sequence attack_windows_seq
+  minvalue 1
+  maxvalue 999999999999999999999999999
+  start with 1
+  increment by 1
+  nocache;  
 --------------------------------------------
 -- Create triggers
 --------------------------------------------
@@ -90,6 +94,18 @@ create or replace trigger active_attacks_trig
 before insert on active_attacks
 for each row
 begin
-	select active_attacks_seq.nextval into :new.id from dual;
+	if :new.id is null or :new.id <= 0 then
+		select active_attacks_seq.nextval into :new.id from dual;
+	end if;
+end;
+/
+
+create or replace trigger attack_windows_trig
+before insert on attack_windows
+for each row
+begin
+	if :new.id is null or :new.id <= 0 then
+		select attack_windows_seq.nextval into :new.id from dual;
+	end if;
 end;
 /

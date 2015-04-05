@@ -1,74 +1,54 @@
-package es.uem.cracking.master.jpa;
+package es.uem.cracking.master.ws.attacks.messages;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 
 /**
  * 
- * Active_Attacks entity
+ * Create full attack request
  * 
  * @author egrande
  *
  */
-@Entity
-@Table(name = "ACTIVE_ATTACKS")
-@SequenceGenerator(name="a_a_seq", sequenceName="ACTIVE_ATTACKS_SEQ")
-public class Active_Attacks {
-	
-	// Private attributes
-	
-	/** Attack Id */
-	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="a_a_seq")
-	@Column(name = "id")
-	private long id;
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name="CreateFullAttackRequest")
+public class CreateFullAttackRequest {
+
 	/** Tool name */
-	@Column(name = "tool")
+	@XmlElement
 	private String tool;
 	/** Attack type: hashing algorithms or network protocols */
-	@Column(name = "attack_type")
+	@XmlElement
 	private String attackType;
 	/** Hydra remote user */
-	@Column(name = "remote_user")
+	@XmlElement
 	private String remoteUser;
 	/** Hydra remote IP */
-	@Column(name = "remote_ip")
+	@XmlElement
 	private String remoteIp;
 	/** Hydra remote port */
-	@Column(name = "remote_port")
+	@XmlElement
 	private Integer remotePort;
 	/** Hydra or John extra parameters */
-	@Column(name = "extra_param")
+	@XmlElement
 	private String extraParam;
 	/** John hash to crack */
-	@Column(name = "hash_to_crack")
+	@XmlElement
 	private String hashToCrack;
 	/** Notify to email */
-	@Column(name = "notify_to_email")
+	@XmlElement
 	private String notifyToEmail;
-	
+	/** Windows size */
+	@XmlElement
+	private long windowSize;
+	/** Dictionary total words */
+	@XmlElement
+	private long totalWords;
 	
 	// Getters and setters
-	
-	/**
-	 * Gets {@link #id}
-	 */
-	public long getId() {
-		return id;
-	}
-	
-	/**
-	 * Sets {@link #id}
-	 */
-	public void setId(long id) {
-		this.id = id;
-	}
 	
 	/**
 	 * Gets {@link #tool}
@@ -180,6 +160,34 @@ public class Active_Attacks {
 	 */
 	public void setNotifyToEmail(String notifyToEmail) {
 		this.notifyToEmail = notifyToEmail;
+	}
+
+	/**
+	 * Gets {@link #windowSize}
+	 */
+	public long getWindowSize() {
+		return windowSize;
+	}
+
+	/**
+	 * Sets {@link #windowSize}
+	 */
+	public void setWindowSize(long windowSize) {
+		this.windowSize = windowSize;
+	}
+	
+	/**
+	 * Gets {@link #totalWords}
+	 */
+	public long getTotalWords() {
+		return totalWords;
+	}
+
+	/**
+	 * Sets {@link #totalWords}
+	 */
+	public void setTotalWords(long totalWords) {
+		this.totalWords = totalWords;
 	}
 
 }

@@ -7,4 +7,6 @@
 	
 	<endpoint name='Master_Word_WS' implementation='es.uem.cracking.master.ws.words.Master_Word_WS' url-pattern='/Master_Word_WS' />
 	
+	<endpoint name='Master_Attack_WS' implementation='es.uem.cracking.master.ws.attacks.Master_Attack_WS' url-pattern='/Master_Attack_WS' />
+	
 </endpoints> 
