@@ -61,7 +61,14 @@ public class Slave_John_The_Ripper_WS {
 																   (johnTheRipperAttackRequest.getDictionary()!=null) ? johnTheRipperAttackRequest.getDictionary().getWords(): new ArrayList<String>(),
 																   johnTheRipperAttackRequest.getFormat(),
 																   johnTheRipperAttackRequest.getHashToCrack());
-		JohnResultSet result = john.attack();
+		JohnResultSet result = null;
+		boolean exception = false;
+		try{
+			result = john.attack();
+		}catch(Exception ex){
+			ex.printStackTrace(System.err);
+			exception = true;	
+		}
 		long taskTimeMs  = System.currentTimeMillis( ) - startTimeMs;
 		
 		if(!isStandalone){
