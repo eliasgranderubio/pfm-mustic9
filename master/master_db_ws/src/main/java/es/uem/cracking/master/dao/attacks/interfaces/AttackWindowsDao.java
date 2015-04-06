@@ -10,6 +10,9 @@ import java.util.List;
  * 
  */
 public interface AttackWindowsDao<K, E> {
+	List<K> getAttackWindowIdsToSend(long activeAttackId, Integer maxWindows);
+	boolean updateAttackWindow(E entity);
+	void removeById(K id);
 	void persist(List<E> entities);
 	void remove(List<E>  entities);
 	void persist(E entity);

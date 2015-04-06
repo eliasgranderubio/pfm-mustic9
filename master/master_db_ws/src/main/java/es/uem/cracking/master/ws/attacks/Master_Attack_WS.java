@@ -1,5 +1,6 @@
 package es.uem.cracking.master.ws.attacks;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -11,11 +12,19 @@ import javax.jws.WebService;
 import es.uem.cracking.master.dao.attacks.ActiveAttackDaoImpl;
 import es.uem.cracking.master.dao.attacks.AttackWindowsDaoImpl;
 import es.uem.cracking.master.jpa.Active_Attacks;
+import es.uem.cracking.master.jpa.Attack_Windows;
 import es.uem.cracking.master.ws.attacks.messages.CreateFullAttackRequest;
+import es.uem.cracking.master.ws.attacks.messages.FindAttackWindowByIdRequest;
+import es.uem.cracking.master.ws.attacks.messages.FindAttackWindowByIdResponse;
 import es.uem.cracking.master.ws.attacks.messages.GetActiveAttackRequest;
 import es.uem.cracking.master.ws.attacks.messages.GetActiveAttackResponse;
 import es.uem.cracking.master.ws.attacks.messages.GetAllActiveAttacksIdResponse;
+import es.uem.cracking.master.ws.attacks.messages.GetAttackWindowIdsToSendRequest;
+import es.uem.cracking.master.ws.attacks.messages.GetAttackWindowIdsToSendResponse;
+import es.uem.cracking.master.ws.attacks.messages.RemoveAttackWindowByIdRequest;
 import es.uem.cracking.master.ws.attacks.messages.RemoveFullAttackRequest;
+import es.uem.cracking.master.ws.attacks.messages.UpdateAttackWindowRequest;
+import es.uem.cracking.master.ws.attacks.messages.UpdateAttackWindowResponse;
 
 
 /**
@@ -106,6 +115,81 @@ public class Master_Attack_WS {
 	public void removeFullAttack(@WebParam(name="removeFullAttackRequest") RemoveFullAttackRequest removeFullAttackRequest) {
 		// Execute query
 		activeAttackDao.removeFullAttack(removeFullAttackRequest.getId());
+	}
+	
+	/**
+	 * Gets attack window Ids to send
+	 */
+	@WebMethod
+	public GetAttackWindowIdsToSendResponse getAttackWindowIdsToSend(@WebParam(name="getAttackWindowIdsToSendRequest") GetAttackWindowIdsToSendRequest getAttackWindowIdsToSendRequest) {
+		// Execute query
+		List<Long> ids = attackWindowsDao.getAttackWindowIdsToSend(getAttackWindowIdsToSendRequest.getActiveAttackId(), getAttackWindowIdsToSendRequest.getMaxWindows());
+		
+		// Prepare response
+		GetAttackWindowIdsToSendResponse response = new GetAttackWindowIdsToSendResponse();
+		response.setId(ids);
+		return response;
+	}
+
+	/**
+	 * Finds attack window by Id
+	 */
+	@WebMethod
+	public FindAttackWindowByIdResponse findAttackWindowById(@WebParam(name="findAttackWindowByIdRequest") FindAttackWindowByIdRequest findAttackWindowByIdRequest) {
+		// Execute query
+		Attack_Windows aw = attackWindowsDao.findById(findAttackWindowByIdRequest.getId());
+		
+		// Prepare response
+		FindAttackWindowByIdResponse response = new FindAttackWindowByIdResponse();
+		if(aw!=null){
+			response.setId(aw.getId());	
+			response.setActiveAttackId(aw.getActiveAttackId());	
+			response.setAttemps(aw.getAttemps());	
+			response.setSentTimestamp((aw.getSentTimestamp()!=null)?aw.getSentTimestamp().getTime():null);	
+			response.setBfPattern(aw.getBfPattern());	
+			response.setProcessed(aw.isProcessed());	
+			response.setFactor(aw.getFactor());	
+			response.setFirstDictionaryWord(aw.getFirstDictionaryWord());	
+			response.setLastDictionaryWord(aw.getLastDictionaryWord());
+		}
+		return response;
+	}
+	
+	/**
+	 * Updates attack window
+	 */
+	@WebMethod
+	public UpdateAttackWindowResponse updateAttackWindow(@WebParam(name="updateAttackWindowRequest") UpdateAttackWindowRequest updateAttackWindowRequest){
+		// Prepare entity
+		Attack_Windows entity = new Attack_Windows();
+		if(updateAttackWindowRequest!=null){
+			entity.setId(updateAttackWindowRequest.getId());
+			entity.setActiveAttackId(updateAttackWindowRequest.getActiveAttackId());
+			entity.setAttemps(updateAttackWindowRequest.getAttemps());
+			entity.setSentTimestamp((updateAttackWindowRequest.getSentTimestamp()!=null)? new Timestamp(updateAttackWindowRequest.getSentTimestamp()): null);
+			entity.setBfPattern(updateAttackWindowRequest.getBfPattern());
+			entity.setProcessed(updateAttackWindowRequest.isProcessed());
+			entity.setFactor(updateAttackWindowRequest.getFactor());
+			entity.setFirstDictionaryWord(updateAttackWindowRequest.getFirstDictionaryWord());
+			entity.setLastDictionaryWord(updateAttackWindowRequest.getLastDictionaryWord());
+		}
+		
+		// Execute query
+		boolean result = attackWindowsDao.updateAttackWindow(entity);
+		
+		// Prepare response
+		UpdateAttackWindowResponse response = new UpdateAttackWindowResponse();
+		response.setUpdated(result);
+		return response;
+	}
+	
+	/**
+	 * Removes attack window by Id
+	 */
+	@WebMethod
+	public void removeAttackWindowById(@WebParam(name="removeAttackWindowByIdRequest") RemoveAttackWindowByIdRequest removeAttackWindowByIdRequest) {
+		// Execute query
+		attackWindowsDao.removeById(removeAttackWindowByIdRequest.getId());
 	}
 	
 }
