@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<p:configjarSettings xmlns:p="http://www.bea.com/alsb/tools/configjar/config">
+  <p:source>
+    <p:project dir="../"/>
+    <p:fileset>
+    	<p:include name="*/master_osb_prj/**" />
+    	<p:exclude name="*/master_osb_prj/alsbdebug.xml" />
+    	<p:exclude name="*/master_osb_prj/configfwkdebug.xml" />
+    	<p:exclude name="*/master_osb_prj/global-groovy.log" />
+    	<p:exclude name="*/master_osb_prj/pom.xml" />
+    	<p:exclude name="*/master_osb_prj/settings.xml" />
+    	<p:exclude name="*/master_osb_prj/target/**" />
+    </p:fileset>
+  </p:source>
+  <p:configjar jar="./target/master_osb-1.0.0-SNAPSHOT.jar">
+   <p:resourceLevel/>
+  </p:configjar>
+</p:configjarSettings>

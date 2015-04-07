@@ -1,0 +1,24 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+  	<parent>
+	    <groupId>es.uem.cracking</groupId>
+	    <artifactId>master_osb</artifactId>
+	    <version>1.0.0-SNAPSHOT</version>
+  	</parent>
+	<artifactId>master_osb_prj</artifactId>
+	<name>Master OSB Project</name>
+    <description>Master node OSB Project</description>
+	<build>
+		<plugins>
+			 <plugin>
+				<groupId>com.google.code.maven-replacer-plugin</groupId>
+				<artifactId>replacer</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>

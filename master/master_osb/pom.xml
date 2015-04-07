@@ -6,6 +6,12 @@
     <version>1.0.0-SNAPSHOT</version>
   </parent>
   <artifactId>master_osb</artifactId>
+  <packaging>pom</packaging>
   <name>Master OSB Tier</name>
   <description>Master node OSB Tier</description>
+
+   <modules>
+   		<module>master_osb_prj</module>
+   </modules>
+
 </project>

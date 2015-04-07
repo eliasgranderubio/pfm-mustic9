@@ -45,6 +45,11 @@ Thumbs.db
 target/
 build/
 
+# OSB ant compile outputs
+security/
+alsbdebug.xml
+configfwkdebug.xml
+
 # IntelliJ specific files/directories
 out
 .idea

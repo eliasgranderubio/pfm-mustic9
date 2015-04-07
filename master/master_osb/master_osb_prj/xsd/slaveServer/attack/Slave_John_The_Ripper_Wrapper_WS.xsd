@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema version="1.0" targetNamespace="http://ws.slave.cracking.uem.es/" xmlns:tns="http://ws.slave.cracking.uem.es/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="johnTheRipperAttack" type="tns:johnTheRipperAttack"/>
+  <xs:complexType name="johnTheRipperAttack">
+    <xs:sequence>
+      <xs:element name="johnTheRipperAttackRequest" type="tns:JohnTheRipperAttackRequest" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="JohnTheRipperAttackRequest">
+    <xs:sequence>
+      <xs:element name="routing" type="tns:Routing"/>
+      <xs:element name="activeAttackId" type="xs:long"/>
+      <xs:element name="attackWindowId" type="xs:long"/>
+      <xs:element name="format" type="xs:string" minOccurs="0"/>
+      <xs:element name="dictionary" type="tns:Dictionary" minOccurs="0"/>
+      <xs:element name="bfPattern" type="xs:string" minOccurs="0"/>
+      <xs:element name="hashToCrack" type="xs:string" minOccurs="0"/>
+      <xs:element name="configParam" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Dictionary">
+    <xs:sequence>
+      <xs:element name="word" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Routing">
+    <xs:sequence>
+      <xs:element name="ip" type="xs:string" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="port" type="xs:int" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

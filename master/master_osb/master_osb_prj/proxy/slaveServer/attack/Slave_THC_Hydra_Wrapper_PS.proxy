@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config">
+  <ser:coreEntry isProxy="true" isEnabled="true">
+    <ser:binding type="SOAP" isSoap12="false" xsi:type="con:SoapBindingType" xmlns:con="http://www.bea.com/wli/sb/services/bindings/config">
+      <con:wsdl ref="master_osb/master_osb_prj/wsdl/slaveServer/attack/Slave_THC_Hydra_Wrapper_WS"/>
+      <con:port>
+        <con:name>Slave_THC_Hydra_WS_Port</con:name>
+        <con:namespace>http://ws.slave.cracking.uem.es/</con:namespace>
+      </con:port>
+      <con:selector type="SOAP body"/>
+    </ser:binding>
+    <ser:monitoring isEnabled="false">
+      <ser:aggregationInterval>10</ser:aggregationInterval>
+      <ser:pipelineMonitoringLevel>Pipeline</ser:pipelineMonitoringLevel>
+    </ser:monitoring>
+    <ser:reporting>true</ser:reporting>
+    <ser:logging isEnabled="true">
+      <ser:logLevel>debug</ser:logLevel>
+    </ser:logging>
+    <ser:sla-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:sla-alerting>
+    <ser:pipeline-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:pipeline-alerting>
+    <ser:ws-policy>
+      <ser:binding-mode>wsdl-policy-attachments</ser:binding-mode>
+    </ser:ws-policy>
+  </ser:coreEntry>
+  <ser:endpointConfig>
+    <tran:provider-id>http</tran:provider-id>
+    <tran:inbound>true</tran:inbound>
+    <tran:URI>
+      <env:value>/master_osb/master/proxy/slaveServer/attack/Slave_THC_Hydra_Wrapper_PS</env:value>
+    </tran:URI>
+    <tran:inbound-properties/>
+    <tran:all-headers>false</tran:all-headers>
+    <tran:provider-specific>
+      <http:inbound-properties/>
+    </tran:provider-specific>
+  </ser:endpointConfig>
+  <ser:router>
+    <con:pipeline type="request" name="DefaultPP_request">
+      <con:stage name="RaiseErrorStage">
+        <con:context/>
+        <con:actions>
+          <con1:Error>
+            <con2:id>_ActionId-1075657366804536482--3f18c724.14c8eba1da8.-7e93</con2:id>
+            <con1:errCode>000001</con1:errCode>
+            <con1:message>Default Error</con1:message>
+          </con1:Error>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="response" name="DefaultPP_response"/>
+    <con:pipeline type="request" name="AttackPP_request">
+      <con:stage name="GetRoutingOptionsURI">
+        <con:context>
+          <con2:varNsDecl namespace="http://ws.slave.cracking.uem.es/" prefix="ws1"/>
+        </con:context>
+        <con:actions>
+          <con1:assign varName="endpoint">
+            <con2:id>_ActionId-1075657366804536482--3f18c724.14c8eba1da8.-7e30</con2:id>
+            <con1:expr>
+              <con2:xqueryText>&lt;endPoint>{ fn:concat('http://',$body/ws1:thcHydraAttack/thcHydraAttackRequest/routing/ip,':',$body/ws1:thcHydraAttack/thcHydraAttackRequest/routing/port,'/slave_ws/Slave_THC_Hydra_WS') }&lt;/endPoint></con2:xqueryText>
+            </con1:expr>
+          </con1:assign>
+        </con:actions>
+      </con:stage>
+      <con:stage name="ReplaceBody">
+        <con:context>
+          <con2:varNsDecl namespace="http://ws.slave.cracking.uem.es/" prefix="ws1"/>
+        </con:context>
+        <con:actions>
+          <con1:replace varName="body" contents-only="true">
+            <con2:id>_ActionId-1075657366804536482--3f18c724.14c8eba1da8.-7e0e</con2:id>
+            <con1:location>
+              <con2:xpathText>.</con2:xpathText>
+            </con1:location>
+            <con1:expr>
+              <con2:xqueryText><![CDATA[<ws1:thcHydraAttack>
+            <thcHydraAttackRequest>
+                <activeAttackId>{ data($body/ws1:thcHydraAttack/thcHydraAttackRequest/activeAttackId) }</activeAttackId>
+                <attackWindowId>{ data($body/ws1:thcHydraAttack/thcHydraAttackRequest/attackWindowId) }</attackWindowId>
+                {
+                    for $type in $body/ws1:thcHydraAttack/thcHydraAttackRequest/type
+                    return
+                        <type>{ data($type) }</type>
+                }
+                {
+                    for $dictionary in $body/ws1:thcHydraAttack/thcHydraAttackRequest/dictionary
+                    return
+                        <dictionary>{ $dictionary/@* , $dictionary/node() }</dictionary>
+                }
+                {
+                    for $remoteUser in $body/ws1:thcHydraAttack/thcHydraAttackRequest/remoteUser
+                    return
+                        <remoteUser>{ data($remoteUser) }</remoteUser>
+                }
+                {
+                    for $remoteIp in $body/ws1:thcHydraAttack/thcHydraAttackRequest/remoteIp
+                    return
+                        <remoteIp>{ data($remoteIp) }</remoteIp>
+                }
+                {
+                    for $remotePort in $body/ws1:thcHydraAttack/thcHydraAttackRequest/remotePort
+                    return
+                        <remotePort>{ data($remotePort) }</remotePort>
+                }
+                {
+                    for $extraParam in $body/ws1:thcHydraAttack/thcHydraAttackRequest/extraParam
+                    return
+                        <extraParam>{ data($extraParam) }</extraParam>
+                }
+            </thcHydraAttackRequest>
+</ws1:thcHydraAttack>]]></con2:xqueryText>
+            </con1:expr>
+          </con1:replace>
+        </con:actions>
+      </con:stage>
+      <con:stage name="ValidateOutput">
+        <con:context>
+          <con2:varNsDecl namespace="http://ws.slave.cracking.uem.es/" prefix="ws1"/>
+        </con:context>
+        <con:actions>
+          <con1:validate>
+            <con2:id>_ActionId-1075657366804536482--3f18c724.14c8eba1da8.-7e4a</con2:id>
+            <con1:schema ref="master_osb/master_osb_prj/xsd/slaveServer/attack/Slave_THC_Hydra_WS"/>
+            <con1:schemaElement xmlns:ws="http://ws.slave.cracking.uem.es/">ws:thcHydraAttack</con1:schemaElement>
+            <con1:varName>body</con1:varName>
+            <con1:location>
+              <con2:xpathText>./ws1:thcHydraAttack</con2:xpathText>
+            </con1:location>
+          </con1:validate>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="response" name="AttackPP_response"/>
+    <con:flow>
+      <con:branch-node type="operation" name="THCHydraBranch">
+        <con:context/>
+        <con:branch-table>
+          <con:branch name="thcHydraAttack">
+            <con:operator>equals</con:operator>
+            <con:value/>
+            <con:flow>
+              <con:pipeline-node name="AttackPP">
+                <con:request>AttackPP_request</con:request>
+                <con:response>AttackPP_response</con:response>
+              </con:pipeline-node>
+              <con:route-node name="AttackRoute">
+                <con:context/>
+                <con:actions>
+                  <con3:route>
+                    <con2:id>_ActionId-1075657366804536482--3f18c724.14c8eba1da8.-7e72</con2:id>
+                    <con3:service ref="master_osb/master_osb_prj/business/slaveServer/attack/Slave_THC_Hydra_BS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                    <con3:operation>thcHydraAttack</con3:operation>
+                    <con3:outboundTransform>
+                      <con1:routing-options>
+                        <con2:id>_ActionId-1075657366804536482--3f18c724.14c8eba1da8.-7e55</con2:id>
+                        <con1:uriExpr>
+                          <con2:xqueryText>$endpoint/text()</con2:xqueryText>
+                        </con1:uriExpr>
+                      </con1:routing-options>
+                    </con3:outboundTransform>
+                    <con3:responseTransform/>
+                  </con3:route>
+                </con:actions>
+              </con:route-node>
+            </con:flow>
+          </con:branch>
+          <con:default-branch>
+            <con:flow>
+              <con:pipeline-node name="DefaultPP">
+                <con:request>DefaultPP_request</con:request>
+                <con:response>DefaultPP_response</con:response>
+              </con:pipeline-node>
+            </con:flow>
+          </con:default-branch>
+        </con:branch-table>
+      </con:branch-node>
+    </con:flow>
+  </ser:router>
+</xml-fragment>

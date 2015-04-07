@@ -1,0 +1,74 @@
+<definitions targetNamespace="http://ws.name_server.cracking.uem.es/" name="Name_Server_WS" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://ws.name_server.cracking.uem.es/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import namespace="http://ws.name_server.cracking.uem.es/" schemaLocation="../../xsd/nameServer/Name_Server_WS.xsd"/>
+    </xsd:schema>
+  </types>
+  <message name="getAvailableSlaves">
+    <part name="parameters" element="tns:getAvailableSlaves"/>
+  </message>
+  <message name="getAvailableSlavesResponse">
+    <part name="parameters" element="tns:getAvailableSlavesResponse"/>
+  </message>
+  <message name="deleteLockedSlave">
+    <part name="parameters" element="tns:deleteLockedSlave"/>
+  </message>
+  <message name="deleteLockedSlaveResponse">
+    <part name="parameters" element="tns:deleteLockedSlaveResponse"/>
+  </message>
+  <message name="register">
+    <part name="parameters" element="tns:register"/>
+  </message>
+  <message name="registerResponse">
+    <part name="parameters" element="tns:registerResponse"/>
+  </message>
+  <portType name="Name_Server_WS">
+    <operation name="getAvailableSlaves">
+      <input message="tns:getAvailableSlaves"/>
+      <output message="tns:getAvailableSlavesResponse"/>
+    </operation>
+    <operation name="deleteLockedSlave">
+      <input message="tns:deleteLockedSlave"/>
+      <output message="tns:deleteLockedSlaveResponse"/>
+    </operation>
+    <operation name="register">
+      <input message="tns:register"/>
+      <output message="tns:registerResponse"/>
+    </operation>
+  </portType>
+  <binding name="Name_Server_WS_PortBinding" type="tns:Name_Server_WS">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="getAvailableSlaves">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="deleteLockedSlave">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="register">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="Name_Server_WS">
+    <port name="Name_Server_WS_Port" binding="tns:Name_Server_WS_PortBinding">
+      <soap:address location="http://10.10.10.10:7001/name_server/Name_Server_WS"/>
+    </port>
+  </service>
+</definitions>

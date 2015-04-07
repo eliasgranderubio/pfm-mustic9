@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config">
+  <ser:coreEntry isProxy="true" isEnabled="true">
+    <ser:binding type="SOAP" isSoap12="false" xsi:type="con:SoapBindingType" xmlns:con="http://www.bea.com/wli/sb/services/bindings/config">
+      <con:wsdl ref="master_osb/master_osb_prj/wsdl/nameServer/Name_Server_WS"/>
+      <con:port>
+        <con:name>Name_Server_WS_Port</con:name>
+        <con:namespace>http://ws.name_server.cracking.uem.es/</con:namespace>
+      </con:port>
+      <con:selector type="SOAP body"/>
+    </ser:binding>
+    <ser:monitoring isEnabled="false">
+      <ser:aggregationInterval>10</ser:aggregationInterval>
+      <ser:pipelineMonitoringLevel>Pipeline</ser:pipelineMonitoringLevel>
+    </ser:monitoring>
+    <ser:reporting>true</ser:reporting>
+    <ser:logging isEnabled="true">
+      <ser:logLevel>debug</ser:logLevel>
+    </ser:logging>
+    <ser:sla-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:sla-alerting>
+    <ser:pipeline-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:pipeline-alerting>
+    <ser:ws-policy>
+      <ser:binding-mode>wsdl-policy-attachments</ser:binding-mode>
+    </ser:ws-policy>
+  </ser:coreEntry>
+  <ser:endpointConfig>
+    <tran:provider-id>http</tran:provider-id>
+    <tran:inbound>true</tran:inbound>
+    <tran:URI>
+      <env:value>/master_osb/master/proxy/nameServer/Name_Server_PS</env:value>
+    </tran:URI>
+    <tran:inbound-properties/>
+    <tran:all-headers>false</tran:all-headers>
+    <tran:provider-specific>
+      <http:inbound-properties/>
+    </tran:provider-specific>
+  </ser:endpointConfig>
+  <ser:router>
+    <con:pipeline type="request" name="GetAvailableSlavesPP_request"/>
+    <con:pipeline type="response" name="GetAvailableSlavesPP_response"/>
+    <con:pipeline type="request" name="DeleteLockedSlavePP_request"/>
+    <con:pipeline type="response" name="DeleteLockedSlavePP_response"/>
+    <con:pipeline type="request" name="RegisterPP_request">
+      <con:stage name="RaiseErrorStage">
+        <con:context/>
+        <con:actions>
+          <con1:Error>
+            <con2:id>_ActionId-1075657366804536482--3f18c724.14c8eba1da8.-7fa1</con2:id>
+            <con1:errCode>000002</con1:errCode>
+            <con1:message>The register operation must not be invoked by the Master</con1:message>
+          </con1:Error>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="response" name="RegisterPP_response"/>
+    <con:pipeline type="request" name="DefaultPP_request">
+      <con:stage name="RaiseErrorStage">
+        <con:context/>
+        <con:actions>
+          <con1:Error>
+            <con2:id>_ActionId-1075657366804536482--3f18c724.14c8eba1da8.-7f77</con2:id>
+            <con1:errCode>000001</con1:errCode>
+            <con1:message>Default Error</con1:message>
+          </con1:Error>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="response" name="DefaultPP_response"/>
+    <con:flow>
+      <con:branch-node type="operation" name="Name_Server_Branch">
+        <con:context/>
+        <con:branch-table>
+          <con:branch name="getAvailableSlaves">
+            <con:operator>equals</con:operator>
+            <con:value/>
+            <con:flow>
+              <con:pipeline-node name="GetAvailableSlavesPP">
+                <con:request>GetAvailableSlavesPP_request</con:request>
+                <con:response>GetAvailableSlavesPP_response</con:response>
+              </con:pipeline-node>
+              <con:route-node name="GetAvailableSlavesRouteNode">
+                <con:context/>
+                <con:actions>
+                  <con3:route>
+                    <con2:id>_ActionId-1075657366804536482--3f18c724.14c8eba1da8.-7fd8</con2:id>
+                    <con3:service ref="master_osb/master_osb_prj/business/nameServer/Name_Server_BS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                    <con3:operation>getAvailableSlaves</con3:operation>
+                    <con3:outboundTransform/>
+                    <con3:responseTransform/>
+                  </con3:route>
+                </con:actions>
+              </con:route-node>
+            </con:flow>
+          </con:branch>
+          <con:branch name="deleteLockedSlave">
+            <con:operator>equals</con:operator>
+            <con:value/>
+            <con:flow>
+              <con:pipeline-node name="DeleteLockedSlavePP">
+                <con:request>DeleteLockedSlavePP_request</con:request>
+                <con:response>DeleteLockedSlavePP_response</con:response>
+              </con:pipeline-node>
+              <con:route-node name="DeleteLockedSlaveRouteNode">
+                <con:context/>
+                <con:actions>
+                  <con3:route>
+                    <con2:id>_ActionId-1075657366804536482--3f18c724.14c8eba1da8.-7fcb</con2:id>
+                    <con3:service ref="master_osb/master_osb_prj/business/nameServer/Name_Server_BS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                    <con3:operation>deleteLockedSlave</con3:operation>
+                    <con3:outboundTransform/>
+                    <con3:responseTransform/>
+                  </con3:route>
+                </con:actions>
+              </con:route-node>
+            </con:flow>
+          </con:branch>
+          <con:branch name="register">
+            <con:operator>equals</con:operator>
+            <con:value/>
+            <con:flow>
+              <con:pipeline-node name="RegisterPP">
+                <con:request>RegisterPP_request</con:request>
+                <con:response>RegisterPP_response</con:response>
+              </con:pipeline-node>
+            </con:flow>
+          </con:branch>
+          <con:default-branch>
+            <con:flow>
+              <con:pipeline-node name="DefaultPP">
+                <con:request>DefaultPP_request</con:request>
+                <con:response>DefaultPP_response</con:response>
+              </con:pipeline-node>
+            </con:flow>
+          </con:default-branch>
+        </con:branch-table>
+      </con:branch-node>
+    </con:flow>
+  </ser:router>
+</xml-fragment>
