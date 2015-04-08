@@ -50,6 +50,10 @@ security/
 alsbdebug.xml
 configfwkdebug.xml
 
+# SOA ant compile outputs
+SCA-INF/
+deploy/
+
 # IntelliJ specific files/directories
 out
 .idea

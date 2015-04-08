@@ -1,0 +1,15 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="Slave_JMS_Notification_WS"
+     targetNamespace="http://notification.slave.cracking.uem.es/"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:tns="http://notification.slave.cracking.uem.es/"
+     xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    >
+    <plnk:partnerLinkType name="Slave_JMS_Notification_Process">
+        <plnk:role name="Slave_JMS_Notification_WS" portType="tns:Slave_JMS_Notification_WS"/>
+    </plnk:partnerLinkType>
+    <wsdl:import namespace="http://notification.slave.cracking.uem.es/" location="wsdl/Slave_JMS_Notification_WS.wsdl"/>
+</wsdl:definitions>

@@ -1,0 +1,29 @@
+<definitions targetNamespace="http://notification.slave.cracking.uem.es/" name="Slave_JMS_Notification_WS" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://notification.slave.cracking.uem.es/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import namespace="http://notification.slave.cracking.uem.es/" schemaLocation="../xsd/Slave_JMS_Notification_WS.xsd"/>
+    </xsd:schema>
+  </types>
+  <message name="slaveJMSNotification">
+    <part name="parameters" element="tns:slaveJMSNotification"/>
+  </message>
+  <portType name="Slave_JMS_Notification_WS">
+    <operation name="slaveJMSNotification">
+      <input wsam:Action="http://notification.slave.cracking.uem.es/Slave_JMS_Notification_WS/slaveJMSNotification" message="tns:slaveJMSNotification"/>
+    </operation>
+  </portType>
+  <binding name="Slave_JMS_Notification_WS_PortBinding" type="tns:Slave_JMS_Notification_WS">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="slaveJMSNotification">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+    </operation>
+  </binding>
+  <service name="Slave_JMS_Notification_WS">
+    <port name="Slave_JMS_Notification_WS_Port" binding="tns:Slave_JMS_Notification_WS_PortBinding">
+      <soap:address location="http://10.10.10.10:7001/default/master_soa/Slave_JMS_Notification_WS"/>
+    </port>
+  </service>
+</definitions>

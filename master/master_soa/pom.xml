@@ -8,4 +8,64 @@
   <artifactId>master_soa</artifactId>
   <name>Master SOA Tier</name>
   <description>Master node SOA Tier</description>
+
+  <properties>
+	<composite.name>${basedir}/composite.xml</composite.name>
+  </properties>  
+
+  <build>
+	<finalName>sca_${project.artifactId}_rev${project.version}</finalName>		
+	<plugins>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-antrun-plugin</artifactId>
+			<executions>
+				<execution>
+					<id>sca-compile</id>
+					<phase>compile</phase>
+					<configuration>
+						<target>
+							<property name="scac.input" value="${composite.name}"/>
+							<property name="scac.application.home" value="${application.home}"/>
+							<ant antfile="${jdeveloper.home}\bin\ant-sca-compile.xml" dir="${jdeveloper.home}\bin\" target="scac"/>
+						</target>
+					</configuration>
+					<goals>
+						<goal>run</goal>
+					</goals>
+				</execution>
+				<execution>
+					<id>sca-package</id>
+					<phase>package</phase>
+					<configuration>
+						<target>
+							<property name="build.compiler" value="extJavac"/>
+							<property name="compositeName" value="${project.artifactId}"/>
+							<property name="compositeDir" value="${basedir}"/>
+							<property name="revision" value="${project.version}"/>
+							<property name="scac.application.home" value="${application.home}"/>
+							<ant antfile="${jdeveloper.home}\bin\ant-sca-package.xml" dir="${jdeveloper.home}\bin\" target="package"/>
+						</target>
+					</configuration>
+					<goals>
+						<goal>run</goal>
+					</goals>
+				</execution>
+				<execution>
+					<id>copy-deploy-to-target</id>
+					<phase>package</phase>
+					<configuration>
+						<target>
+							<copy file="${basedir}/deploy/sca_${project.artifactId}_rev${project.version}.jar" todir="${basedir}/target/" overwrite="true"/>
+						</target>
+					</configuration>
+					<goals>
+						<goal>run</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin>			
+	</plugins>
+  </build>
+
 </project>
