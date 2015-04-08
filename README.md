@@ -12,6 +12,10 @@ After that, you can run maven:
 `mvn -Dosb.home=$MW_HOME/Oracle_OSB1 -Dweblogic.home=$MW_HOME/wlserver_10.3 -Djdeveloper.home=$JDEV_HOME clean install`
 
 
+## Bugs and Feedback
+For bugs, questions and discussions please use the [Github Issues](https://github.com/eliasgranderubio/pfm-mustic9/issues).
+
+
 ## License
 Copyright (C) 2015 Elías Grande Rubio
 
