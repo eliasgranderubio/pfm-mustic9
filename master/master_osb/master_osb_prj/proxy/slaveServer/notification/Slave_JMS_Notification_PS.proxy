@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http">
+<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con4="http://www.bea.com/wli/sb/typesystem/config" xmlns:jms="http://www.bea.com/wli/sb/transports/jms">
   <ser:coreEntry isProxy="true" isEnabled="true">
-    <ser:binding type="abstract XML" xmlns:con="http://www.bea.com/wli/sb/services/bindings/config"/>
+    <ser:binding type="Mixed" xsi:type="con4:MixedBindingType" xmlns:con4="http://www.bea.com/wli/sb/services/bindings/config">
+      <con4:request type="XML">
+        <con5:schema ref="master_osb/master_osb_prj/xsd/slaveServer/notification/Slave_JMS_Notification_WS" type="Notification" xmlns:con5="http://www.bea.com/wli/sb/typesystem/config"/>
+      </con4:request>
+    </ser:binding>
     <ser:monitoring isEnabled="false">
       <ser:aggregationInterval>10</ser:aggregationInterval>
       <ser:pipelineMonitoringLevel>Pipeline</ser:pipelineMonitoringLevel>
@@ -18,16 +22,78 @@
     </ser:pipeline-alerting>
   </ser:coreEntry>
   <ser:endpointConfig>
-    <tran:provider-id>http</tran:provider-id>
+    <tran:provider-id>jms</tran:provider-id>
     <tran:inbound>true</tran:inbound>
     <tran:URI>
-      <env:value>/master_osb/master/proxy/slaveServer/notification/Slave_JMS_Notification_PS</env:value>
+      <env:value>jms://localhost:7001/jms.CrackingUemCF/jms.CrackingUemQueue</env:value>
     </tran:URI>
     <tran:inbound-properties/>
     <tran:all-headers>false</tran:all-headers>
     <tran:provider-specific>
-      <http:inbound-properties/>
+      <jms:is-queue>true</jms:is-queue>
+      <jms:is-secure>false</jms:is-secure>
+      <jms:inbound-properties>
+        <jms:response-required>false</jms:response-required>
+        <jms:XA-required>false</jms:XA-required>
+        <jms:transaction-timeout>600</jms:transaction-timeout>
+      </jms:inbound-properties>
+      <jms:request-encoding>UTF-8</jms:request-encoding>
+      <jms:jndi-timeout>0</jms:jndi-timeout>
     </tran:provider-specific>
   </ser:endpointConfig>
-  <ser:router/>
+  <ser:router>
+    <con:pipeline type="request" name="SlaveJMSNotificationPP_request">
+      <con:stage name="ReplaceBody">
+        <con:context>
+          <con2:varNsDecl namespace="http://notification.slave.cracking.uem.es/" prefix="not"/>
+        </con:context>
+        <con:actions>
+          <con1:replace varName="body" contents-only="true">
+            <con2:id>_ActionId-9171330268595233374-5dd1a600.14c9a119312.-7f83</con2:id>
+            <con1:location>
+              <con2:xpathText>.</con2:xpathText>
+            </con1:location>
+            <con1:expr>
+              <con2:xqueryText>&lt;not:slaveJMSNotification>{ $body/* }&lt;/not:slaveJMSNotification></con2:xqueryText>
+            </con1:expr>
+          </con1:replace>
+        </con:actions>
+      </con:stage>
+      <con:stage name="ValidateOutput">
+        <con:context>
+          <con2:varNsDecl namespace="http://notification.slave.cracking.uem.es/" prefix="not"/>
+        </con:context>
+        <con:actions>
+          <con1:validate>
+            <con2:id>_ActionId-9171330268595233374-5dd1a600.14c9a119312.-7f82</con2:id>
+            <con1:schema ref="master_osb/master_osb_prj/xsd/slaveServer/notification/Slave_JMS_Notification_WS"/>
+            <con1:schemaElement xmlns:not="http://notification.slave.cracking.uem.es/">not:slaveJMSNotification</con1:schemaElement>
+            <con1:varName>body</con1:varName>
+            <con1:location>
+              <con2:xpathText>./not:slaveJMSNotification</con2:xpathText>
+            </con1:location>
+          </con1:validate>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="response" name="SlaveJMSNotificationPP_response"/>
+    <con:flow>
+      <con:pipeline-node name="SlaveJMSNotificationPP">
+        <con:request>SlaveJMSNotificationPP_request</con:request>
+        <con:response>SlaveJMSNotificationPP_response</con:response>
+      </con:pipeline-node>
+      <con:route-node name="SlaveJMSNotificationRoute">
+        <con:context/>
+        <con:actions>
+          <con3:route>
+            <con2:id>_ActionId-9171330268595233374-5dd1a600.14c9a119312.-7f6d</con2:id>
+            <con3:service ref="master_osb/master_osb_prj/business/slaveServer/notification/Slave_JMS_Notification_BS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+            <con3:operation>slaveJMSNotification</con3:operation>
+            <con3:outboundTransform/>
+            <con3:responseTransform/>
+          </con3:route>
+        </con:actions>
+      </con:route-node>
+    </con:flow>
+  </ser:router>
 </xml-fragment>

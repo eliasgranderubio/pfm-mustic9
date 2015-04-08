@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema version="1.0" targetNamespace="http://notification.slave.cracking.uem.es/" xmlns:tns="http://notification.slave.cracking.uem.es/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="slaveJMSNotification" type="tns:slaveJMSNotification"/>
+  <xs:complexType name="slaveJMSNotification">
+    <xs:sequence>
+      <xs:element name="notification" type="tns:Notification" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Notification">
+    <xs:sequence>
+      <xs:element name="activeAttackId" type="xs:long"/>
+      <xs:element name="attackWindowId" type="xs:long"/>
+      <xs:element name="processorName" type="xs:string"/>
+      <xs:element name="total_words_processed" type="xs:long"/>
+      <xs:element name="total_time_processing" type="xs:long"/>
+      <xs:element name="isPasswordFound" type="xs:boolean" />
+      <xs:element name="clearPass" type="xs:string" minOccurs="0"/>
+      <xs:element name="recFileInBase64" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
