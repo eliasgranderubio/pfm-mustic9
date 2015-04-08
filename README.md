@@ -11,7 +11,6 @@ After that, you can run maven:
 
 
 ## LICENSE
-pfm-mustic9
 Copyright (C) 2015 Elías Grande Rubio
 
 This program is free software; you can redistribute it and/or modify
