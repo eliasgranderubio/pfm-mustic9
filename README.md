@@ -3,14 +3,16 @@ Distributed computing systems for cracking
 
 
 ## Compile Instructions
-If you want compile the full project, you must have set the environment variable named `MW_HOME`. This variable references your Oracle Middleware instalation path (Weblogic Server Version 10.3.6.0 & OSB Version 11.1.1.7).
+If you want compile the full project, you must have set the environment variables named `MW_HOME` and `JDEV_HOME`:
++ `MW_HOME` variable references your Oracle Middleware instalation path (Weblogic Server Version 10.3.6.0 & OSB Version 11.1.1.7).
++ `JDEV_HOME` variable references your Oracle JDeveloper instalation path (Oracle JDeveloper 11g R1 11.1.1.7.0).
 
 After that, you can run maven: 
 
-`mvn -Dosb.home=$MW_HOME/Oracle_OSB1 -Dweblogic.home=$MW_HOME/wlserver_10.3 clean install`
+`mvn -Dosb.home=$MW_HOME/Oracle_OSB1 -Dweblogic.home=$MW_HOME/wlserver_10.3 -Djdeveloper.home=$JDEV_HOME clean install`
 
 
-## LICENSE
+## License
 Copyright (C) 2015 Elías Grande Rubio
 
 This program is free software; you can redistribute it and/or modify
