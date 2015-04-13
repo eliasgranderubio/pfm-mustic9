@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<decisionServices xmlns="http://xmlns.oracle.com/bpel/rules" name="Window_Size_Rules">
+    <ruleEngineProvider name="OracleRulesSDK" provider="Oracle_11.0.0.0.0">
+        <repository type="SCA-Archive">
+            <path>master_soa/oracle/rules/master_soa/Window_Size_Rules.rules</path>
+        </repository>
+    </ruleEngineProvider>
+    <decisionService targetNamespace="http://xmlns.oracle.com/Window_Size_Rules/Window_Size_Rules_DecisionService_1" ruleEngineProviderReference="OracleRulesSDK" name="Window_Size_Rules_DecisionService_1">
+        <catalog>Window_Size_Rules</catalog>
+        <pattern name="CallFunctionStateless">
+            <arguments>
+                <call>master_soa.Window_Size_Rules.Window_Size_Rules_DecisionService_1</call>
+            </arguments>
+        </pattern>
+        <pattern name="CallFunctionStateful">
+            <arguments>
+                <call>master_soa.Window_Size_Rules.Window_Size_Rules_DecisionService_1</call>
+            </arguments>
+        </pattern>
+    </decisionService>
+</decisionServices>

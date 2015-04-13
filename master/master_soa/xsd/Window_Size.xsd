@@ -1,0 +1,19 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<xs:schema version="1.0" targetNamespace="http://windows.master.cracking.uem.es/" xmlns:tns="http://windows.master.cracking.uem.es/"
+     xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="windowSizeRequest" type="tns:WindowSizeRequest"/>
+    <xs:element name="windowSizeResponse" type="tns:WindowSizeResponse"/>
+    <xs:complexType name="WindowSizeRequest">
+        <xs:sequence>
+            <xs:element name="processor_name" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="totalWords" type="xs:long" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="words_per_minute" type="xs:int" minOccurs="1" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="WindowSizeResponse">
+        <xs:sequence>
+            <xs:element name="windowSize" type="xs:int" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="windowsCount" type="xs:int" minOccurs="1" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

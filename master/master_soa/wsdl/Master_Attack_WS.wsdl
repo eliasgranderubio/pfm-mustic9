@@ -1,0 +1,168 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<definitions
+     name="Master_Attack_WS"
+     targetNamespace="http://attacks.ws.master.cracking.uem.es/"
+     xmlns="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:ns2="http://windows.master.cracking.uem.es/"
+     xmlns:ns1="http://root.master.cracking.uem.es/"
+     xmlns:ns3="http://windows.master.cracking.uem.es"
+     xmlns:tns="http://attacks.ws.master.cracking.uem.es/"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    >
+    <types>
+        <xsd:schema xmlns:ns1="http://root.master.cracking.uem.es/" xmlns:tns="http://attacks.ws.master.cracking.uem.es/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:ns2="http://windows.master.cracking.uem.es/" xmlns:ns3="http://windows.master.cracking.uem.es">
+            <xsd:import namespace="http://attacks.ws.master.cracking.uem.es/" schemaLocation="../xsd/Master_Attack_WS.xsd"/>
+        </xsd:schema>
+    </types>
+    <message name="createFullAttack">
+        <part name="parameters" element="tns:createFullAttack"/>
+    </message>
+    <message name="getAllActiveAttacksId">
+        <part name="parameters" element="tns:getAllActiveAttacksId"/>
+    </message>
+    <message name="getAllActiveAttacksIdResponse">
+        <part name="parameters" element="tns:getAllActiveAttacksIdResponse"/>
+    </message>
+    <message name="getActiveAttack">
+        <part name="parameters" element="tns:getActiveAttack"/>
+    </message>
+    <message name="getActiveAttackResponse">
+        <part name="parameters" element="tns:getActiveAttackResponse"/>
+    </message>
+    <message name="removeFullAttack">
+        <part name="parameters" element="tns:removeFullAttack"/>
+    </message>
+    <message name="removeAttackWindowById">
+        <part name="parameters" element="tns:removeAttackWindowById"/>
+    </message>
+    <message name="removeAttackWindowByIdResponse">
+        <part name="parameters" element="tns:removeAttackWindowByIdResponse"/>
+    </message>
+    <message name="findAttackWindowById">
+        <part name="parameters" element="tns:findAttackWindowById"/>
+    </message>
+    <message name="findAttackWindowByIdResponse">
+        <part name="parameters" element="tns:findAttackWindowByIdResponse"/>
+    </message>
+    <message name="getAttackWindowIdsToSend">
+        <part name="parameters" element="tns:getAttackWindowIdsToSend"/>
+    </message>
+    <message name="getAttackWindowIdsToSendResponse">
+        <part name="parameters" element="tns:getAttackWindowIdsToSendResponse"/>
+    </message>
+    <message name="updateAttackWindow">
+        <part name="parameters" element="tns:updateAttackWindow"/>
+    </message>
+    <message name="updateAttackWindowResponse">
+        <part name="parameters" element="tns:updateAttackWindowResponse"/>
+    </message>
+    <portType name="Master_Attack_WS">
+        <operation name="createFullAttack">
+            <input message="tns:createFullAttack"/>
+        </operation>
+        <operation name="getAllActiveAttacksId">
+            <input message="tns:getAllActiveAttacksId"/>
+            <output message="tns:getAllActiveAttacksIdResponse"/>
+        </operation>
+        <operation name="getActiveAttack">
+            <input message="tns:getActiveAttack"/>
+            <output message="tns:getActiveAttackResponse"/>
+        </operation>
+        <operation name="removeFullAttack">
+            <input message="tns:removeFullAttack"/>
+        </operation>
+        <operation name="removeAttackWindowById">
+            <input message="tns:removeAttackWindowById"/>
+            <output message="tns:removeAttackWindowByIdResponse"/>
+        </operation>
+        <operation name="findAttackWindowById">
+            <input message="tns:findAttackWindowById"/>
+            <output message="tns:findAttackWindowByIdResponse"/>
+        </operation>
+        <operation name="getAttackWindowIdsToSend">
+            <input message="tns:getAttackWindowIdsToSend"/>
+            <output message="tns:getAttackWindowIdsToSendResponse"/>
+        </operation>
+        <operation name="updateAttackWindow">
+            <input message="tns:updateAttackWindow"/>
+            <output message="tns:updateAttackWindowResponse"/>
+        </operation>
+    </portType>
+    <binding name="Master_Attack_WS_PortBinding" type="tns:Master_Attack_WS">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="createFullAttack">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+        <operation name="getAllActiveAttacksId">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="getActiveAttack">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="removeFullAttack">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+        </operation>
+        <operation name="removeAttackWindowById">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="findAttackWindowById">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="getAttackWindowIdsToSend">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="updateAttackWindow">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+    <service name="Master_Attack_WS">
+        <port name="Master_Attack_WS_Port" binding="tns:Master_Attack_WS_PortBinding">
+            <soap:address location="http://10.10.10.10:7001/master_db_ws/Master_Attack_WS"/>
+        </port>
+    </service>
+</definitions>

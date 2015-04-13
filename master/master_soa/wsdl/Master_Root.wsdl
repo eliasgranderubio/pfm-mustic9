@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions targetNamespace="http://root.master.cracking.uem.es/" name="Master_Root" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://root.master.cracking.uem.es/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import namespace="http://root.master.cracking.uem.es/" schemaLocation="../xsd/Master_Root.xsd"/>
+    </xsd:schema>
+  </types>
+  <message name="johnTheRipperAttack">
+    <part name="parameters" element="tns:johnTheRipperAttack"/>
+  </message>
+  <message name="thcHydraAttack">
+    <part name="parameters" element="tns:thcHydraAttack"/>
+  </message>
+  <message name="attackResponse">
+    <part name="parameters" element="tns:attackResponse"/>
+  </message>
+  <portType name="Master_Root">
+    <operation name="johnTheRipperAttack">
+      <input message="tns:johnTheRipperAttack"/>
+      <output message="tns:attackResponse"/>
+    </operation>
+    <operation name="thcHydraAttack">
+      <input message="tns:thcHydraAttack"/>
+      <output message="tns:attackResponse"/>
+    </operation>
+  </portType>
+  <binding name="Master_Root_PortBinding" type="tns:Master_Root">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="johnTheRipperAttack">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="thcHydraAttack">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="Master_Root">
+    <port name="Master_Root_Port" binding="tns:Master_Root_PortBinding">
+      <soap:address location="http://10.10.10.10:7001/soa-infra/default/master_soa/Master_Root"/>
+    </port>
+  </service>
+</definitions>

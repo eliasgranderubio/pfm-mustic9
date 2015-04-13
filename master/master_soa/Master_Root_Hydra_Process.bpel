@@ -1,0 +1,146 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Mon Apr 13 20:46:53 CEST 2015
+  Author:  egrande
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="Master_Root_Hydra_Process"
+               targetNamespace="http://xmlns.oracle.com/pfm_mustic9/master_soa/Master_Root_Hydra_Process"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/pfm_mustic9/master_soa/Master_Root_Hydra_Process"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+               xmlns:ns1="http://root.master.cracking.uem.es/"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns2="http://attacks.ws.master.cracking.uem.es/"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="master_root_hydra_process_client" partnerLinkType="ns1:Master_Root_Hydra_Process" myRole="Master_Root"/>
+    <partnerLink name="Create_Full_Attack_Process.create_full_attack_process_client"
+                 partnerLinkType="ns2:Create_Full_Attack_Process"
+                 partnerRole="Master_Attack_WS"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="ns1:thcHydraAttack"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="ns1:attackResponse"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in Master_Root_Hydra_Process.wsdl) -->
+    <receive name="receiveInput" partnerLink="master_root_hydra_process_client" portType="ns1:Master_Root"
+             operation="thcHydraAttack" variable="inputVariable" createInstance="yes"/>
+    <scope name="CreateFullAttackScope" exitOnStandardFault="no">
+      <variables>
+        <variable name="createFullAttackInvoke_createFullAttack_InputVariable"
+                  messageType="ns2:createFullAttack"/>
+      </variables>
+      <faultHandlers>
+        <catchAll>
+          <assign name="prepareOutputError">
+            <copy>
+              <from>'Ups! Your request could not be processed. Please, contact with us.'</from>
+              <to>$outputVariable.parameters/feedback</to>
+            </copy>
+          </assign>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence1">
+        <assign name="prepareInput">
+          <copy>
+            <from>'hydra'</from>
+            <to>$createFullAttackInvoke_createFullAttack_InputVariable.parameters/createFullAttackRequest/tool</to>
+          </copy>
+          <copy>
+            <from>$inputVariable.parameters/type</from>
+            <to>$createFullAttackInvoke_createFullAttack_InputVariable.parameters/createFullAttackRequest/attackType</to>
+          </copy>
+          <copy>
+            <from>$inputVariable.parameters/remoteUser</from>
+            <to>$createFullAttackInvoke_createFullAttack_InputVariable.parameters/createFullAttackRequest/remoteUser</to>
+          </copy>
+          <copy>
+            <from>$inputVariable.parameters/remoteIp</from>
+            <to>$createFullAttackInvoke_createFullAttack_InputVariable.parameters/createFullAttackRequest/remoteIp</to>
+          </copy>
+          <copy ignoreMissingFromData="yes">
+            <from>$inputVariable.parameters/remotePort</from>
+            <to>$createFullAttackInvoke_createFullAttack_InputVariable.parameters/createFullAttackRequest/remotePort</to>
+          </copy>
+          <copy ignoreMissingFromData="yes">
+            <from>$inputVariable.parameters/extraParam</from>
+            <to>$createFullAttackInvoke_createFullAttack_InputVariable.parameters/createFullAttackRequest/extraParam</to>
+          </copy>
+          <copy>
+            <from>$inputVariable.parameters/email</from>
+            <to>$createFullAttackInvoke_createFullAttack_InputVariable.parameters/createFullAttackRequest/notifyToEmail</to>
+          </copy>
+          <copy>
+            <from>0</from>
+            <to>$createFullAttackInvoke_createFullAttack_InputVariable.parameters/createFullAttackRequest/windowSize</to>
+          </copy>
+          <copy>
+            <from>0</from>
+            <to>$createFullAttackInvoke_createFullAttack_InputVariable.parameters/createFullAttackRequest/totalWords</to>
+          </copy>
+        </assign>
+        <invoke name="createFullAttackInvoke"
+                partnerLink="Create_Full_Attack_Process.create_full_attack_process_client"
+                portType="ns2:Master_Attack_WS" operation="createFullAttack"
+                inputVariable="createFullAttackInvoke_createFullAttack_InputVariable"
+                bpelx:invokeAsDetail="no"/>
+        <assign name="prepareOutput">
+          <copy>
+            <from>'Be patient! We will notify to your email with the attack result.'</from>
+            <to>$outputVariable.parameters/feedback</to>
+          </copy>
+        </assign>
+      </sequence>
+    </scope>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="master_root_hydra_process_client" portType="ns1:Master_Root"
+           operation="thcHydraAttack" variable="outputVariable"/>
+  </sequence>
+</process>

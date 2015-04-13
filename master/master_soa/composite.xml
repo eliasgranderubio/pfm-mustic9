@@ -14,10 +14,41 @@
           location="wsdl/Slave_JMS_Notification_WS.wsdl" importType="wsdl"/>
   <import namespace="http://notification.slave.cracking.uem.es/"
           location="Slave_JMS_Notification_WSWrapper.wsdl" importType="wsdl"/>
+  <import namespace="http://root.master.cracking.uem.es/"
+          location="wsdl/Master_Root.wsdl" importType="wsdl"/>
+  <import namespace="http://root.master.cracking.uem.es/"
+          location="Master_RootWrapper.wsdl" importType="wsdl"/>
+  <import namespace="http://root.master.cracking.uem.es/"
+          location="Master_RootWrapper1.wsdl" importType="wsdl"/>
+  <import namespace="http://attacks.ws.master.cracking.uem.es/"
+          location="Master_Attack_WSWrapper.wsdl" importType="wsdl"/>
+  <import namespace="http://words.ws.master.cracking.uem.es/"
+          location="wsdl/Master_Word_WS.wsdl" importType="wsdl"/>
+  <import namespace="http://attacks.ws.master.cracking.uem.es/"
+          location="wsdl/Master_Attack_WS.wsdl" importType="wsdl"/>
+  <import namespace="http://words.ws.master.cracking.uem.es/"
+          location="Master_Word_WSWrapper.wsdl" importType="wsdl"/>
+  <import namespace="http://words.ws.master.cracking.uem.es/"
+          location="Master_Word_WSWrapper1.wsdl" importType="wsdl"/>
+  <import namespace="http://attacks.ws.master.cracking.uem.es/"
+          location="Master_Attack_WSWrapper1.wsdl" importType="wsdl"/>
+  <import namespace="http://xmlns.oracle.com/Window_Size_Rules/Window_Size_Rules_DecisionService_1"
+          location="Window_Size_Rules_DecisionService_1.wsdl"
+          importType="wsdl"/>
+  <import namespace="http://xmlns.oracle.com/Window_Size_Rules/Window_Size_Rules_DecisionService_1"
+          location="Window_Size_Rules_DecisionService_1Wrapper.wsdl"
+          importType="wsdl"/>
   <service name="Slave_JMS_Notification_WS"
            ui:wsdlLocation="wsdl/Slave_JMS_Notification_WS.wsdl">
     <interface.wsdl interface="http://notification.slave.cracking.uem.es/#wsdl.interface(Slave_JMS_Notification_WS)"/>
     <binding.ws port="http://notification.slave.cracking.uem.es/#wsdl.endpoint(Slave_JMS_Notification_WS_2/Slave_JMS_Notification_WS_pt)">
+      <property name="weblogic.wsee.wsat.transaction.flowOption"
+                type="xs:string" many="false">NEVER</property>
+    </binding.ws>
+  </service>
+  <service name="Master_Root" ui:wsdlLocation="wsdl/Master_Root.wsdl">
+    <interface.wsdl interface="http://root.master.cracking.uem.es/#wsdl.interface(Master_Root)"/>
+    <binding.ws port="http://root.master.cracking.uem.es/#wsdl.endpoint(Master_Root_2/Master_Root_pt)">
       <property name="weblogic.wsee.wsat.transaction.flowOption"
                 type="xs:string" many="false">NEVER</property>
     </binding.ws>
@@ -28,8 +59,91 @@
     <property name="bpel.config.oneWayDeliveryPolicy" type="xs:string"
               many="false">async.cache</property>
   </component>
+  <component name="Master_Root_Mediator">
+    <implementation.mediator src="Master_Root_Mediator.mplan"/>
+  </component>
+  <component name="Master_Root_John_Process" version="2.0">
+    <implementation.bpel src="Master_Root_John_Process.bpel"/>
+    <property name="bpel.config.transaction" type="xs:string" many="false">required</property>
+    <property name="bpel.config.oneWayDeliveryPolicy" type="xs:string"
+              many="false">async.cache</property>
+  </component>
+  <component name="Master_Root_Hydra_Process" version="2.0">
+    <implementation.bpel src="Master_Root_Hydra_Process.bpel"/>
+    <property name="bpel.config.transaction" type="xs:string" many="false">required</property>
+    <property name="bpel.config.oneWayDeliveryPolicy" type="xs:string"
+              many="false">async.cache</property>
+  </component>
+  <component name="Create_Full_Attack_Process" version="2.0">
+    <implementation.bpel src="Create_Full_Attack_Process.bpel"/>
+    <property name="bpel.config.transaction" type="xs:string" many="false">requiresNew</property>
+    <property name="bpel.config.oneWayDeliveryPolicy" type="xs:string"
+              many="false">async.cache</property>
+  </component>
+  <component name="Get_Total_Words_Process" version="2.0">
+    <implementation.bpel src="Get_Total_Words_Process.bpel"/>
+    <property name="bpel.config.transaction" type="xs:string" many="false">requiresNew</property>
+    <property name="bpel.config.oneWayDeliveryPolicy" type="xs:string"
+              many="false">async.persist</property>
+  </component>
+  <component name="Window_Size_Rules">
+    <implementation.decision src="Window_Size_Rules.decs"/>
+  </component>
+  <reference name="Master_Word_WS" ui:wsdlLocation="wsdl/Master_Word_WS.wsdl">
+    <interface.wsdl interface="http://words.ws.master.cracking.uem.es/#wsdl.interface(Master_Word_WS)"/>
+    <binding.ws port="http://words.ws.master.cracking.uem.es/#wsdl.endpoint(Master_Word_WS/Master_Word_WS_Port)"
+                location="wsdl/Master_Word_WS.wsdl" soapVersion="1.1">
+      <property name="weblogic.wsee.wsat.transaction.flowOption"
+                type="xs:string" many="false">WSDLDriven</property>
+    </binding.ws>
+  </reference>
+  <reference name="Master_Attack_WS"
+             ui:wsdlLocation="wsdl/Master_Attack_WS.wsdl">
+    <interface.wsdl interface="http://attacks.ws.master.cracking.uem.es/#wsdl.interface(Master_Attack_WS)"/>
+    <binding.ws port="http://attacks.ws.master.cracking.uem.es/#wsdl.endpoint(Master_Attack_WS/Master_Attack_WS_Port)"
+                location="wsdl/Master_Attack_WS.wsdl" soapVersion="1.1">
+      <property name="weblogic.wsee.wsat.transaction.flowOption"
+                type="xs:string" many="false">WSDLDriven</property>
+    </binding.ws>
+  </reference>
   <wire>
     <source.uri>Slave_JMS_Notification_WS</source.uri>
     <target.uri>Slave_JMS_Notification_Process/slave_jms_notification_client</target.uri>
+  </wire>
+  <wire>
+    <source.uri>Master_Root</source.uri>
+    <target.uri>Master_Root_Mediator/Master_Root_Mediator</target.uri>
+  </wire>
+  <wire>
+    <source.uri>Master_Root_Mediator/Master_Root_John_Process.master_root_john_process_client</source.uri>
+    <target.uri>Master_Root_John_Process/master_root_john_process_client</target.uri>
+  </wire>
+  <wire>
+    <source.uri>Master_Root_Mediator/Master_Root_Hydra_Process.master_root_hydra_process_client</source.uri>
+    <target.uri>Master_Root_Hydra_Process/master_root_hydra_process_client</target.uri>
+  </wire>
+  <wire>
+    <source.uri>Master_Root_John_Process/Create_Full_Attack_Process.create_full_attack_process_client</source.uri>
+    <target.uri>Create_Full_Attack_Process/create_full_attack_process_client</target.uri>
+  </wire>
+  <wire>
+    <source.uri>Master_Root_Hydra_Process/Create_Full_Attack_Process.create_full_attack_process_client</source.uri>
+    <target.uri>Create_Full_Attack_Process/create_full_attack_process_client</target.uri>
+  </wire>
+  <wire>
+    <source.uri>Get_Total_Words_Process/Master_Word_WS</source.uri>
+    <target.uri>Master_Word_WS</target.uri>
+  </wire>
+  <wire>
+    <source.uri>Create_Full_Attack_Process/Get_Total_Words_Process.get_total_words_process_client</source.uri>
+    <target.uri>Get_Total_Words_Process/get_total_words_process_client</target.uri>
+  </wire>
+  <wire>
+    <source.uri>Create_Full_Attack_Process/Master_Attack_WS</source.uri>
+    <target.uri>Master_Attack_WS</target.uri>
+  </wire>
+  <wire>
+    <source.uri>Create_Full_Attack_Process/Window_Size_Rules.Window_Size_Rules_DecisionService_1</source.uri>
+    <target.uri>Window_Size_Rules/Window_Size_Rules_DecisionService_1</target.uri>
   </wire>
 </composite>

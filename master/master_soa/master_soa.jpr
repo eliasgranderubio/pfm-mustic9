@@ -60,8 +60,43 @@
       <string v="oracle.tip.tools.ide.fabric.addin.SCAContentSetProvider/sca-content"/>
       <string v="oracle.bpm.fusion.repository.BPMProjectSettings/bpmProjectsProcessesContentSet"/>
    </list>
+   <url n="Create_Full_Attack_Process_bpelFileURL" path="Create_Full_Attack_Process.bpel"/>
+   <value n="Create_Full_Attack_Process_Namespace" v="http://xmlns.oracle.com/pfm_mustic9/master_soa/Create_Full_Attack_Process"/>
+   <value n="Create_Full_Attack_Process_ProcessName" v="Create_Full_Attack_Process"/>
+   <value n="Create_Full_Attack_Process_Template" v="BPEL_BASE_ON_WSDL"/>
+   <value n="Create_Full_Attack_Process_wsdl" v="wsdl/Master_Attack_WS.wsdl"/>
    <value n="defaultPackage" v="master_soa"/>
-   <value n="Namespace" v="http://xmlns.oracle.com/pfm_mustic9/master_soa/Slave_JMS_Notification_Process"/>
+   <url n="Get_Total_Words_Process_bpelFileURL" path="Get_Total_Words_Process.bpel"/>
+   <value n="Get_Total_Words_Process_Namespace" v="http://xmlns.oracle.com/pfm_mustic9/master_soa/Get_Total_Words_Process"/>
+   <value n="Get_Total_Words_Process_ProcessName" v="Get_Total_Words_Process"/>
+   <value n="Get_Total_Words_Process_Template" v="BPEL_BASE_ON_WSDL"/>
+   <value n="Get_Total_Words_Process_wsdl" v="wsdl/Master_Word_WS.wsdl"/>
+   <url n="GetTotalWordsProcess_bpelFileURL" path="GetTotalWordsProcess.bpel"/>
+   <value n="GetTotalWordsProcess_Namespace" v="http://xmlns.oracle.com/pfm_mustic9/master_soa/GetTotalWordsProcess"/>
+   <value n="GetTotalWordsProcess_ProcessName" v="GetTotalWordsProcess"/>
+   <value n="GetTotalWordsProcess_Template" v="BPEL_BASE_ON_WSDL"/>
+   <value n="GetTotalWordsProcess_wsdl" v="wsdl/Master_Word_WS.wsdl"/>
+   <url n="Master_Root_Hydra_bpelFileURL" path="Master_Root_Hydra.bpel"/>
+   <value n="Master_Root_Hydra_Namespace" v="http://xmlns.oracle.com/pfm_mustic9/master_soa/Master_Root_Hydra"/>
+   <url n="Master_Root_Hydra_Process_bpelFileURL" path="Master_Root_Hydra_Process.bpel"/>
+   <value n="Master_Root_Hydra_Process_Namespace" v="http://xmlns.oracle.com/pfm_mustic9/master_soa/Master_Root_Hydra_Process"/>
+   <value n="Master_Root_Hydra_Process_ProcessName" v="Master_Root_Hydra_Process"/>
+   <value n="Master_Root_Hydra_Process_Template" v="BPEL_BASE_ON_WSDL"/>
+   <value n="Master_Root_Hydra_Process_wsdl" v="wsdl/Master_Root.wsdl"/>
+   <value n="Master_Root_Hydra_ProcessName" v="Master_Root_Hydra"/>
+   <value n="Master_Root_Hydra_Template" v="BPEL_BASE_ON_WSDL"/>
+   <value n="Master_Root_Hydra_wsdl" v="wsdl/Master_Root.wsdl"/>
+   <url n="Master_Root_John_bpelFileURL" path="Master_Root_John.bpel"/>
+   <value n="Master_Root_John_Namespace" v="http://xmlns.oracle.com/pfm_mustic9/master_soa/Master_Root_John"/>
+   <url n="Master_Root_John_Process_bpelFileURL" path="Master_Root_John_Process.bpel"/>
+   <value n="Master_Root_John_Process_Namespace" v="http://xmlns.oracle.com/pfm_mustic9/master_soa/Master_Root_John_Process"/>
+   <value n="Master_Root_John_Process_ProcessName" v="Master_Root_John_Process"/>
+   <value n="Master_Root_John_Process_Template" v="BPEL_BASE_ON_WSDL"/>
+   <value n="Master_Root_John_Process_wsdl" v="wsdl/Master_Root.wsdl"/>
+   <value n="Master_Root_John_ProcessName" v="Master_Root_John"/>
+   <value n="Master_Root_John_Template" v="BPEL_BASE_ON_WSDL"/>
+   <value n="Master_Root_John_wsdl" v="wsdl/Master_Root.wsdl"/>
+   <value n="Namespace" v="http://xmlns.oracle.com/pfm_mustic9/master_soa/Create_Full_Attack_Process"/>
    <hash n="oracle.ide.model.ResourcePaths">
       <hash n="resourcesContentSet">
          <list n="url-path"/>
@@ -70,6 +105,9 @@
    <hash n="oracle.ide.model.TechnologyScopeConfiguration">
       <list n="technologyScope">
          <string v="SOA"/>
+         <string v="Java"/>
+         <string v="WebServices"/>
+         <string v="XML"/>
       </list>
    </hash>
    <hash n="oracle.jdeveloper.compiler.OjcConfiguration">
@@ -320,6 +358,30 @@
             <value n="id" v="BC4J Service Runtime"/>
             <value n="isJDK" v="false"/>
          </hash>
+         <hash>
+            <value n="id" v="ADFm Designtime API"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="TopLink"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="ADF Model Runtime"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Oracle XML Parser v2"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Oracle JDBC"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Oracle Rules"/>
+            <value n="isJDK" v="false"/>
+         </hash>
       </list>
       <list n="libraryReferences">
          <hash>
@@ -346,6 +408,30 @@
             <value n="id" v="BC4J Service Runtime"/>
             <value n="isJDK" v="false"/>
          </hash>
+         <hash>
+            <value n="id" v="ADFm Designtime API"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="TopLink"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="ADF Model Runtime"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Oracle XML Parser v2"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Oracle JDBC"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Oracle Rules"/>
+            <value n="isJDK" v="false"/>
+         </hash>
       </list>
    </hash>
    <hash n="oracle.jdevimpl.config.JProjectPaths">
@@ -368,7 +454,7 @@
          </list>
       </hash>
    </hash>
-   <value n="ProcessName" v="Slave_JMS_Notification_Process"/>
+   <value n="ProcessName" v="Create_Full_Attack_Process"/>
    <url n="Slave_JMS_Notification_Process_bpelFileURL" path="Slave_JMS_Notification_Process.bpel"/>
    <value n="Slave_JMS_Notification_Process_Namespace" v="http://xmlns.oracle.com/pfm_mustic9/master_soa/Slave_JMS_Notification_Process"/>
    <value n="Slave_JMS_Notification_Process_ProcessName" v="Slave_JMS_Notification_Process"/>

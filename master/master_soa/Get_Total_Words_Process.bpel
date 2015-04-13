@@ -1,0 +1,74 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Mon Apr 13 21:12:25 CEST 2015
+  Author:  egrande
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="Get_Total_Words_Process"
+               targetNamespace="http://xmlns.oracle.com/pfm_mustic9/master_soa/Get_Total_Words_Process"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/pfm_mustic9/master_soa/Get_Total_Words_Process"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+               xmlns:ns1="http://words.ws.master.cracking.uem.es/"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="get_total_words_process_client" partnerLinkType="ns1:Get_Total_Words_Process" myRole="Master_Word_WS"/>
+    <partnerLink name="Master_Word_WS" partnerLinkType="ns1:Master_Word_WS"
+                 partnerRole="Master_Word_WS"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable"
+              messageType="ns1:getTotalWordsWithinOfDictionary"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable"
+              messageType="ns1:getTotalWordsWithinOfDictionaryResponse"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in Get_Total_Words_Process.wsdl) -->
+    <receive name="receiveInput" partnerLink="get_total_words_process_client" portType="ns1:Master_Word_WS"
+             operation="getTotalWordsWithinOfDictionary" variable="inputVariable" createInstance="yes"/>
+    <invoke name="getTotalWordsInvoke"
+            partnerLink="Master_Word_WS" portType="ns1:Master_Word_WS"
+            operation="getTotalWordsWithinOfDictionary"
+            inputVariable="inputVariable"
+            outputVariable="outputVariable" bpelx:invokeAsDetail="no"/>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="get_total_words_process_client" portType="ns1:Master_Word_WS"
+           operation="getTotalWordsWithinOfDictionary" variable="outputVariable"/>
+  </sequence>
+</process>

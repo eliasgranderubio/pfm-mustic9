@@ -1,0 +1,16 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="Window_Size_Rules_DecisionService_1"
+     targetNamespace="http://xmlns.oracle.com/Window_Size_Rules/Window_Size_Rules_DecisionService_1"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:tns="http://xmlns.oracle.com/Window_Size_Rules/Window_Size_Rules_DecisionService_1"
+     xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    >
+    <plnk:partnerLinkType name="Window_Size_Rules.Window_Size_Rules_DecisionService_1">
+        <plnk:role name="IDecisionService" portType="tns:IDecisionService"/>
+    </plnk:partnerLinkType>
+    <wsdl:import namespace="http://xmlns.oracle.com/Window_Size_Rules/Window_Size_Rules_DecisionService_1"
+         location="Window_Size_Rules_DecisionService_1.wsdl"/>
+</wsdl:definitions>

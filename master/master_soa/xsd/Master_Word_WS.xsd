@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema version="1.0" targetNamespace="http://words.ws.master.cracking.uem.es/" xmlns:tns="http://words.ws.master.cracking.uem.es/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="getTotalWordsWithinOfDictionary" type="tns:getTotalWordsWithinOfDictionary"/>
+  <xs:element name="getTotalWordsWithinOfDictionaryResponse" type="tns:getTotalWordsWithinOfDictionaryResponse"/>
+  <xs:element name="getWellKnownResults" type="tns:getWellKnownResults"/>
+  <xs:element name="getWellKnownResultsResponse" type="tns:getWellKnownResultsResponse"/>
+  <xs:element name="getWord" type="tns:getWord"/>
+  <xs:element name="getWordResponse" type="tns:getWordResponse"/>
+  <xs:element name="getWordsRange" type="tns:getWordsRange"/>
+  <xs:element name="getWordsRangeResponse" type="tns:getWordsRangeResponse"/>
+  <xs:element name="updateWellKnownResults" type="tns:updateWellKnownResults"/>
+  <xs:element name="updateWellKnownResultsResponse" type="tns:updateWellKnownResultsResponse"/>
+  <xs:complexType name="getTotalWordsWithinOfDictionary">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getTotalWordsWithinOfDictionaryResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:GetTotalWordsWithinOfDictionaryResponse" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetTotalWordsWithinOfDictionaryResponse">
+    <xs:sequence>
+      <xs:element name="totalWords" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateWellKnownResults">
+    <xs:sequence>
+      <xs:element name="updateWellKnownResultsRequest" type="tns:UpdateWellKnownResultsRequest" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="UpdateWellKnownResultsRequest">
+    <xs:sequence>
+      <xs:element name="clearPass" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateWellKnownResultsResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:UpdateWellKnownResultsResponse" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="UpdateWellKnownResultsResponse">
+    <xs:sequence>
+      <xs:element name="updated" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getWellKnownResults">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getWellKnownResultsResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:GetWellKnownResultsResponse" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetWellKnownResultsResponse">
+    <xs:sequence>
+      <xs:element name="wellKnownResults" type="tns:WellKnownResult" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="WellKnownResult">
+    <xs:sequence>
+      <xs:element name="clearPass" type="xs:string" minOccurs="0"/>
+      <xs:element name="times" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getWord">
+    <xs:sequence>
+      <xs:element name="getWordRequest" type="tns:GetWordRequest" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetWordRequest">
+    <xs:sequence>
+      <xs:element name="positionWithinOfDictionary" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getWordResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:GetWordResponse" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetWordResponse">
+    <xs:sequence>
+      <xs:element name="word" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getWordsRange">
+    <xs:sequence>
+      <xs:element name="getWordsRangeRequest" type="tns:GetWordsRangeRequest" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetWordsRangeRequest">
+    <xs:sequence>
+      <xs:element name="includeFromWord" type="xs:string" minOccurs="0"/>
+      <xs:element name="includeToWord" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getWordsRangeResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:GetWordsRangeResponse" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetWordsRangeResponse">
+    <xs:sequence>
+      <xs:element name="words" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="word" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

@@ -1,0 +1,15 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="Master_Root"
+     targetNamespace="http://root.master.cracking.uem.es/"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:tns="http://root.master.cracking.uem.es/"
+     xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    >
+    <plnk:partnerLinkType name="Master_Root_Hydra_Process">
+        <plnk:role name="Master_Root" portType="tns:Master_Root"/>
+    </plnk:partnerLinkType>
+    <wsdl:import namespace="http://root.master.cracking.uem.es/" location="wsdl/Master_Root.wsdl"/>
+</wsdl:definitions>

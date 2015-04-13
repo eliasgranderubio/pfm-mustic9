@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema version="1.0" targetNamespace="http://attacks.ws.master.cracking.uem.es/" xmlns:tns="http://attacks.ws.master.cracking.uem.es/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="createFullAttack" type="tns:createFullAttack"/>
+  <xs:element name="findAttackWindowById" type="tns:findAttackWindowById"/>
+  <xs:element name="findAttackWindowByIdResponse" type="tns:findAttackWindowByIdResponse"/>
+  <xs:element name="getActiveAttack" type="tns:getActiveAttack"/>
+  <xs:element name="getActiveAttackResponse" type="tns:getActiveAttackResponse"/>
+  <xs:element name="getAllActiveAttacksId" type="tns:getAllActiveAttacksId"/>
+  <xs:element name="getAllActiveAttacksIdResponse" type="tns:getAllActiveAttacksIdResponse"/>
+  <xs:element name="getAttackWindowIdsToSend" type="tns:getAttackWindowIdsToSend"/>
+  <xs:element name="getAttackWindowIdsToSendResponse" type="tns:getAttackWindowIdsToSendResponse"/>
+  <xs:element name="removeAttackWindowById" type="tns:removeAttackWindowById"/>
+  <xs:element name="removeAttackWindowByIdResponse" type="tns:removeAttackWindowByIdResponse"/>
+  <xs:element name="removeFullAttack" type="tns:removeFullAttack"/>
+  <xs:element name="updateAttackWindow" type="tns:updateAttackWindow"/>
+  <xs:element name="updateAttackWindowResponse" type="tns:updateAttackWindowResponse"/>
+  <xs:complexType name="getAttackWindowIdsToSend">
+    <xs:sequence>
+      <xs:element name="getAttackWindowIdsToSendRequest" type="tns:GetAttackWindowIdsToSendRequest" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetAttackWindowIdsToSendRequest">
+    <xs:sequence>
+      <xs:element name="activeAttackId" type="xs:long"/>
+      <xs:element name="maxWindows" type="xs:int" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getAttackWindowIdsToSendResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:GetAttackWindowIdsToSendResponse" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetAttackWindowIdsToSendResponse">
+    <xs:sequence>
+      <xs:element name="ids" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="id" type="xs:long" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="removeAttackWindowById">
+    <xs:sequence>
+      <xs:element name="removeAttackWindowByIdRequest" type="tns:RemoveAttackWindowByIdRequest" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RemoveAttackWindowByIdRequest">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="removeAttackWindowByIdResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="removeFullAttack">
+    <xs:sequence>
+      <xs:element name="removeFullAttackRequest" type="tns:RemoveFullAttackRequest" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RemoveFullAttackRequest">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getActiveAttack">
+    <xs:sequence>
+      <xs:element name="getActiveAttackRequest" type="tns:GetActiveAttackRequest" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetActiveAttackRequest">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getActiveAttackResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:GetActiveAttackResponse" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetActiveAttackResponse">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="tool" type="xs:string" minOccurs="0"/>
+      <xs:element name="attackType" type="xs:string" minOccurs="0"/>
+      <xs:element name="remoteUser" type="xs:string" minOccurs="0"/>
+      <xs:element name="remoteIp" type="xs:string" minOccurs="0"/>
+      <xs:element name="remotePort" type="xs:int" minOccurs="0"/>
+      <xs:element name="extraParam" type="xs:string" minOccurs="0"/>
+      <xs:element name="hashToCrack" type="xs:string" minOccurs="0"/>
+      <xs:element name="notifyToEmail" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="findAttackWindowById">
+    <xs:sequence>
+      <xs:element name="findAttackWindowByIdRequest" type="tns:FindAttackWindowByIdRequest" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="FindAttackWindowByIdRequest">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="findAttackWindowByIdResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:FindAttackWindowByIdResponse" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="FindAttackWindowByIdResponse">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="activeAttackId" type="xs:long"/>
+      <xs:element name="attemps" type="xs:int"/>
+      <xs:element name="sentTimestamp" type="xs:long" minOccurs="0"/>
+      <xs:element name="bfPattern" type="xs:string" minOccurs="0"/>
+      <xs:element name="processed" type="xs:boolean"/>
+      <xs:element name="factor" type="xs:int"/>
+      <xs:element name="firstDictionaryWord" type="xs:string" minOccurs="0"/>
+      <xs:element name="lastDictionaryWord" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateAttackWindow">
+    <xs:sequence>
+      <xs:element name="updateAttackWindowRequest" type="tns:UpdateAttackWindowRequest" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="UpdateAttackWindowRequest">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="activeAttackId" type="xs:long"/>
+      <xs:element name="attemps" type="xs:int"/>
+      <xs:element name="sentTimestamp" type="xs:long" minOccurs="0"/>
+      <xs:element name="bfPattern" type="xs:string" minOccurs="0"/>
+      <xs:element name="processed" type="xs:boolean"/>
+      <xs:element name="factor" type="xs:int"/>
+      <xs:element name="firstDictionaryWord" type="xs:string" minOccurs="0"/>
+      <xs:element name="lastDictionaryWord" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateAttackWindowResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:UpdateAttackWindowResponse" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="UpdateAttackWindowResponse">
+    <xs:sequence>
+      <xs:element name="updated" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createFullAttack">
+    <xs:sequence>
+      <xs:element name="createFullAttackRequest" type="tns:CreateFullAttackRequest" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CreateFullAttackRequest">
+    <xs:sequence>
+      <xs:element name="tool" type="xs:string" minOccurs="0"/>
+      <xs:element name="attackType" type="xs:string" minOccurs="0"/>
+      <xs:element name="remoteUser" type="xs:string" minOccurs="0"/>
+      <xs:element name="remoteIp" type="xs:string" minOccurs="0"/>
+      <xs:element name="remotePort" type="xs:int" minOccurs="0"/>
+      <xs:element name="extraParam" type="xs:string" minOccurs="0"/>
+      <xs:element name="hashToCrack" type="xs:string" minOccurs="0"/>
+      <xs:element name="notifyToEmail" type="xs:string" minOccurs="0"/>
+      <xs:element name="windowSize" type="xs:long"/>
+      <xs:element name="totalWords" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getAllActiveAttacksId">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getAllActiveAttacksIdResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:GetAllActiveAttacksIdResponse" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetAllActiveAttacksIdResponse">
+    <xs:sequence>
+      <xs:element name="ids" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="id" type="xs:long" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  BPEL PM Process instance metadata
+-->
+<xsd:schema blockDefault="#all" 
+            attributeFormDefault="unqualified"
+            elementFormDefault="qualified"
+            targetNamespace="http://xmlns.oracle.com/bpel"
+            xmlns ="http://xmlns.oracle.com/bpel"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:tns="http://xmlns.oracle.com/bpel">
+
+  <xsd:complexType name="tBpelProcess">
+    <xsd:annotation>
+      <xsd:documentation>
+        BPEL process instance metadata
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="processId" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+      <xsd:element name="processVersion" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+      <xsd:element name="domainId" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+      <xsd:element name="processURL" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+      <xsd:element name="instanceId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+      <xsd:element name="conversationId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>

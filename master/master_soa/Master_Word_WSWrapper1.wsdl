@@ -1,0 +1,15 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="Master_Word_WS"
+     targetNamespace="http://words.ws.master.cracking.uem.es/"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:tns="http://words.ws.master.cracking.uem.es/"
+     xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    >
+    <plnk:partnerLinkType name="Master_Word_WS">
+        <plnk:role name="Master_Word_WS" portType="tns:Master_Word_WS"/>
+    </plnk:partnerLinkType>
+    <wsdl:import namespace="http://words.ws.master.cracking.uem.es/" location="wsdl/Master_Word_WS.wsdl"/>
+</wsdl:definitions>

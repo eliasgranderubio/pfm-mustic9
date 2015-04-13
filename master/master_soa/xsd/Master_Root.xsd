@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema version="1.0" targetNamespace="http://root.master.cracking.uem.es/" xmlns:tns="http://root.master.cracking.uem.es/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="johnTheRipperAttack" type="tns:JohnTheRipperAttack"/>
+  <xs:element name="thcHydraAttack" type="tns:ThcHydraAttack"/>
+  <xs:element name="attackResponse" type="tns:AttackResponse"/>
+  <xs:complexType name="JohnTheRipperAttack">
+    <xs:sequence>
+      <xs:element name="hashToCrack" type="xs:string" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="format" type="xs:string" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="email" type="xs:string" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ThcHydraAttack">
+    <xs:sequence>
+      <xs:element name="remoteUser" type="xs:string" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="remoteIp" type="xs:string" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="remotePort" type="xs:int" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="type" type="tns:Protocol" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="extraParam" type="xs:string" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="email" type="xs:string" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AttackResponse">
+    <xs:sequence>
+      <xs:element name="feedback" type="xs:string" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="Protocol">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="telnet"/>
+      <xs:enumeration value="ftp"/>
+      <xs:enumeration value="httpHead"/>
+      <xs:enumeration value="httpGet"/>
+      <xs:enumeration value="httpGetForm"/>
+      <xs:enumeration value="httpPostForm"/>
+      <xs:enumeration value="rtsp"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

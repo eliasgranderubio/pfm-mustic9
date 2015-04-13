@@ -1,0 +1,222 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Mon Apr 13 20:49:56 CEST 2015
+  Author:  egrande
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="Create_Full_Attack_Process"
+               targetNamespace="http://xmlns.oracle.com/pfm_mustic9/master_soa/Create_Full_Attack_Process"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/pfm_mustic9/master_soa/Create_Full_Attack_Process"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+               xmlns:ns1="http://attacks.ws.master.cracking.uem.es/"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns2="http://words.ws.master.cracking.uem.es/"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns3="http://windows.master.cracking.uem.es/"
+         xmlns:ns4="http://xmlns.oracle.com/Window_Size_Rules/Window_Size_Rules_DecisionService_1"
+         xmlns:ns5="http://xmlns.oracle.com/bpel">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://windows.master.cracking.uem.es/"
+          location="xsd/Window_Size.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="create_full_attack_process_client" partnerLinkType="ns1:Create_Full_Attack_Process" myRole="Master_Attack_WS"/>
+    <partnerLink name="Get_Total_Words_Process.get_total_words_process_client"
+                 partnerLinkType="ns2:Get_Total_Words_Process"
+                 partnerRole="Master_Word_WS"/>
+    <partnerLink name="Master_Attack_WS" partnerLinkType="ns1:Master_Attack_WS"
+                 partnerRole="Master_Attack_WS"/>
+    <partnerLink name="Window_Size_Rules.Window_Size_Rules_DecisionService_1"
+                 partnerLinkType="ns4:Window_Size_Rules.Window_Size_Rules_DecisionService_1"
+                 partnerRole="IDecisionService"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="ns1:createFullAttack"/>
+    <variable name="totalWords" type="xsd:long"/>
+    <variable name="windowSize" type="xsd:long"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in Create_Full_Attack_Process.wsdl) -->
+    <receive name="receiveInput" partnerLink="create_full_attack_process_client" portType="ns1:Master_Attack_WS" operation="createFullAttack" variable="inputVariable" createInstance="yes"/>
+    <scope name="GetTotalWordsScope" exitOnStandardFault="no">
+      <variables>
+        <variable name="getTotalWordsInvoke_getTotalWordsWithinOfDictionary_InputVariable"
+                  messageType="ns2:getTotalWordsWithinOfDictionary"/>
+        <variable name="getTotalWordsInvoke_getTotalWordsWithinOfDictionary_OutputVariable"
+                  messageType="ns2:getTotalWordsWithinOfDictionaryResponse"/>
+      </variables>
+      <faultHandlers>
+        <catchAll>
+          <assign name="prepareDefaultOutput">
+            <copy>
+              <from>800000</from>
+              <to>$totalWords</to>
+            </copy>
+          </assign>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence1">
+        <invoke name="getTotalWordsInvoke"
+                partnerLink="Get_Total_Words_Process.get_total_words_process_client"
+                portType="ns2:Master_Word_WS"
+                operation="getTotalWordsWithinOfDictionary"
+                inputVariable="getTotalWordsInvoke_getTotalWordsWithinOfDictionary_InputVariable"
+                outputVariable="getTotalWordsInvoke_getTotalWordsWithinOfDictionary_OutputVariable"
+                bpelx:invokeAsDetail="no"/>
+        <assign name="prepareOutput">
+          <copy>
+            <from>$getTotalWordsInvoke_getTotalWordsWithinOfDictionary_OutputVariable.parameters/return/totalWords</from>
+            <to>$totalWords</to>
+          </copy>
+        </assign>
+      </sequence>
+    </scope>
+    <scope name="Rule1" exitOnStandardFault="no">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:decide"/>
+        <bpelx:general>
+          <bpelx:property name="userLabel">
+            <![CDATA[WindowSizeRules]]>
+          </bpelx:property>
+        </bpelx:general>
+      </bpelx:annotation>
+      <variables>
+        <variable name="dsIn" messageType="ns4:callFunctionStatelessMessage"/>
+        <variable name="dsOut"
+                  messageType="ns4:callFunctionStatelessDecisionMessage"/>
+      </variables>
+      <sequence name="Sequence3">
+        <assign name="Facts_To_Rule_Service">
+          <copy>
+            <from>''</from>
+            <to>$dsIn.payload/ns4:parameterList/ns3:windowSizeRequest/processor_name</to>
+          </copy>
+          <copy>
+            <from>$totalWords</from>
+            <to>$dsIn.payload/ns4:parameterList/ns3:windowSizeRequest/totalWords</to>
+          </copy>
+          <copy>
+            <from>0</from>
+            <to>$dsIn.payload/ns4:parameterList/ns3:windowSizeRequest/words_per_minute</to>
+          </copy>
+        </assign>
+        <assign name="BPEL_Header">
+          <copy>
+            <from>"Window_Size_Rules_DecisionService_1"</from>
+            <to>$dsIn.payload/@name</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke"
+                partnerLink="Window_Size_Rules.Window_Size_Rules_DecisionService_1"
+                portType="ns4:IDecisionService"
+                operation="callFunctionStateless" inputVariable="dsIn"
+                outputVariable="dsOut"/>
+        <assign name="Rule_Service_To_Facts">
+          <copy>
+            <from>$dsOut.payload/ns4:resultList/ns3:windowSizeResponse/windowSize</from>
+            <to>$windowSize</to>
+          </copy>
+        </assign>
+      </sequence>
+    </scope>
+    <scope name="CreateFullAttackScope" exitOnStandardFault="no">
+      <variables>
+        <variable name="createFullAttackInvoke_createFullAttack_InputVariable"
+                  messageType="ns1:createFullAttack"/>
+      </variables>
+      <sequence name="Sequence2">
+        <assign name="addInfo">
+          <copy>
+            <from>$inputVariable.parameters/createFullAttackRequest/tool</from>
+            <to>$createFullAttackInvoke_createFullAttack_InputVariable.parameters/createFullAttackRequest/tool</to>
+          </copy>
+          <copy ignoreMissingFromData="yes">
+            <from>$inputVariable.parameters/createFullAttackRequest/attackType</from>
+            <to>$createFullAttackInvoke_createFullAttack_InputVariable.parameters/createFullAttackRequest/attackType</to>
+          </copy>
+          <copy ignoreMissingFromData="yes">
+            <from>$inputVariable.parameters/createFullAttackRequest/remoteUser</from>
+            <to>$createFullAttackInvoke_createFullAttack_InputVariable.parameters/createFullAttackRequest/remoteUser</to>
+          </copy>
+          <copy ignoreMissingFromData="yes">
+            <from>$inputVariable.parameters/createFullAttackRequest/remoteIp</from>
+            <to>$createFullAttackInvoke_createFullAttack_InputVariable.parameters/createFullAttackRequest/remoteIp</to>
+          </copy>
+          <copy ignoreMissingFromData="yes">
+            <from>$inputVariable.parameters/createFullAttackRequest/remotePort</from>
+            <to>$createFullAttackInvoke_createFullAttack_InputVariable.parameters/createFullAttackRequest/remotePort</to>
+          </copy>
+          <copy ignoreMissingFromData="yes">
+            <from>$inputVariable.parameters/createFullAttackRequest/extraParam</from>
+            <to>$createFullAttackInvoke_createFullAttack_InputVariable.parameters/createFullAttackRequest/extraParam</to>
+          </copy>
+          <copy ignoreMissingFromData="yes">
+            <from>$inputVariable.parameters/createFullAttackRequest/hashToCrack</from>
+            <to>$createFullAttackInvoke_createFullAttack_InputVariable.parameters/createFullAttackRequest/hashToCrack</to>
+          </copy>
+          <copy>
+            <from>$inputVariable.parameters/createFullAttackRequest/notifyToEmail</from>
+            <to>$createFullAttackInvoke_createFullAttack_InputVariable.parameters/createFullAttackRequest/notifyToEmail</to>
+          </copy>
+          <copy>
+            <from>$windowSize</from>
+            <to>$createFullAttackInvoke_createFullAttack_InputVariable.parameters/createFullAttackRequest/windowSize</to>
+          </copy>
+          <copy>
+            <from>$totalWords</from>
+            <to>$createFullAttackInvoke_createFullAttack_InputVariable.parameters/createFullAttackRequest/totalWords</to>
+          </copy>
+        </assign>
+        <invoke name="createFullAttackInvoke"
+                partnerLink="Master_Attack_WS" portType="ns1:Master_Attack_WS"
+                operation="createFullAttack"
+                inputVariable="createFullAttackInvoke_createFullAttack_InputVariable"
+                bpelx:invokeAsDetail="no"/>
+      </sequence>
+    </scope>
+  </sequence>
+</process>

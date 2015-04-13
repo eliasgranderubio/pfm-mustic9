@@ -1,0 +1,47 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://xmlns.oracle.com/Window_Size_Rules/Window_Size_Rules_DecisionService_1" attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:tns="http://xmlns.oracle.com/Window_Size_Rules/Window_Size_Rules_DecisionService_1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:bpelpm="http://xmlns.oracle.com/bpel" xmlns:rules="http://xmlns.oracle.com/bpel/rules" xmlns:ns1="http://windows.master.cracking.uem.es/">
+   <import namespace="http://windows.master.cracking.uem.es/" schemaLocation="Window_Size.xsd"/>
+   <import namespace="http://xmlns.oracle.com/bpel/rules" schemaLocation="DecisionServicePrimitiveTypes.xsd"/>
+   <import namespace="http://xmlns.oracle.com/bpel"/>
+   <include schemaLocation="Window_Size_Rules_DecisionService_1Types.xsd"/>
+   <element name="callFunctionStateless" type="tns:callFunctionStatelessType"/>
+   <complexType name="callFunctionStatelessType">
+      <sequence>
+         <element name="configURL" type="string" minOccurs="0" maxOccurs="1"/>
+         <element name="bpelInstance" type="bpelpm:tBpelProcess" minOccurs="0" maxOccurs="1"/>
+         <element name="parameterList" minOccurs="1" maxOccurs="1" type="tns:parameterListType"/>
+      </sequence>
+      <attribute name="name" type="NCName" use="required"/>
+   </complexType>
+   <element name="callFunctionStatelessDecision" type="tns:callFunctionStatelessDecisionType"/>
+   <complexType name="callFunctionStatelessDecisionType">
+      <sequence>
+         <element name="resultList" minOccurs="1" maxOccurs="1" type="tns:resultListType"/>
+      </sequence>
+   </complexType>
+   <element name="callFunctionStateful" type="tns:callFunctionStatefulType"/>
+   <complexType name="callFunctionStatefulType">
+      <sequence>
+         <element name="configURL" type="string" minOccurs="0" maxOccurs="1"/>
+         <element name="bpelInstance" type="bpelpm:tBpelProcess" minOccurs="0" maxOccurs="1"/>
+         <element name="parameterList" minOccurs="1" maxOccurs="1" type="tns:parameterListType"/>
+      </sequence>
+      <attribute name="name" type="NCName" use="required"/>
+   </complexType>
+   <element name="callFunctionStatefulDecision" type="tns:callFunctionStatefulDecisionType"/>
+   <complexType name="callFunctionStatefulDecisionType">
+      <sequence>
+         <element name="resultList" minOccurs="1" maxOccurs="1" type="tns:resultListType"/>
+      </sequence>
+   </complexType>
+   <complexType name="parameterListType">
+      <sequence>
+         <element ref="ns1:windowSizeRequest"/>
+      </sequence>
+   </complexType>
+   <complexType name="resultListType">
+      <sequence>
+         <element ref="ns1:windowSizeResponse"/>
+      </sequence>
+   </complexType>
+</schema>

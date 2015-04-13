@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions targetNamespace="http://words.ws.master.cracking.uem.es/" name="Master_Word_WS" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://words.ws.master.cracking.uem.es/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import namespace="http://words.ws.master.cracking.uem.es/" schemaLocation="../xsd/Master_Word_WS.xsd"/>
+    </xsd:schema>
+  </types>
+  <message name="getWord">
+    <part name="parameters" element="tns:getWord"/>
+  </message>
+  <message name="getWordResponse">
+    <part name="parameters" element="tns:getWordResponse"/>
+  </message>
+  <message name="getTotalWordsWithinOfDictionary">
+    <part name="parameters" element="tns:getTotalWordsWithinOfDictionary"/>
+  </message>
+  <message name="getTotalWordsWithinOfDictionaryResponse">
+    <part name="parameters" element="tns:getTotalWordsWithinOfDictionaryResponse"/>
+  </message>
+  <message name="updateWellKnownResults">
+    <part name="parameters" element="tns:updateWellKnownResults"/>
+  </message>
+  <message name="updateWellKnownResultsResponse">
+    <part name="parameters" element="tns:updateWellKnownResultsResponse"/>
+  </message>
+  <message name="getWellKnownResults">
+    <part name="parameters" element="tns:getWellKnownResults"/>
+  </message>
+  <message name="getWellKnownResultsResponse">
+    <part name="parameters" element="tns:getWellKnownResultsResponse"/>
+  </message>
+  <message name="getWordsRange">
+    <part name="parameters" element="tns:getWordsRange"/>
+  </message>
+  <message name="getWordsRangeResponse">
+    <part name="parameters" element="tns:getWordsRangeResponse"/>
+  </message>
+  <portType name="Master_Word_WS">
+    <operation name="getWord">
+      <input message="tns:getWord"/>
+      <output message="tns:getWordResponse"/>
+    </operation>
+    <operation name="getTotalWordsWithinOfDictionary">
+      <input message="tns:getTotalWordsWithinOfDictionary"/>
+      <output message="tns:getTotalWordsWithinOfDictionaryResponse"/>
+    </operation>
+    <operation name="updateWellKnownResults">
+      <input message="tns:updateWellKnownResults"/>
+      <output message="tns:updateWellKnownResultsResponse"/>
+    </operation>
+    <operation name="getWellKnownResults">
+      <input message="tns:getWellKnownResults"/>
+      <output message="tns:getWellKnownResultsResponse"/>
+    </operation>
+    <operation name="getWordsRange">
+      <input message="tns:getWordsRange"/>
+      <output message="tns:getWordsRangeResponse"/>
+    </operation>
+  </portType>
+  <binding name="Master_Word_WS_PortBinding" type="tns:Master_Word_WS">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="getWord">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getTotalWordsWithinOfDictionary">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="updateWellKnownResults">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getWellKnownResults">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getWordsRange">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="Master_Word_WS">
+    <port name="Master_Word_WS_Port" binding="tns:Master_Word_WS_PortBinding">
+      <soap:address location="http://10.10.10.10:7001/master_db_ws/Master_Word_WS"/>
+    </port>
+  </service>
+</definitions>
