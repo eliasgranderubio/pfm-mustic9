@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <properties>
-  <entry key="Master_Root_Test_Suite"/>
+  <entry key="JohnOkTest.xml"/>
+  <entry key="HydraOkTest.xml"/>
 </properties>

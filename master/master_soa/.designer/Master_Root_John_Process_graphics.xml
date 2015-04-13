@@ -7,7 +7,7 @@
       <partnerlink name="master_root_john_process_client" x="0" y="322" side="left"/>
       <partnerlink name="Create_Full_Attack_Process.create_full_attack_process_client" x="681" y="322" side="right"/>
    </partnerlink_locations>
-   <graph_layout viewport="0,150,811,295" show_swimlanes="true">
+   <graph_layout viewport="0,0,811,300" show_swimlanes="true">
       <layout_item collapsed="false" xpath="/process" type="process" showhandlers="true"/>
       <layout_item collapsed="false" xpath="/process/sequence" type="sequence"/>
       <layout_item collapsed="false" xpath="/process/sequence/scope" type="scope" showhandlers="true"/>
