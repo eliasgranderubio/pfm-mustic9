@@ -96,7 +96,7 @@
    <value n="Master_Root_John_ProcessName" v="Master_Root_John"/>
    <value n="Master_Root_John_Template" v="BPEL_BASE_ON_WSDL"/>
    <value n="Master_Root_John_wsdl" v="wsdl/Master_Root.wsdl"/>
-   <value n="Namespace" v="http://xmlns.oracle.com/pfm_mustic9/master_soa/Create_Full_Attack_Process"/>
+   <value n="Namespace" v="http://xmlns.oracle.com/pfm_mustic9/master_soa/Slave_JMS_Notification_Process"/>
    <hash n="oracle.ide.model.ResourcePaths">
       <hash n="resourcesContentSet">
          <list n="url-path"/>
@@ -454,7 +454,7 @@
          </list>
       </hash>
    </hash>
-   <value n="ProcessName" v="Create_Full_Attack_Process"/>
+   <value n="ProcessName" v="Slave_JMS_Notification_Process"/>
    <url n="Slave_JMS_Notification_Process_bpelFileURL" path="Slave_JMS_Notification_Process.bpel"/>
    <value n="Slave_JMS_Notification_Process_Namespace" v="http://xmlns.oracle.com/pfm_mustic9/master_soa/Slave_JMS_Notification_Process"/>
    <value n="Slave_JMS_Notification_Process_ProcessName" v="Slave_JMS_Notification_Process"/>

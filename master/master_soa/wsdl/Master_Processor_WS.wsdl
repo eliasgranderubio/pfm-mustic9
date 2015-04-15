@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions targetNamespace="http://processors.ws.master.cracking.uem.es/" name="Master_Processor_WS" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://processors.ws.master.cracking.uem.es/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import namespace="http://processors.ws.master.cracking.uem.es/" schemaLocation="../xsd/Master_Processor_WS.xsd"/>
+    </xsd:schema>
+  </types>
+  <message name="updateProcessorOfflineStatistics">
+    <part name="parameters" element="tns:updateProcessorOfflineStatistics"/>
+  </message>
+  <message name="updateProcessorOfflineStatisticsResponse">
+    <part name="parameters" element="tns:updateProcessorOfflineStatisticsResponse"/>
+  </message>
+  <message name="updateProcessorOnlineStatistics">
+    <part name="parameters" element="tns:updateProcessorOnlineStatistics"/>
+  </message>
+  <message name="updateProcessorOnlineStatisticsResponse">
+    <part name="parameters" element="tns:updateProcessorOnlineStatisticsResponse"/>
+  </message>
+  <message name="offlineProcessorsPerformanceStatistics">
+    <part name="parameters" element="tns:offlineProcessorsPerformanceStatistics"/>
+  </message>
+  <message name="offlineProcessorsPerformanceStatisticsResponse">
+    <part name="parameters" element="tns:offlineProcessorsPerformanceStatisticsResponse"/>
+  </message>
+  <message name="onlineProcessorsPerformanceStatistics">
+    <part name="parameters" element="tns:onlineProcessorsPerformanceStatistics"/>
+  </message>
+  <message name="onlineProcessorsPerformanceStatisticsResponse">
+    <part name="parameters" element="tns:onlineProcessorsPerformanceStatisticsResponse"/>
+  </message>
+  <portType name="Master_Processor_WS">
+    <operation name="updateProcessorOfflineStatistics">
+      <input message="tns:updateProcessorOfflineStatistics"/>
+      <output message="tns:updateProcessorOfflineStatisticsResponse"/>
+    </operation>
+    <operation name="updateProcessorOnlineStatistics">
+      <input message="tns:updateProcessorOnlineStatistics"/>
+      <output message="tns:updateProcessorOnlineStatisticsResponse"/>
+    </operation>
+    <operation name="offlineProcessorsPerformanceStatistics">
+      <input message="tns:offlineProcessorsPerformanceStatistics"/>
+      <output message="tns:offlineProcessorsPerformanceStatisticsResponse"/>
+    </operation>
+    <operation name="onlineProcessorsPerformanceStatistics">
+      <input message="tns:onlineProcessorsPerformanceStatistics"/>
+      <output message="tns:onlineProcessorsPerformanceStatisticsResponse"/>
+    </operation>
+  </portType>
+  <binding name="Master_Processor_WS_PortBinding" type="tns:Master_Processor_WS">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="updateProcessorOfflineStatistics">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="updateProcessorOnlineStatistics">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="offlineProcessorsPerformanceStatistics">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="onlineProcessorsPerformanceStatistics">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="Master_Processor_WS">
+    <port name="Master_Processor_WS_Port" binding="tns:Master_Processor_WS_PortBinding">
+      <soap:address location="http://10.10.10.10:7001/master_db_ws/Master_Processor_WS"/>
+    </port>
+  </service>
+</definitions>

@@ -15,7 +15,11 @@
                xmlns:ora="http://schemas.oracle.com/xpath/extension"
                xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
                xmlns:ns1="http://notification.slave.cracking.uem.es/"
-               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns2="http://attacks.ws.master.cracking.uem.es/"
+         xmlns:ns3="http://words.ws.master.cracking.uem.es/"
+         xmlns:ns4="http://processors.ws.master.cracking.uem.es/"
+         xmlns:ns5="http://xmlns.oracle.com/pcbpel/adapter/ums/pfm-mustic9/master_soa/UserAttackNotification">
 
   <!-- 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -30,6 +34,16 @@
       with the client role are automatically set using WS-Addressing.
     -->
     <partnerLink name="slave_jms_notification_client" partnerLinkType="ns1:Slave_JMS_Notification_Process" myRole="Slave_JMS_Notification_WS"/>
+    <partnerLink name="Master_Attack_WS" partnerLinkType="ns2:Master_Attack_WS"
+                 partnerRole="Master_Attack_WS"/>
+    <partnerLink name="Master_Word_WS" partnerLinkType="ns3:Master_Word_WS"
+                 partnerRole="Master_Word_WS"/>
+    <partnerLink name="Master_Processor_WS"
+                 partnerLinkType="ns4:Master_Processor_WS"
+                 partnerRole="Master_Processor_WS"/>
+    <partnerLink name="UserAttackNotification"
+                 partnerLinkType="ns5:SendNotification_plt"
+                 partnerRole="SendNotification_role"/>
   </partnerLinks>
 
   <!-- 

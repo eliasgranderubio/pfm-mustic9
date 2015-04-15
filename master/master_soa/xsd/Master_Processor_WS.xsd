@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema version="1.0" targetNamespace="http://processors.ws.master.cracking.uem.es/" xmlns:tns="http://processors.ws.master.cracking.uem.es/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="offlineProcessorsPerformanceStatistics" type="tns:offlineProcessorsPerformanceStatistics"/>
+  <xs:element name="offlineProcessorsPerformanceStatisticsResponse" type="tns:offlineProcessorsPerformanceStatisticsResponse"/>
+  <xs:element name="onlineProcessorsPerformanceStatistics" type="tns:onlineProcessorsPerformanceStatistics"/>
+  <xs:element name="onlineProcessorsPerformanceStatisticsResponse" type="tns:onlineProcessorsPerformanceStatisticsResponse"/>
+  <xs:element name="updateProcessorOfflineStatistics" type="tns:updateProcessorOfflineStatistics"/>
+  <xs:element name="updateProcessorOfflineStatisticsResponse" type="tns:updateProcessorOfflineStatisticsResponse"/>
+  <xs:element name="updateProcessorOnlineStatistics" type="tns:updateProcessorOnlineStatistics"/>
+  <xs:element name="updateProcessorOnlineStatisticsResponse" type="tns:updateProcessorOnlineStatisticsResponse"/>
+  <xs:complexType name="updateProcessorOnlineStatistics">
+    <xs:sequence>
+      <xs:element name="updateProcessorStatisticsRequest" type="tns:UpdateProcessorStatisticsRequest" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="UpdateProcessorStatisticsRequest">
+    <xs:sequence>
+      <xs:element name="processorName" type="xs:string" minOccurs="0"/>
+      <xs:element name="totalWordsProcessed" type="xs:long"/>
+      <xs:element name="totalTimeProcessing" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateProcessorOnlineStatisticsResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:UpdateProcessorStatisticsResponse" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="UpdateProcessorStatisticsResponse">
+    <xs:sequence>
+      <xs:element name="updated" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateProcessorOfflineStatistics">
+    <xs:sequence>
+      <xs:element name="updateProcessorStatisticsRequest" type="tns:UpdateProcessorStatisticsRequest" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateProcessorOfflineStatisticsResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:UpdateProcessorStatisticsResponse" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="offlineProcessorsPerformanceStatistics">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="offlineProcessorsPerformanceStatisticsResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:ProcessorsPerformanceStatisticsResponse" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ProcessorsPerformanceStatisticsResponse">
+    <xs:sequence>
+      <xs:element name="processors" type="tns:Processor" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Processor">
+    <xs:sequence>
+      <xs:element name="processorName" type="xs:string" minOccurs="0"/>
+      <xs:element name="totalWordsProcessed" type="xs:long"/>
+      <xs:element name="totalTimeProcessing" type="xs:long"/>
+      <xs:element name="wordsPerMinute" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="onlineProcessorsPerformanceStatistics">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="onlineProcessorsPerformanceStatisticsResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:ProcessorsPerformanceStatisticsResponse" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

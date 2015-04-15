@@ -8,4 +8,20 @@
            ui:wsdlLocation="Slave_JMS_Notification_WSWrapper.wsdl">
     <interface.wsdl interface="http://notification.slave.cracking.uem.es/#wsdl.interface(Slave_JMS_Notification_WS)"/>
   </service>
+  <reference name="Master_Attack_WS"
+             ui:wsdlLocation="Master_Attack_WSWrapper2.wsdl">
+    <interface.wsdl interface="http://attacks.ws.master.cracking.uem.es/#wsdl.interface(Master_Attack_WS)"/>
+  </reference>
+  <reference name="Master_Word_WS"
+             ui:wsdlLocation="Master_Word_WSWrapper2.wsdl">
+    <interface.wsdl interface="http://words.ws.master.cracking.uem.es/#wsdl.interface(Master_Word_WS)"/>
+  </reference>
+  <reference name="Master_Processor_WS"
+             ui:wsdlLocation="Master_Processor_WSWrapper.wsdl">
+    <interface.wsdl interface="http://processors.ws.master.cracking.uem.es/#wsdl.interface(Master_Processor_WS)"/>
+  </reference>
+  <reference name="UserAttackNotification"
+             ui:wsdlLocation="UserAttackNotification.wsdl">
+    <interface.wsdl interface="http://xmlns.oracle.com/pcbpel/adapter/ums/pfm-mustic9/master_soa/UserAttackNotification#wsdl.interface(SendNotification_ptt)"/>
+  </reference>
 </componentType>

@@ -1,0 +1,13 @@
+<adapter-config name="UserAttackNotification" adapter="UMS Adapter" wsdlLocation="UserAttackNotification.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/ums/UMSAdapterOutbound"/>
+  <endpoint-interaction portType="SendNotification_ptt" operation="SendNotification">
+    <interaction-spec className="oracle.tip.adapter.ums.outbound.UmsInteractionSpec">
+      <property name="DeliveryType" value="Email"/>
+      <property name="Subject" value="[PFM-MUSTIC9] Attack Result"/>
+      <property name="To" value="pfm.mustic@gmail.com"/>
+      <property name="From" value="pfm.mustic@gmail.com"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>
