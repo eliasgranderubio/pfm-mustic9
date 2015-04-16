@@ -19,7 +19,19 @@
          xmlns:ns2="http://attacks.ws.master.cracking.uem.es/"
          xmlns:ns3="http://words.ws.master.cracking.uem.es/"
          xmlns:ns4="http://processors.ws.master.cracking.uem.es/"
-         xmlns:ns5="http://xmlns.oracle.com/pcbpel/adapter/ums/pfm-mustic9/master_soa/UserAttackNotification">
+         xmlns:ns5="http://xmlns.oracle.com/pcbpel/adapter/ums/pfm-mustic9/master_soa/UserAttackNotification"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns6="http://platform.integration.oracle/blocks/adapter/fw/metadata/UserAttackNotification"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <!-- 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -55,7 +67,8 @@
   <variables>
     <!-- Reference to the message passed as input during initiation -->
     <variable name="inputVariable" messageType="ns1:slaveJMSNotification"/>
-
+    <variable name="getActiveAttackInvoke_getActiveAttack_OutputVariable"
+              messageType="ns2:getActiveAttackResponse"/>
   </variables>
 
   <!-- 
@@ -69,6 +82,402 @@
 
     <!-- Receive input from requestor. (Note: This maps to operation defined in Slave_JMS_Notification_Process.wsdl) -->
     <receive name="receiveInput" partnerLink="slave_jms_notification_client" portType="ns1:Slave_JMS_Notification_WS" operation="slaveJMSNotification" variable="inputVariable" createInstance="yes"/>
-    <empty name="NothingToDo"/>
+    <scope name="GetActiveAttackInfoScope" exitOnStandardFault="no">
+      <variables>
+        <variable name="getActiveAttackInvoke_getActiveAttack_InputVariable"
+                  messageType="ns2:getActiveAttack"/>
+      </variables>
+      <sequence name="Sequence2">
+        <assign name="prepareRequest">
+          <copy>
+            <from>$inputVariable.parameters/notification/activeAttackId</from>
+            <to>$getActiveAttackInvoke_getActiveAttack_InputVariable.parameters/getActiveAttackRequest/id</to>
+          </copy>
+        </assign>
+        <invoke name="getActiveAttackInvoke" partnerLink="Master_Attack_WS"
+                portType="ns2:Master_Attack_WS" operation="getActiveAttack"
+                inputVariable="getActiveAttackInvoke_getActiveAttack_InputVariable"
+                outputVariable="getActiveAttackInvoke_getActiveAttack_OutputVariable"
+                bpelx:invokeAsDetail="no"/>
+      </sequence>
+    </scope>
+    <if name="CheckActiveAttack">
+      <documentation>
+        <![CDATA[ActiveAttackIsNull]]>
+      </documentation>
+      <condition>$getActiveAttackInvoke_getActiveAttack_OutputVariable.parameters = '' or $getActiveAttackInvoke_getActiveAttack_OutputVariable.parameters/return = '' </condition>
+      <exit name="ActiveAttackIsNull"/>
+      <else>
+        <sequence name="Sequence13">
+          <if name="CheckPassFound">
+            <documentation>
+              <![CDATA[PasswordFound]]>
+            </documentation>
+            <condition>$inputVariable.parameters/notification/isPasswordFound = 'true'</condition>
+            <sequence name="Sequence3">
+              <scope name="SendOkEmailScope" exitOnStandardFault="no">
+                <variables>
+                  <variable name="sendOkEmailInvoke_SendNotification_InputVariable"
+                            messageType="ns5:SendNotification_msg"/>
+                </variables>
+                <sequence name="Sequence1">
+                  <if name="CheckTool">
+                    <documentation>
+                      <![CDATA[JohnTheRipper]]>
+                    </documentation>
+                    <condition>$getActiveAttackInvoke_getActiveAttack_OutputVariable.parameters/return/tool = 'john'</condition>
+                    <assign name="prepareInput">
+                      <copy>
+                        <from>concat('The clear password is: ', $inputVariable.parameters/notification/clearPass,'  &#13;&#13;This password was obtained with John The Ripper tool and the next parameters:  &#13;- Hash to crack: ', $getActiveAttackInvoke_getActiveAttack_OutputVariable.parameters/return/hashToCrack,' &#13;- Protocol or type: ', $getActiveAttackInvoke_getActiveAttack_OutputVariable.parameters/return/attackType)  </from>
+                        <to>$sendOkEmailInvoke_SendNotification_InputVariable.body/ns6:payload</to>
+                      </copy>
+                    </assign>
+                    <else>
+                      <documentation>
+                        <![CDATA[THC-Hydra]]>
+                      </documentation>
+                      <assign name="prepareInput">
+                        <copy>
+                          <from>concat('The clear password is: ', $inputVariable.parameters/notification/clearPass,'  &#13;&#13;This password was obtained with THC-Hydra tool and the next parameters:  &#13;- Remote user: ', $getActiveAttackInvoke_getActiveAttack_OutputVariable.parameters/return/remoteUser ,' &#13;- Remote IP: ', $getActiveAttackInvoke_getActiveAttack_OutputVariable.parameters/return/remoteIp  ,' &#13;- Remote port: ' , $getActiveAttackInvoke_getActiveAttack_OutputVariable.parameters/return/remotePort , ' &#13;- Protocol or type: ', $getActiveAttackInvoke_getActiveAttack_OutputVariable.parameters/return/attackType, ' &#13;- Extra parameters: ', $getActiveAttackInvoke_getActiveAttack_OutputVariable.parameters/return/extraParam )</from>
+                          <to>$sendOkEmailInvoke_SendNotification_InputVariable.body/ns6:payload</to>
+                        </copy>
+                      </assign>
+                    </else>
+                  </if>
+                  <invoke name="sendOkEmailInvoke"
+                          partnerLink="UserAttackNotification"
+                          portType="ns5:SendNotification_ptt"
+                          operation="SendNotification"
+                          inputVariable="sendOkEmailInvoke_SendNotification_InputVariable"
+                          bpelx:invokeAsDetail="no">
+                    <bpelx:toProperties>
+                      <bpelx:toProperty name="jca.ums.to"
+                                        variable="getActiveAttackInvoke_getActiveAttack_OutputVariable"
+                                        part="parameters"
+                                        query="return/notifyToEmail"/>
+                    </bpelx:toProperties>
+                  </invoke>
+                </sequence>
+              </scope>
+              <scope name="RemoveFullAttackScope" exitOnStandardFault="no">
+                <variables>
+                  <variable name="removeFullAttackInvoke_removeFullAttack_InputVariable"
+                            messageType="ns2:removeFullAttack"/>
+                </variables>
+                <sequence name="Sequence4">
+                  <assign name="prepareInput">
+                    <copy>
+                      <from>$inputVariable.parameters/notification/activeAttackId</from>
+                      <to>$removeFullAttackInvoke_removeFullAttack_InputVariable.parameters/removeFullAttackRequest/id</to>
+                    </copy>
+                  </assign>
+                  <invoke name="removeFullAttackInvoke"
+                          partnerLink="Master_Attack_WS"
+                          portType="ns2:Master_Attack_WS"
+                          operation="removeFullAttack"
+                          inputVariable="removeFullAttackInvoke_removeFullAttack_InputVariable"
+                          bpelx:invokeAsDetail="no"/>
+                </sequence>
+              </scope>
+              <scope name="UpdateWellKnonwResultsScope"
+                     exitOnStandardFault="no">
+                <variables>
+                  <variable name="Invoke1_updateWellKnownResults_InputVariable"
+                            messageType="ns3:updateWellKnownResults"/>
+                  <variable name="Invoke1_updateWellKnownResults_OutputVariable"
+                            messageType="ns3:updateWellKnownResultsResponse"/>
+                </variables>
+                <sequence name="Sequence6">
+                  <assign name="prepareInput">
+                    <copy>
+                      <from>$inputVariable.parameters/notification/clearPass</from>
+                      <to>$Invoke1_updateWellKnownResults_InputVariable.parameters/updateWellKnownResultsRequest/clearPass</to>
+                    </copy>
+                  </assign>
+                  <invoke name="updateWellKnownResultsInvoke"
+                          partnerLink="Master_Word_WS"
+                          portType="ns3:Master_Word_WS"
+                          operation="updateWellKnownResults"
+                          inputVariable="Invoke1_updateWellKnownResults_InputVariable"
+                          outputVariable="Invoke1_updateWellKnownResults_OutputVariable"
+                          bpelx:invokeAsDetail="no"/>
+                </sequence>
+              </scope>
+            </sequence>
+            <else>
+              <sequence name="Sequence5">
+                <scope name="ProcessAttackWindowScope" exitOnStandardFault="no">
+                  <sequence name="Sequence7">
+                    <scope name="RemoveCommittedWindowsScope"
+                           exitOnStandardFault="no">
+                      <variables>
+                        <variable name="getAttackWindowsInvoke_findAttackWindowById_InputVariable"
+                                  messageType="ns2:findAttackWindowById"/>
+                        <variable name="getAttackWindowsInvoke_findAttackWindowById_OutputVariable"
+                                  messageType="ns2:findAttackWindowByIdResponse"/>
+                        <variable name="removeWindowInvoke_removeAttackWindowById_InputVariable"
+                                  messageType="ns2:removeAttackWindowById"/>
+                        <variable name="removeWindowInvoke_removeAttackWindowById_OutputVariable"
+                                  messageType="ns2:removeAttackWindowByIdResponse"/>
+                      </variables>
+                      <sequence name="Sequence8">
+                        <assign name="prepareInput">
+                          <copy>
+                            <from>$inputVariable.parameters/notification/attackWindowId</from>
+                            <to>$getAttackWindowsInvoke_findAttackWindowById_InputVariable.parameters/findAttackWindowByIdRequest/id</to>
+                          </copy>
+                        </assign>
+                        <invoke name="getAttackWindowsInvoke"
+                                partnerLink="Master_Attack_WS"
+                                portType="ns2:Master_Attack_WS"
+                                operation="findAttackWindowById"
+                                inputVariable="getAttackWindowsInvoke_findAttackWindowById_InputVariable"
+                                outputVariable="getAttackWindowsInvoke_findAttackWindowById_OutputVariable"
+                                bpelx:invokeAsDetail="no"/>
+                        <if name="IfOnlyOne">
+                          <documentation>
+                            <![CDATA[IsOnlyOne]]>
+                          </documentation>
+                          <condition>$getAttackWindowsInvoke_findAttackWindowById_OutputVariable.parameters/return/factor = 0</condition>
+                          <sequence name="Sequence9">
+                            <assign name="prepareInput">
+                              <copy>
+                                <from>$inputVariable.parameters/notification/attackWindowId</from>
+                                <to>$removeWindowInvoke_removeAttackWindowById_InputVariable.parameters/removeAttackWindowByIdRequest/id</to>
+                              </copy>
+                            </assign>
+                            <invoke name="removeWindowInvoke"
+                                    partnerLink="Master_Attack_WS"
+                                    portType="ns2:Master_Attack_WS"
+                                    operation="removeAttackWindowById"
+                                    inputVariable="removeWindowInvoke_removeAttackWindowById_InputVariable"
+                                    outputVariable="removeWindowInvoke_removeAttackWindowById_OutputVariable"
+                                    bpelx:invokeAsDetail="no"/>
+                          </sequence>
+                          <else>
+                            <forEach parallel="no" counterName="ForEachCounter"
+                                     name="ForEach">
+                              <startCounterValue>1</startCounterValue>
+                              <finalCounterValue>$getAttackWindowsInvoke_findAttackWindowById_OutputVariable.parameters/return/factor</finalCounterValue>
+                              <scope name="Scope1">
+                                <variables>
+                                  <variable name="removeWindowInvoke_removeAttackWindowById_InputVariable_1"
+                                            messageType="ns2:removeAttackWindowById"/>
+                                  <variable name="removeWindowInvoke_removeAttackWindowById_OutputVariable_1"
+                                            messageType="ns2:removeAttackWindowByIdResponse"/>
+                                </variables>
+                                <sequence name="Sequence10">
+                                  <assign name="prepareInput">
+                                    <copy>
+                                      <from>$inputVariable.parameters/notification/attackWindowId + $ForEachCounter</from>
+                                      <to>$removeWindowInvoke_removeAttackWindowById_InputVariable_1.parameters/removeAttackWindowByIdRequest/id</to>
+                                    </copy>
+                                  </assign>
+                                  <invoke name="removeWindowInvoke"
+                                          partnerLink="Master_Attack_WS"
+                                          portType="ns2:Master_Attack_WS"
+                                          operation="removeAttackWindowById"
+                                          inputVariable="removeWindowInvoke_removeAttackWindowById_InputVariable_1"
+                                          outputVariable="removeWindowInvoke_removeAttackWindowById_OutputVariable_1"
+                                          bpelx:invokeAsDetail="no"/>
+                                </sequence>
+                              </scope>
+                            </forEach>
+                          </else>
+                        </if>
+                      </sequence>
+                    </scope>
+                    <scope name="IsTheLastWindowScope" exitOnStandardFault="no">
+                      <variables>
+                        <variable name="getWindowsToSendInvoke_getAttackWindowIdsToSend_InputVariable"
+                                  messageType="ns2:getAttackWindowIdsToSend"/>
+                        <variable name="getWindowsToSendInvoke_getAttackWindowIdsToSend_OutputVariable"
+                                  messageType="ns2:getAttackWindowIdsToSendResponse"/>
+                      </variables>
+                      <sequence name="Sequence11">
+                        <assign name="prepareInput">
+                          <copy>
+                            <from>$inputVariable.parameters/notification/activeAttackId</from>
+                            <to>$getWindowsToSendInvoke_getAttackWindowIdsToSend_InputVariable.parameters/getAttackWindowIdsToSendRequest/activeAttackId</to>
+                          </copy>
+                          <copy>
+                            <from>1</from>
+                            <to>$getWindowsToSendInvoke_getAttackWindowIdsToSend_InputVariable.parameters/getAttackWindowIdsToSendRequest/maxWindows</to>
+                          </copy>
+                        </assign>
+                        <invoke name="getWindowsToSendInvoke"
+                                partnerLink="Master_Attack_WS"
+                                portType="ns2:Master_Attack_WS"
+                                operation="getAttackWindowIdsToSend"
+                                inputVariable="getWindowsToSendInvoke_getAttackWindowIdsToSend_InputVariable"
+                                outputVariable="getWindowsToSendInvoke_getAttackWindowIdsToSend_OutputVariable"
+                                bpelx:invokeAsDetail="no"/>
+                        <if name="IsTheLastWindow">
+                          <documentation>
+                            <![CDATA[LastWindow]]>
+                          </documentation>
+                          <condition>$getWindowsToSendInvoke_getAttackWindowIdsToSend_OutputVariable.parameters/return = '' or $getWindowsToSendInvoke_getAttackWindowIdsToSend_OutputVariable.parameters/return/ids = ''</condition>
+                          <sequence>
+                            <scope name="SendKoEmailScope"
+                                   exitOnStandardFault="no"
+                                   xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                              <variables>
+                                <variable name="sendOkEmailInvoke_SendNotification_InputVariable"
+                                          messageType="ns5:SendNotification_msg"/>
+                              </variables>
+                              <sequence name="Sequence1">
+                                <if name="CheckTool">
+                                  <documentation>
+                                    <![CDATA[JohnTheRipper]]>
+                                  </documentation>
+                                  <condition>$getActiveAttackInvoke_getActiveAttack_OutputVariable.parameters/return/tool = 'john'</condition>
+                                  <assign name="prepareInput">
+                                    <copy>
+                                      <from>concat('We are sorry but we could not found the password with John The Ripper tool and the next parameters:  &#13;- Hash to crack: ', $getActiveAttackInvoke_getActiveAttack_OutputVariable.parameters/return/hashToCrack,' &#13;- Protocol or type: ', $getActiveAttackInvoke_getActiveAttack_OutputVariable.parameters/return/attackType)  </from>
+                                      <to>$sendOkEmailInvoke_SendNotification_InputVariable.body/ns6:payload</to>
+                                    </copy>
+                                  </assign>
+                                  <else>
+                                    <documentation>
+                                      <![CDATA[THC-Hydra]]>
+                                    </documentation>
+                                    <assign name="prepareInput">
+                                      <copy>
+                                        <from>concat('We are sorry but we could not found the password with THC-Hydra tool and the next parameters:  &#13;- Remote user: ', $getActiveAttackInvoke_getActiveAttack_OutputVariable.parameters/return/remoteUser ,' &#13;- Remote IP: ', $getActiveAttackInvoke_getActiveAttack_OutputVariable.parameters/return/remoteIp  ,' &#13;- Remote port: ' , $getActiveAttackInvoke_getActiveAttack_OutputVariable.parameters/return/remotePort , ' &#13;- Protocol or type: ', $getActiveAttackInvoke_getActiveAttack_OutputVariable.parameters/return/attackType, ' &#13;- Extra parameters: ', $getActiveAttackInvoke_getActiveAttack_OutputVariable.parameters/return/extraParam )</from>
+                                        <to>$sendOkEmailInvoke_SendNotification_InputVariable.body/ns6:payload</to>
+                                      </copy>
+                                    </assign>
+                                  </else>
+                                </if>
+                                <invoke name="sendKoEmailInvoke"
+                                        partnerLink="UserAttackNotification"
+                                        portType="ns5:SendNotification_ptt"
+                                        operation="SendNotification"
+                                        inputVariable="sendOkEmailInvoke_SendNotification_InputVariable"
+                                        xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                                        bpelx:invokeAsDetail="no">
+                                  <bpelx:toProperties>
+                                    <bpelx:toProperty name="jca.ums.to"
+                                                      variable="getActiveAttackInvoke_getActiveAttack_OutputVariable"
+                                                      part="parameters"
+                                                      query="return/notifyToEmail"/>
+                                  </bpelx:toProperties>
+                                </invoke>
+                              </sequence>
+                            </scope>
+                            <scope name="RemoveFullAttackScope"
+                                   exitOnStandardFault="no"
+                                   xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <variables>
+         <variable name="removeFullAttackInvoke_removeFullAttack_InputVariable"
+                   messageType="ns2:removeFullAttack"/>
+      </variables>
+      <sequence name="Sequence4">
+         <assign name="prepareInput">
+            <copy>
+               <from>$inputVariable.parameters/notification/activeAttackId</from>
+               <to>$removeFullAttackInvoke_removeFullAttack_InputVariable.parameters/removeFullAttackRequest/id</to>
+            </copy>
+         </assign>
+         <invoke name="removeFullAttackInvoke" partnerLink="Master_Attack_WS"
+                 portType="ns2:Master_Attack_WS" operation="removeFullAttack"
+                 inputVariable="removeFullAttackInvoke_removeFullAttack_InputVariable"
+                 bpelx:invokeAsDetail="no"
+                 xmlns:bpelx="http://schemas.oracle.com/bpel/extension"/>
+      </sequence>
+   </scope>
+                          </sequence>
+                          <else>
+                            <empty name="NothingToDo"/>
+                          </else>
+                        </if>
+                      </sequence>
+                    </scope>
+                  </sequence>
+                </scope>
+              </sequence>
+            </else>
+          </if>
+          <scope name="UpdateStatisticsScope" exitOnStandardFault="no">
+            <variables>
+              <variable name="updateOfflineStatisticsInvoke_updateProcessorOfflineStatistics_InputVariable"
+                        messageType="ns4:updateProcessorOfflineStatistics"/>
+              <variable name="updateOfflineStatisticsInvoke_updateProcessorOfflineStatistics_OutputVariable"
+                        messageType="ns4:updateProcessorOfflineStatisticsResponse"/>
+              <variable name="updateOnlineStatisticsInvoke_updateProcessorOnlineStatistics_InputVariable"
+                        messageType="ns4:updateProcessorOnlineStatistics"/>
+              <variable name="updateOnlineStatisticsInvoke_updateProcessorOnlineStatistics_OutputVariable"
+                        messageType="ns4:updateProcessorOnlineStatisticsResponse"/>
+            </variables>
+            <if name="CheckFields">
+              <documentation>
+                <![CDATA[EmptyProcessorName]]>
+              </documentation>
+              <condition>$inputVariable.parameters/notification/processorName = ''</condition>
+              <empty name="NothingToDo"/>
+              <else>
+                <if name="CheckTool">
+                  <documentation>
+                    <![CDATA[JohnTheRipper]]>
+                  </documentation>
+                  <condition>$getActiveAttackInvoke_getActiveAttack_OutputVariable.parameters/return/tool = 'john'</condition>
+                  <sequence name="Sequence14">
+                    <assign name="prepareInput">
+                      <copy>
+                        <from>$inputVariable.parameters/notification/processorName</from>
+                        <to>$updateOfflineStatisticsInvoke_updateProcessorOfflineStatistics_InputVariable.parameters/updateProcessorStatisticsRequest/processorName</to>
+                      </copy>
+                      <copy>
+                        <from>$inputVariable.parameters/notification/total_words_processed</from>
+                        <to>$updateOfflineStatisticsInvoke_updateProcessorOfflineStatistics_InputVariable.parameters/updateProcessorStatisticsRequest/totalWordsProcessed</to>
+                      </copy>
+                      <copy>
+                        <from>$inputVariable.parameters/notification/total_time_processing</from>
+                        <to>$updateOfflineStatisticsInvoke_updateProcessorOfflineStatistics_InputVariable.parameters/updateProcessorStatisticsRequest/totalTimeProcessing</to>
+                      </copy>
+                    </assign>
+                    <invoke name="updateOfflineStatisticsInvoke"
+                            partnerLink="Master_Processor_WS"
+                            portType="ns4:Master_Processor_WS"
+                            operation="updateProcessorOfflineStatistics"
+                            inputVariable="updateOfflineStatisticsInvoke_updateProcessorOfflineStatistics_InputVariable"
+                            outputVariable="updateOfflineStatisticsInvoke_updateProcessorOfflineStatistics_OutputVariable"
+                            bpelx:invokeAsDetail="no"/>
+                  </sequence>
+                  <else>
+                    <documentation>
+                      <![CDATA[THC-Hydra]]>
+                    </documentation>
+                    <sequence name="Sequence15">
+                      <assign name="prepareInput">
+                        <copy>
+                          <from>$inputVariable.parameters/notification/processorName</from>
+                          <to>$updateOnlineStatisticsInvoke_updateProcessorOnlineStatistics_InputVariable.parameters/updateProcessorStatisticsRequest/processorName</to>
+                        </copy>
+                        <copy>
+                          <from>$inputVariable.parameters/notification/total_words_processed</from>
+                          <to>$updateOnlineStatisticsInvoke_updateProcessorOnlineStatistics_InputVariable.parameters/updateProcessorStatisticsRequest/totalWordsProcessed</to>
+                        </copy>
+                        <copy>
+                          <from>$inputVariable.parameters/notification/total_time_processing</from>
+                          <to>$updateOnlineStatisticsInvoke_updateProcessorOnlineStatistics_InputVariable.parameters/updateProcessorStatisticsRequest/totalTimeProcessing</to>
+                        </copy>
+                      </assign>
+                      <invoke name="updateOnlineStatisticsInvoke"
+                              partnerLink="Master_Processor_WS"
+                              portType="ns4:Master_Processor_WS"
+                              operation="updateProcessorOnlineStatistics"
+                              inputVariable="updateOnlineStatisticsInvoke_updateProcessorOnlineStatistics_InputVariable"
+                              outputVariable="updateOnlineStatisticsInvoke_updateProcessorOnlineStatistics_OutputVariable"
+                              bpelx:invokeAsDetail="no"/>
+                    </sequence>
+                  </else>
+                </if>
+              </else>
+            </if>
+          </scope>
+        </sequence>
+      </else>
+    </if>
   </sequence>
 </process>
