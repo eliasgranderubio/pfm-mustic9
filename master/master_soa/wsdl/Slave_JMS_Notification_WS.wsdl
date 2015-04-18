@@ -24,7 +24,7 @@
   </binding>
   <service name="Slave_JMS_Notification_WS">
     <port name="Slave_JMS_Notification_WS_Port" binding="tns:Slave_JMS_Notification_WS_PortBinding">
-      <soap:address location="http://10.10.10.10:7001/default/master_soa/Slave_JMS_Notification_WS"/>
+      <soap:address location="http://10.10.10.10:7001/soa-infra/default/master_soa/Slave_JMS_Notification_WS"/>
     </port>
   </service>
 </definitions>

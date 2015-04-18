@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema version="1.0" targetNamespace="http://dispatcher.ws.master.cracking.uem.es/" xmlns:tns="http://dispatcher.ws.master.cracking.uem.es/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="dispatch" type="tns:dispatch"/>
+  <xs:complexType name="dispatch">
+    <xs:sequence/>
+  </xs:complexType>
+</xs:schema>

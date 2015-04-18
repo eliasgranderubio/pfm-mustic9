@@ -48,6 +48,10 @@
           location="wsdl/Master_Processor_WS.wsdl" importType="wsdl"/>
   <import namespace="http://processors.ws.master.cracking.uem.es/"
           location="Master_Processor_WSWrapper.wsdl" importType="wsdl"/>
+  <import namespace="http://dispatcher.ws.master.cracking.uem.es/"
+          location="wsdl/Master_Dispatcher.wsdl" importType="wsdl"/>
+  <import namespace="http://dispatcher.ws.master.cracking.uem.es/"
+          location="Master_DispatcherWrapper.wsdl" importType="wsdl"/>
   <service name="Slave_JMS_Notification_WS"
            ui:wsdlLocation="wsdl/Slave_JMS_Notification_WS.wsdl">
     <interface.wsdl interface="http://notification.slave.cracking.uem.es/#wsdl.interface(Slave_JMS_Notification_WS)"/>
@@ -59,6 +63,14 @@
   <service name="Master_Root" ui:wsdlLocation="wsdl/Master_Root.wsdl">
     <interface.wsdl interface="http://root.master.cracking.uem.es/#wsdl.interface(Master_Root)"/>
     <binding.ws port="http://root.master.cracking.uem.es/#wsdl.endpoint(Master_Root_2/Master_Root_pt)">
+      <property name="weblogic.wsee.wsat.transaction.flowOption"
+                type="xs:string" many="false">NEVER</property>
+    </binding.ws>
+  </service>
+  <service name="Master_Dispatcher"
+           ui:wsdlLocation="wsdl/Master_Dispatcher.wsdl">
+    <interface.wsdl interface="http://dispatcher.ws.master.cracking.uem.es/#wsdl.interface(Master_Dispatcher)"/>
+    <binding.ws port="http://dispatcher.ws.master.cracking.uem.es/#wsdl.endpoint(Master_Dispatcher_2/Master_Dispatcher_pt)">
       <property name="weblogic.wsee.wsat.transaction.flowOption"
                 type="xs:string" many="false">NEVER</property>
     </binding.ws>
@@ -94,10 +106,15 @@
     <implementation.bpel src="Get_Total_Words_Process.bpel"/>
     <property name="bpel.config.transaction" type="xs:string" many="false">requiresNew</property>
     <property name="bpel.config.oneWayDeliveryPolicy" type="xs:string"
-              many="false">async.persist</property>
+              many="false">async.cache</property>
   </component>
   <component name="Window_Size_Rules">
     <implementation.decision src="Window_Size_Rules.decs"/>
+  </component>
+  <component name="Master_Dispatcher_Process" version="2.0">
+    <implementation.bpel src="Master_Dispatcher_Process.bpel"/>
+    <property name="bpel.config.oneWayDeliveryPolicy" type="xs:string"
+              many="false">async.cache</property>
   </component>
   <reference name="Master_Word_WS" ui:wsdlLocation="wsdl/Master_Word_WS.wsdl">
     <interface.wsdl interface="http://words.ws.master.cracking.uem.es/#wsdl.interface(Master_Word_WS)"/>
@@ -185,5 +202,9 @@
   <wire>
     <source.uri>Slave_JMS_Notification_Process/UserAttackNotification</source.uri>
     <target.uri>UserAttackNotification</target.uri>
+  </wire>
+  <wire>
+    <source.uri>Master_Dispatcher</source.uri>
+    <target.uri>Master_Dispatcher_Process/master_dispatcher_process_client</target.uri>
   </wire>
 </composite>
