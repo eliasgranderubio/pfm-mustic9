@@ -1,3 +1,5 @@
+<img src="https://github.com/eliasgranderubio/pfm-mustic9/blob/master/pfm-mustic9-logo.png">
+
 # pfm-mustic9: Distributed computing systems for cracking
 Distributed computing systems for cracking
 
