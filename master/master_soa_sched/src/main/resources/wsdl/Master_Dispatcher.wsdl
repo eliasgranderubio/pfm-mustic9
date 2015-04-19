@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="Master_Dispatcher" targetNamespace="http://dispatcher.ws.master.cracking.uem.es/" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://dispatcher.ws.master.cracking.uem.es/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <types>
+    <xsd:schema>
+      <xsd:import namespace="http://dispatcher.ws.master.cracking.uem.es/" schemaLocation="../xsd/Master_Dispatcher.xsd"/>
+    </xsd:schema>
+  </types>
+  <message name="dispatchRequest">
+    <part name="parameters" element="tns:dispatch"/>
+  </message>
+  <portType name="Master_Dispatcher">
+    <operation name="dispatch">
+      <input message="tns:dispatchRequest"/>
+    </operation>
+  </portType>
+  <binding name="Master_Dispatcher_PortBinding" type="tns:Master_Dispatcher">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="dispatch">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+    </operation>
+  </binding>
+  <service name="Master_Dispatcher_2">
+    <port name="Master_Dispatcher_pt" binding="tns:Master_Dispatcher_PortBinding">
+      <soap:address location="http://10.10.10.10:7001/soa-infra/services/default/master_soa/Master_Dispatcher"/>
+    </port>
+  </service>
+</definitions>

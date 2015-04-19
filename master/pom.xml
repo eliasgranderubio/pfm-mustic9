@@ -12,6 +12,7 @@
 
   <modules>
   	<module>master_osb</module>
+  	<module>master_soa_sched</module>
 	<module>master_soa</module>
 	<module>master_db_ws</module>
 	<module>master_db</module>

@@ -1,0 +1,101 @@
+@CHARSET "UTF-8";
+
+img{
+    width:40px;
+    height: auto;
+}
+
+h2.section-title {
+	background: none repeat scroll 0 0 #8f1b27;
+	text-align: center;
+	
+    color: #ccc;
+    display: block;
+    font-size: 36px;
+    padding: 16px 0;
+    
+    font-family: "TradeGothic-bolder";
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.2;
+    margin: 0;
+    padding: 0;
+}
+
+footer#main-footer {
+	background: none repeat scroll 0 0 #f4f3ed;
+	width: 99%;
+	
+	position : absolute;
+    bottom : 0;
+    
+	display: inline;
+    float: left;
+    
+	color: #666;
+    line-height: 21px;
+    
+    font-family: "TradeGothic-normal";
+    font-size: 13px;
+    font-weight: 400 !important;
+    text-align: left;
+    text-transform: none;
+}
+
+
+.SchedulerDashboard table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+.SchedulerDashboard tr:nth-child(2n+1) {
+    background-color: #ffaaaa;
+    text-align: center;
+    
+}
+
+.SchedulerDashboard table tr:first-child td:first-child {
+    border-top-left-radius: 0;
+}
+
+.SchedulerDashboard tr:first-child td:first-child {
+    border-width: 0 0 1px;
+}
+
+.SchedulerDashboard tr:first-child td {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: -moz-linear-gradient(center top , #bf0000 5%, #7f0000 100%) repeat scroll 0 0 #bf0000;
+    border-color: #000000;
+    border-image: none;
+    border-style: solid;
+    border-width: 0 0 1px 1px;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.SchedulerDashboard td {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #000000;
+    border-image: none;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #000000;
+    font-family: Arial;
+    font-size: 10px;
+    font-weight: normal;
+    padding: 7px;
+    text-align: left;
+    vertical-align: middle;
+}

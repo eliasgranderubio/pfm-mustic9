@@ -27,6 +27,8 @@
         <jaxws-rt.version>2.2.10</jaxws-rt.version>
         <javax.jms-api.version>2.0.1</javax.jms-api.version>
         <tomcat.version>7.0.57</tomcat.version>
+        <servlet.api.version>2.5</servlet.api.version>
+        <quartz.version>1.6.1</quartz.version>
   </properties>
   
 
@@ -160,6 +162,16 @@
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-coyote</artifactId>
 			<version>${tomcat.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>servlet-api</artifactId>
+		    <version>${servlet.api.version}</version>
+    	</dependency>
+		<dependency>
+		  	<groupId>org.opensymphony.quartz</groupId>
+		  	<artifactId>quartz</artifactId>
+		  	<version>${quartz.version}</version>
 		</dependency>
   	</dependencies>
   </dependencyManagement>

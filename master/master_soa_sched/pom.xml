@@ -1,0 +1,94 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <parent>
+      <groupId>es.uem.cracking</groupId>
+      <artifactId>master</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+   </parent>
+   <artifactId>master_soa_sched</artifactId>
+   <packaging>war</packaging>
+   <name>Master SOA Scheduler</name>
+   <description>Master SOA Quartz Scheduler</description>
+	   
+   <build>
+     	<resources>
+	        <resource>
+	            <directory>src/main/resources</directory>
+	            <excludes>
+	                <exclude>**/*.wsdl</exclude>
+	                <exclude>**/*.xsd</exclude>
+	                <exclude>**/soa_quartz.properties</exclude>
+	            </excludes>
+	        </resource>
+    	</resources>
+
+		<!-- Plugins -->
+	  	<plugins>
+	      <!-- Javadoc Plugin -->
+	      <plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-javadoc-plugin</artifactId>
+	        <executions>
+	          <execution>
+	          	<id>javadoc</id>
+	            <phase>verify</phase>
+	            <goals>
+	              <goal>javadoc</goal>
+	            </goals>
+	          </execution>
+	          <execution>
+	          	<id>test-javadoc</id>
+	            <phase>verify</phase>
+	            <goals>
+	              <goal>test-javadoc</goal>
+	            </goals>
+	          </execution>
+	        </executions>
+	      </plugin>
+	
+	      <!-- JAXWS Maven Plugin -->
+	      <plugin>
+	           <groupId>org.jvnet.jax-ws-commons</groupId>
+	           <artifactId>jaxws-maven-plugin</artifactId>
+	           <executions>
+	               <execution>
+	                   <id>Master_Dispatcher</id>
+	                   <goals>
+	                       <goal>wsimport</goal>
+	                   </goals>
+	                   <configuration>
+	                           <wsdlFiles>
+	                                   <wsdlFile>Master_Dispatcher.wsdl</wsdlFile>
+	                           </wsdlFiles>
+	                   </configuration>
+	               </execution>
+	           </executions>
+	       </plugin>
+	    </plugins>
+   </build>
+   
+   <dependencies>
+	   	<dependency>
+	  		<groupId>javax.ejb</groupId>
+	  		<artifactId>javax.ejb-api</artifactId>
+	  	</dependency>
+	  	<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.ws</groupId>
+			<artifactId>jaxws-rt</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>servlet-api</artifactId>
+    	</dependency>
+	   	<dependency>
+		  	<groupId>org.opensymphony.quartz</groupId>
+		  	<artifactId>quartz</artifactId>
+		  	<scope>provided</scope>
+		</dependency>
+   </dependencies>
+   
+</project>

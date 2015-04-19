@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+		 version="2.5" xmlns="http://java.sun.com/xml/ns/javaee">
+	
+	<display-name>Master SOA Quartz Scheduler</display-name>
+	
+ 	<servlet>
+		<servlet-name>MasterSOASchedulerServlet</servlet-name>
+		<servlet-class>es.uem.cracking.master_soa.scheduler.MasterSOASchedulerServlet</servlet-class>
+		<init-param>
+			<param-name>TRIGGER_REPEATINTERVAL</param-name>
+			<param-value>300000</param-value> 		<!-- 5 min -->
+		</init-param>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>MasterSOASchedulerServlet</servlet-name>
+		<url-pattern>/scheduler</url-pattern>
+	</servlet-mapping>
+	
+	<welcome-file-list>
+		<welcome-file>/scheduler</welcome-file>
+	</welcome-file-list>
+	
+</web-app>
