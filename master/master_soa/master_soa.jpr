@@ -71,6 +71,11 @@
    <value n="Get_Total_Words_Process_ProcessName" v="Get_Total_Words_Process"/>
    <value n="Get_Total_Words_Process_Template" v="BPEL_BASE_ON_WSDL"/>
    <value n="Get_Total_Words_Process_wsdl" v="wsdl/Master_Word_WS.wsdl"/>
+   <url n="Get_Words_Range_Process_bpelFileURL" path="Get_Words_Range_Process.bpel"/>
+   <value n="Get_Words_Range_Process_Namespace" v="http://xmlns.oracle.com/pfm_mustic9/master_soa/Get_Words_Range_Process"/>
+   <value n="Get_Words_Range_Process_ProcessName" v="Get_Words_Range_Process"/>
+   <value n="Get_Words_Range_Process_Template" v="BPEL_BASE_ON_WSDL"/>
+   <value n="Get_Words_Range_Process_wsdl" v="wsdl/Master_Word_WS.wsdl"/>
    <url n="GetTotalWordsProcess_bpelFileURL" path="GetTotalWordsProcess.bpel"/>
    <value n="GetTotalWordsProcess_Namespace" v="http://xmlns.oracle.com/pfm_mustic9/master_soa/GetTotalWordsProcess"/>
    <value n="GetTotalWordsProcess_ProcessName" v="GetTotalWordsProcess"/>

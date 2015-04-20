@@ -8,4 +8,28 @@
            ui:wsdlLocation="Master_DispatcherWrapper.wsdl">
     <interface.wsdl interface="http://dispatcher.ws.master.cracking.uem.es/#wsdl.interface(Master_Dispatcher)"/>
   </service>
+  <reference name="OSB_Name_Server_WS"
+             ui:wsdlLocation="Name_Server_WSWrapper.wsdl">
+    <interface.wsdl interface="http://ws.name_server.cracking.uem.es/#wsdl.interface(Name_Server_WS)"/>
+  </reference>
+  <reference name="OSB_Slave_John_The_Ripper_WS"
+             ui:wsdlLocation="Slave_John_The_Ripper_Wrapper_WSWrapper.wsdl">
+    <interface.wsdl interface="http://ws.slave.cracking.uem.es/#wsdl.interface(Slave_John_The_Ripper_WS)"/>
+  </reference>
+  <reference name="OSB_Slave_THC_Hydra_WS"
+             ui:wsdlLocation="Slave_THC_Hydra_Wrapper_WSWrapper.wsdl">
+    <interface.wsdl interface="http://ws.slave.cracking.uem.es/#wsdl.interface(Slave_THC_Hydra_WS)"/>
+  </reference>
+  <reference name="Window_Size_Rules.Window_Size_Rules_DecisionService_1"
+             ui:wsdlLocation="Window_Size_Rules_DecisionService_1.wsdl">
+    <interface.wsdl interface="http://xmlns.oracle.com/Window_Size_Rules/Window_Size_Rules_DecisionService_1#wsdl.interface(IDecisionService)"/>
+  </reference>
+  <reference name="Master_Attack_WS"
+             ui:wsdlLocation="Master_Attack_WSWrapper3.wsdl">
+    <interface.wsdl interface="http://attacks.ws.master.cracking.uem.es/#wsdl.interface(Master_Attack_WS)"/>
+  </reference>
+  <reference name="Get_Words_Range_Process.get_words_range_process_client"
+             ui:wsdlLocation="Master_Word_WSWrapper3.wsdl">
+    <interface.wsdl interface="http://words.ws.master.cracking.uem.es/#wsdl.interface(Master_Word_WS)"/>
+  </reference>
 </componentType>

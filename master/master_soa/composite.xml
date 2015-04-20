@@ -52,6 +52,26 @@
           location="wsdl/Master_Dispatcher.wsdl" importType="wsdl"/>
   <import namespace="http://dispatcher.ws.master.cracking.uem.es/"
           location="Master_DispatcherWrapper.wsdl" importType="wsdl"/>
+  <import namespace="http://ws.slave.cracking.uem.es/"
+          location="wsdl/Slave_John_The_Ripper_Wrapper_WS.wsdl"
+          importType="wsdl"/>
+  <import namespace="http://ws.slave.cracking.uem.es/"
+          location="wsdl/Slave_THC_Hydra_Wrapper_WS.wsdl" importType="wsdl"/>
+  <import namespace="http://ws.name_server.cracking.uem.es/"
+          location="wsdl/Name_Server_WS.wsdl" importType="wsdl"/>
+  <import namespace="http://ws.name_server.cracking.uem.es/"
+          location="Name_Server_WSWrapper.wsdl" importType="wsdl"/>
+  <import namespace="http://ws.slave.cracking.uem.es/"
+          location="Slave_John_The_Ripper_Wrapper_WSWrapper.wsdl"
+          importType="wsdl"/>
+  <import namespace="http://ws.slave.cracking.uem.es/"
+          location="Slave_THC_Hydra_Wrapper_WSWrapper.wsdl" importType="wsdl"/>
+  <import namespace="http://attacks.ws.master.cracking.uem.es/"
+          location="Master_Attack_WSWrapper3.wsdl" importType="wsdl"/>
+  <import namespace="http://words.ws.master.cracking.uem.es/"
+          location="Master_Word_WSWrapper3.wsdl" importType="wsdl"/>
+  <import namespace="http://words.ws.master.cracking.uem.es/"
+          location="Master_Word_WSWrapper4.wsdl" importType="wsdl"/>
   <service name="Slave_JMS_Notification_WS"
            ui:wsdlLocation="wsdl/Slave_JMS_Notification_WS.wsdl">
     <interface.wsdl interface="http://notification.slave.cracking.uem.es/#wsdl.interface(Slave_JMS_Notification_WS)"/>
@@ -116,6 +136,12 @@
     <property name="bpel.config.oneWayDeliveryPolicy" type="xs:string"
               many="false">async.cache</property>
   </component>
+  <component name="Get_Words_Range_Process" version="2.0">
+    <implementation.bpel src="Get_Words_Range_Process.bpel"/>
+    <property name="bpel.config.transaction" type="xs:string" many="false">requiresNew</property>
+    <property name="bpel.config.oneWayDeliveryPolicy" type="xs:string"
+              many="false">async.cache</property>
+  </component>
   <reference name="Master_Word_WS" ui:wsdlLocation="wsdl/Master_Word_WS.wsdl">
     <interface.wsdl interface="http://words.ws.master.cracking.uem.es/#wsdl.interface(Master_Word_WS)"/>
     <binding.ws port="http://words.ws.master.cracking.uem.es/#wsdl.endpoint(Master_Word_WS/Master_Word_WS_Port)"
@@ -143,6 +169,35 @@
     <interface.wsdl interface="http://processors.ws.master.cracking.uem.es/#wsdl.interface(Master_Processor_WS)"/>
     <binding.ws port="http://processors.ws.master.cracking.uem.es/#wsdl.endpoint(Master_Processor_WS/Master_Processor_WS_Port)"
                 location="wsdl/Master_Processor_WS.wsdl" soapVersion="1.1">
+      <property name="weblogic.wsee.wsat.transaction.flowOption"
+                type="xs:string" many="false">WSDLDriven</property>
+    </binding.ws>
+  </reference>
+  <reference name="OSB_Slave_John_The_Ripper_WS"
+             ui:wsdlLocation="wsdl/Slave_John_The_Ripper_Wrapper_WS.wsdl">
+    <interface.wsdl interface="http://ws.slave.cracking.uem.es/#wsdl.interface(Slave_John_The_Ripper_WS)"/>
+    <binding.ws port="http://ws.slave.cracking.uem.es/#wsdl.endpoint(Slave_John_The_Ripper_WS/Slave_John_The_Ripper_WS_Port)"
+                location="wsdl/Slave_John_The_Ripper_Wrapper_WS.wsdl"
+                soapVersion="1.1">
+      <property name="weblogic.wsee.wsat.transaction.flowOption"
+                type="xs:string" many="false">WSDLDriven</property>
+    </binding.ws>
+  </reference>
+  <reference name="OSB_Slave_THC_Hydra_WS"
+             ui:wsdlLocation="wsdl/Slave_THC_Hydra_Wrapper_WS.wsdl">
+    <interface.wsdl interface="http://ws.slave.cracking.uem.es/#wsdl.interface(Slave_THC_Hydra_WS)"/>
+    <binding.ws port="http://ws.slave.cracking.uem.es/#wsdl.endpoint(Slave_THC_Hydra_WS/Slave_THC_Hydra_WS_Port)"
+                location="wsdl/Slave_THC_Hydra_Wrapper_WS.wsdl"
+                soapVersion="1.1">
+      <property name="weblogic.wsee.wsat.transaction.flowOption"
+                type="xs:string" many="false">WSDLDriven</property>
+    </binding.ws>
+  </reference>
+  <reference name="OSB_Name_Server_WS"
+             ui:wsdlLocation="wsdl/Name_Server_WS.wsdl">
+    <interface.wsdl interface="http://ws.name_server.cracking.uem.es/#wsdl.interface(Name_Server_WS)"/>
+    <binding.ws port="http://ws.name_server.cracking.uem.es/#wsdl.endpoint(Name_Server_WS/Name_Server_WS_Port)"
+                location="wsdl/Name_Server_WS.wsdl" soapVersion="1.1">
       <property name="weblogic.wsee.wsat.transaction.flowOption"
                 type="xs:string" many="false">WSDLDriven</property>
     </binding.ws>
@@ -206,5 +261,33 @@
   <wire>
     <source.uri>Master_Dispatcher</source.uri>
     <target.uri>Master_Dispatcher_Process/master_dispatcher_process_client</target.uri>
+  </wire>
+  <wire>
+    <source.uri>Master_Dispatcher_Process/OSB_Name_Server_WS</source.uri>
+    <target.uri>OSB_Name_Server_WS</target.uri>
+  </wire>
+  <wire>
+    <source.uri>Master_Dispatcher_Process/OSB_Slave_John_The_Ripper_WS</source.uri>
+    <target.uri>OSB_Slave_John_The_Ripper_WS</target.uri>
+  </wire>
+  <wire>
+    <source.uri>Master_Dispatcher_Process/OSB_Slave_THC_Hydra_WS</source.uri>
+    <target.uri>OSB_Slave_THC_Hydra_WS</target.uri>
+  </wire>
+  <wire>
+    <source.uri>Master_Dispatcher_Process/Window_Size_Rules.Window_Size_Rules_DecisionService_1</source.uri>
+    <target.uri>Window_Size_Rules/Window_Size_Rules_DecisionService_1</target.uri>
+  </wire>
+  <wire>
+    <source.uri>Master_Dispatcher_Process/Master_Attack_WS</source.uri>
+    <target.uri>Master_Attack_WS</target.uri>
+  </wire>
+  <wire>
+    <source.uri>Get_Words_Range_Process/Master_Word_WS</source.uri>
+    <target.uri>Master_Word_WS</target.uri>
+  </wire>
+  <wire>
+    <source.uri>Master_Dispatcher_Process/Get_Words_Range_Process.get_words_range_process_client</source.uri>
+    <target.uri>Get_Words_Range_Process/get_words_range_process_client</target.uri>
   </wire>
 </composite>

@@ -3,24 +3,19 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   Oracle JDeveloper BPEL Designer 
   
-  Created: Sat Apr 18 23:11:08 CEST 2015
+  Created: Mon Apr 20 22:41:50 CEST 2015
   Author:  egrande
   Purpose: Synchronous BPEL Process
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 -->
-<process name="Master_Dispatcher_Process"
-               targetNamespace="http://xmlns.oracle.com/pfm_mustic9/master_soa/Master_Dispatcher_Process"
+<process name="Get_Words_Range_Process"
+               targetNamespace="http://xmlns.oracle.com/pfm_mustic9/master_soa/Get_Words_Range_Process"
                xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
-               xmlns:client="http://xmlns.oracle.com/pfm_mustic9/master_soa/Master_Dispatcher_Process"
+               xmlns:client="http://xmlns.oracle.com/pfm_mustic9/master_soa/Get_Words_Range_Process"
                xmlns:ora="http://schemas.oracle.com/xpath/extension"
                xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
-               xmlns:ns1="http://dispatcher.ws.master.cracking.uem.es/"
-               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
-         xmlns:ns2="http://ws.name_server.cracking.uem.es/"
-         xmlns:ns3="http://ws.slave.cracking.uem.es/"
-         xmlns:ns4="http://xmlns.oracle.com/Window_Size_Rules/Window_Size_Rules_DecisionService_1"
-         xmlns:ns5="http://attacks.ws.master.cracking.uem.es/"
-         xmlns:ns6="http://words.ws.master.cracking.uem.es/">
+               xmlns:ns1="http://words.ws.master.cracking.uem.es/"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
 
   <!-- 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -34,23 +29,8 @@
       used for callback. The location and correlation information associated
       with the client role are automatically set using WS-Addressing.
     -->
-    <partnerLink name="master_dispatcher_process_client" partnerLinkType="ns1:Master_Dispatcher_Process" myRole="Master_Dispatcher"/>
-    <partnerLink name="OSB_Name_Server_WS"
-                 partnerLinkType="ns2:OSB_Name_Server_WS"
-                 partnerRole="Name_Server_WS"/>
-    <partnerLink name="OSB_Slave_John_The_Ripper_WS"
-                 partnerLinkType="ns3:OSB_Slave_John_The_Ripper_WS"
-                 partnerRole="Slave_John_The_Ripper_WS"/>
-    <partnerLink name="OSB_Slave_THC_Hydra_WS"
-                 partnerLinkType="ns3:OSB_Slave_THC_Hydra_WS"
-                 partnerRole="Slave_THC_Hydra_WS"/>
-    <partnerLink name="Window_Size_Rules.Window_Size_Rules_DecisionService_1"
-                 partnerLinkType="ns4:IDecisionService_PL"
-                 partnerRole="IDecisionService_Role"/>
-    <partnerLink name="Master_Attack_WS" partnerLinkType="ns5:Master_Attack_WS"
-                 partnerRole="Master_Attack_WS"/>
-    <partnerLink name="Get_Words_Range_Process.get_words_range_process_client"
-                 partnerLinkType="ns6:Get_Words_Range_Process"
+    <partnerLink name="get_words_range_process_client" partnerLinkType="ns1:Get_Words_Range_Process" myRole="Master_Word_WS"/>
+    <partnerLink name="Master_Word_WS" partnerLinkType="ns1:Master_Word_WS"
                  partnerRole="Master_Word_WS"/>
   </partnerLinks>
 
@@ -62,8 +42,10 @@
   -->
   <variables>
     <!-- Reference to the message passed as input during initiation -->
-    <variable name="inputVariable" messageType="ns1:dispatchRequest"/>
+    <variable name="inputVariable" messageType="ns1:getWordsRange"/>
 
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="ns1:getWordsRangeResponse"/>
   </variables>
 
   <!-- 
@@ -75,8 +57,15 @@
   -->
   <sequence name="main">
 
-    <!-- Receive input from requestor. (Note: This maps to operation defined in Master_Dispatcher_Process.wsdl) -->
-    <receive name="receiveInput" partnerLink="master_dispatcher_process_client" portType="ns1:Master_Dispatcher" operation="dispatch" variable="inputVariable" createInstance="yes"/>
-    <empty name="NothingToDo"/>
+    <!-- Receive input from requestor. (Note: This maps to operation defined in Get_Words_Range_Process.wsdl) -->
+    <receive name="receiveInput" partnerLink="get_words_range_process_client" portType="ns1:Master_Word_WS"
+             operation="getWordsRange" variable="inputVariable" createInstance="yes"/>
+    <invoke name="getWordsRangeInvoke"
+            partnerLink="Master_Word_WS" portType="ns1:Master_Word_WS"
+            operation="getWordsRange" inputVariable="inputVariable" outputVariable="outputVariable"
+            bpelx:invokeAsDetail="no"/>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="get_words_range_process_client" portType="ns1:Master_Word_WS"
+           operation="getWordsRange" variable="outputVariable"/>
   </sequence>
 </process>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WL5G3N0:definitions name="Name_Server_WS" targetNamespace="http://ws.name_server.cracking.uem.es/" xmlns:WL5G3N0="http://schemas.xmlsoap.org/wsdl/" xmlns:WL5G3N1="http://ws.name_server.cracking.uem.es/" xmlns:WL5G3N2="http://schemas.xmlsoap.org/wsdl/soap/">
+  <WL5G3N0:types>
+    <xsd:schema xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://ws.name_server.cracking.uem.es/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <xsd:import namespace="http://ws.name_server.cracking.uem.es/" schemaLocation="../xsd/Name_Server_WS.xsd"/>
+    </xsd:schema>
+  </WL5G3N0:types>
+  <WL5G3N0:message name="getAvailableSlaves">
+    <WL5G3N0:part element="WL5G3N1:getAvailableSlaves" name="parameters"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="getAvailableSlavesResponse">
+    <WL5G3N0:part element="WL5G3N1:getAvailableSlavesResponse" name="parameters"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="deleteLockedSlave">
+    <WL5G3N0:part element="WL5G3N1:deleteLockedSlave" name="parameters"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="deleteLockedSlaveResponse">
+    <WL5G3N0:part element="WL5G3N1:deleteLockedSlaveResponse" name="parameters"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="register">
+    <WL5G3N0:part element="WL5G3N1:register" name="parameters"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="registerResponse">
+    <WL5G3N0:part element="WL5G3N1:registerResponse" name="parameters"/>
+  </WL5G3N0:message>
+  <WL5G3N0:portType name="Name_Server_WS">
+    <WL5G3N0:operation name="getAvailableSlaves">
+      <WL5G3N0:input message="WL5G3N1:getAvailableSlaves"/>
+      <WL5G3N0:output message="WL5G3N1:getAvailableSlavesResponse"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="deleteLockedSlave">
+      <WL5G3N0:input message="WL5G3N1:deleteLockedSlave"/>
+      <WL5G3N0:output message="WL5G3N1:deleteLockedSlaveResponse"/>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="register">
+      <WL5G3N0:input message="WL5G3N1:register"/>
+      <WL5G3N0:output message="WL5G3N1:registerResponse"/>
+    </WL5G3N0:operation>
+  </WL5G3N0:portType>
+  <WL5G3N0:binding name="Name_Server_WS_PortBinding" type="WL5G3N1:Name_Server_WS">
+    <WL5G3N2:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <WL5G3N0:operation name="getAvailableSlaves">
+      <WL5G3N2:operation/>
+      <WL5G3N0:input>
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output>
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="deleteLockedSlave">
+      <WL5G3N2:operation/>
+      <WL5G3N0:input>
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output>
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+    <WL5G3N0:operation name="register">
+      <WL5G3N2:operation/>
+      <WL5G3N0:input>
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output>
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+  </WL5G3N0:binding>
+  <WL5G3N0:service name="Name_Server_WS">
+    <WL5G3N0:port binding="WL5G3N1:Name_Server_WS_PortBinding" name="Name_Server_WS_Port">
+      <WL5G3N2:address location="http://localhost:7001/master_osb/master/proxy/nameServer/Name_Server_PS"/>
+    </WL5G3N0:port>
+  </WL5G3N0:service>
+</WL5G3N0:definitions>

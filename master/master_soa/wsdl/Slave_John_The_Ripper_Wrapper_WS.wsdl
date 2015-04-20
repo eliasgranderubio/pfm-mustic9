@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WL5G3N0:definitions name="Slave_John_The_Ripper_Wrapper_WS" targetNamespace="http://ws.slave.cracking.uem.es/" xmlns:WL5G3N0="http://schemas.xmlsoap.org/wsdl/" xmlns:WL5G3N1="http://ws.slave.cracking.uem.es/" xmlns:WL5G3N2="http://schemas.xmlsoap.org/wsdl/soap/">
+  <WL5G3N0:types>
+    <xsd:schema xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://ws.slave.cracking.uem.es/" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <xsd:import namespace="http://ws.slave.cracking.uem.es/" schemaLocation="../xsd/Slave_John_The_Ripper_Wrapper_WS.xsd"/>
+    </xsd:schema>
+  </WL5G3N0:types>
+  <WL5G3N0:message name="johnTheRipperAttack">
+    <WL5G3N0:part element="WL5G3N1:johnTheRipperAttack" name="parameters"/>
+  </WL5G3N0:message>
+  <WL5G3N0:portType name="Slave_John_The_Ripper_WS">
+    <WL5G3N0:operation name="johnTheRipperAttack">
+      <WL5G3N0:input message="WL5G3N1:johnTheRipperAttack"/>
+    </WL5G3N0:operation>
+  </WL5G3N0:portType>
+  <WL5G3N0:binding name="Slave_John_The_Ripper_WS_PortBinding" type="WL5G3N1:Slave_John_The_Ripper_WS">
+    <WL5G3N2:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <WL5G3N0:operation name="johnTheRipperAttack">
+      <WL5G3N2:operation/>
+      <WL5G3N0:input>
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+    </WL5G3N0:operation>
+  </WL5G3N0:binding>
+  <WL5G3N0:service name="Slave_John_The_Ripper_WS">
+    <WL5G3N0:port binding="WL5G3N1:Slave_John_The_Ripper_WS_PortBinding" name="Slave_John_The_Ripper_WS_Port">
+      <WL5G3N2:address location="http://localhost:7001/master_osb/master/proxy/slaveServer/attack/Slave_John_The_Ripper_Wrapper_PS"/>
+    </WL5G3N0:port>
+  </WL5G3N0:service>
+</WL5G3N0:definitions>

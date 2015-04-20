@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema version="1.0" targetNamespace="http://ws.slave.cracking.uem.es/" xmlns:tns="http://ws.slave.cracking.uem.es/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="thcHydraAttack" type="tns:thcHydraAttack"/>
+  <xs:complexType name="thcHydraAttack">
+    <xs:sequence>
+      <xs:element name="thcHydraAttackRequest" type="tns:ThcHydraAttackRequest" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ThcHydraAttackRequest">
+    <xs:sequence>
+      <xs:element name="routing" type="tns:Routing"/>
+      <xs:element name="activeAttackId" type="xs:long"/>
+      <xs:element name="attackWindowId" type="xs:long"/>
+      <xs:element name="type" type="tns:Protocol" minOccurs="0"/>
+      <xs:element name="dictionary" type="tns:Dictionary" minOccurs="0"/>
+      <xs:element name="remoteUser" type="xs:string" minOccurs="0"/>
+      <xs:element name="remoteIp" type="xs:string" minOccurs="0"/>
+      <xs:element name="remotePort" type="xs:int" minOccurs="0"/>
+      <xs:element name="extraParam" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Dictionary">
+    <xs:sequence>
+      <xs:element name="word" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Routing">
+    <xs:sequence>
+      <xs:element name="ip" type="xs:string" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="port" type="xs:int" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="Protocol">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="telnet"/>
+      <xs:enumeration value="ftp"/>
+      <xs:enumeration value="httpHead"/>
+      <xs:enumeration value="httpGet"/>
+      <xs:enumeration value="httpGetForm"/>
+      <xs:enumeration value="httpPostForm"/>
+      <xs:enumeration value="rtsp"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>
