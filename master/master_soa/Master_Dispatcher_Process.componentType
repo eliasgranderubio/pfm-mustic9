@@ -32,4 +32,8 @@
              ui:wsdlLocation="Master_Word_WSWrapper3.wsdl">
     <interface.wsdl interface="http://words.ws.master.cracking.uem.es/#wsdl.interface(Master_Word_WS)"/>
   </reference>
+  <reference name="Get_Processor_Info_Process.get_processor_info_process_client"
+             ui:wsdlLocation="Get_Processor_Info_Process.wsdl">
+    <interface.wsdl interface="http://xmlns.oracle.com/pfm-mustic9/master_soa/Get_Processor_Info_Process#wsdl.interface(get_processor_info_ptt)"/>
+  </reference>
 </componentType>

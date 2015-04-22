@@ -2,4 +2,5 @@
 <properties>
   <entry key="Master_Root_Test_Suite"/>
   <entry key="Slave_JMS_Notification_Test_Suite"/>
+  <entry key="Master_Dispatcher_Test_Suite"/>
 </properties>

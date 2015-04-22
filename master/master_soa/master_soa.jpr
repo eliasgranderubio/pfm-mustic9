@@ -66,6 +66,11 @@
    <value n="Create_Full_Attack_Process_Template" v="BPEL_BASE_ON_WSDL"/>
    <value n="Create_Full_Attack_Process_wsdl" v="wsdl/Master_Attack_WS.wsdl"/>
    <value n="defaultPackage" v="master_soa"/>
+   <url n="Get_Processor_Info_Process_bpelFileURL" path="Get_Processor_Info_Process.bpel"/>
+   <value n="Get_Processor_Info_Process_Namespace" v="http://xmlns.oracle.com/pfm_mustic9/master_soa/Get_Processor_Info_Process"/>
+   <value n="Get_Processor_Info_Process_ProcessName" v="Get_Processor_Info_Process"/>
+   <value n="Get_Processor_Info_Process_Template" v="BPEL_BASE_ON_WSDL"/>
+   <value n="Get_Processor_Info_Process_wsdl" v="Get_Processor_Info_Process.wsdl"/>
    <url n="Get_Total_Words_Process_bpelFileURL" path="Get_Total_Words_Process.bpel"/>
    <value n="Get_Total_Words_Process_Namespace" v="http://xmlns.oracle.com/pfm_mustic9/master_soa/Get_Total_Words_Process"/>
    <value n="Get_Total_Words_Process_ProcessName" v="Get_Total_Words_Process"/>

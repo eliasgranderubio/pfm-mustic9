@@ -1,0 +1,188 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Apr 22 21:38:47 CEST 2015
+  Author:  egrande
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="Get_Processor_Info_Process"
+               targetNamespace="http://xmlns.oracle.com/pfm_mustic9/master_soa/Get_Processor_Info_Process"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/pfm_mustic9/master_soa/Get_Processor_Info_Process"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+               xmlns:ns1="http://xmlns.oracle.com/pfm-mustic9/master_soa/Get_Processor_Info_Process"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns2="http://processors.ws.master.cracking.uem.es/"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://processors.ws.master.cracking.uem.es/"
+          location="wsdl/Master_Processor_WS.wsdl"
+          importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="get_processor_info_process_client" partnerLinkType="ns1:Get_Processor_Info_Process" myRole="Get_Processor_Info_ProcessProvider"/>
+    <partnerLink name="Master_Processor_WS"
+                 partnerLinkType="ns2:Master_Processor_WS"
+                 partnerRole="Master_Processor_WS"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="ns1:requestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="ns1:replyMessage"/>
+    <variable name="GetOnlineProcessorsInvoke_onlineProcessorsPerformanceStatistics_InputVariable"
+              messageType="ns2:onlineProcessorsPerformanceStatistics"/>
+    <variable name="GetOnlineProcessorsInvoke_onlineProcessorsPerformanceStatistics_OutputVariable"
+              messageType="ns2:onlineProcessorsPerformanceStatisticsResponse"/>
+    <variable name="GetOfflineProcessorsInvoke_offlineProcessorsPerformanceStatistics_InputVariable"
+              messageType="ns2:offlineProcessorsPerformanceStatistics"/>
+    <variable name="GetOfflineProcessorsInvoke_offlineProcessorsPerformanceStatistics_OutputVariable"
+              messageType="ns2:offlineProcessorsPerformanceStatisticsResponse"/>
+    <variable name="tmp"
+              element="ns2:offlineProcessorsPerformanceStatisticsResponse"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in Get_Processor_Info_Process.wsdl) -->
+    <receive name="receiveInput" partnerLink="get_processor_info_process_client" portType="ns1:get_processor_info_ptt" operation="getProcessorInfo" variable="inputVariable" createInstance="yes"/>
+    <if name="CheckTool">
+      <documentation>
+        <![CDATA[JohnTheRipper]]>
+      </documentation>
+      <condition>$inputVariable.attackType = 'john'</condition>
+      <sequence>
+        <invoke name="GetOfflineProcessorsInvoke"
+                partnerLink="Master_Processor_WS"
+                portType="ns2:Master_Processor_WS"
+                operation="offlineProcessorsPerformanceStatistics"
+                inputVariable="GetOfflineProcessorsInvoke_offlineProcessorsPerformanceStatistics_InputVariable"
+                outputVariable="GetOfflineProcessorsInvoke_offlineProcessorsPerformanceStatistics_OutputVariable"
+                bpelx:invokeAsDetail="no"/>
+        <assign name="prepareResponse">
+          <copy>
+            <from>$GetOfflineProcessorsInvoke_offlineProcessorsPerformanceStatistics_OutputVariable.parameters/return</from>
+            <to>$tmp/return</to>
+          </copy>
+        </assign>
+      </sequence>
+      <else>
+        <documentation>
+          <![CDATA[THCHydra]]>
+        </documentation>
+        <sequence name="Sequence2">
+          <invoke name="GetOnlineProcessorsInvoke"
+                  partnerLink="Master_Processor_WS"
+                  portType="ns2:Master_Processor_WS"
+                  operation="onlineProcessorsPerformanceStatistics"
+                  inputVariable="GetOnlineProcessorsInvoke_onlineProcessorsPerformanceStatistics_InputVariable"
+                  outputVariable="GetOnlineProcessorsInvoke_onlineProcessorsPerformanceStatistics_OutputVariable"
+                  bpelx:invokeAsDetail="no"/>
+          <assign name="prepareResponse">
+            <copy>
+              <from>$GetOnlineProcessorsInvoke_onlineProcessorsPerformanceStatistics_OutputVariable.parameters/return</from>
+              <to>$tmp/return</to>
+            </copy>
+          </assign>
+        </sequence>
+      </else>
+    </if>
+    <assign name="setDefaultOutput">
+      <copy>
+        <from>0</from>
+        <to>$outputVariable.wordsPerMinute</to>
+      </copy>
+    </assign>
+    <if name="CheckInfo">
+      <documentation>
+        <![CDATA[ThereAreNotInfo]]>
+      </documentation>
+      <condition>$tmp/return = '' or $tmp/return/processors = ''</condition>
+      <empty name="NothingToDo"/>
+      <else>
+        <documentation>
+          <![CDATA[ThereAreInfo]]>
+        </documentation>
+        <sequence name="Sequence3">
+          <scope name="CheckAllInfoScope" exitOnStandardFault="no">
+            <variables>
+              <variable name="counter" type="xsd:int">
+                <from>1</from>
+              </variable>
+            </variables>
+            <sequence name="Sequence4">
+              <repeatUntil name="RepeatUntil">
+                <assign name="inc">
+                  <copy>
+                    <from>$counter + 1</from>
+                    <to>$counter</to>
+                  </copy>
+                </assign>
+                <condition>$counter &gt; ora:countNodes('tmp','return/processors') or $tmp/return/processors[$counter]/processorName = $inputVariable.processorName</condition>
+              </repeatUntil>
+              <if name="CheckCounter">
+                <documentation>
+                  <![CDATA[CounterExceeded]]>
+                </documentation>
+                <condition>$counter &gt; ora:countNodes('tmp','return/processors')</condition>
+                <empty name="NothingToDo"/>
+                <else>
+                  <documentation>
+                    <![CDATA[Found]]>
+                  </documentation>
+                  <assign name="prepareOutput">
+                    <copy>
+                      <from>number($tmp/return/processors[$counter]/wordsPerMinute)</from>
+                      <to>$outputVariable.wordsPerMinute</to>
+                    </copy>
+                  </assign>
+                </else>
+              </if>
+            </sequence>
+          </scope>
+        </sequence>
+      </else>
+    </if>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="get_processor_info_process_client" portType="ns1:get_processor_info_ptt" operation="getProcessorInfo" variable="outputVariable"/>
+  </sequence>
+</process>

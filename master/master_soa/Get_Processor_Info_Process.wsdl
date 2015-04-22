@@ -1,0 +1,35 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="Get_Processor_Info_Process"
+     targetNamespace="http://xmlns.oracle.com/pfm-mustic9/master_soa/Get_Processor_Info_Process"
+     xmlns:ns1="http://processors.ws.master.cracking.uem.es/"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:tns="http://xmlns.oracle.com/pfm-mustic9/master_soa/Get_Processor_Info_Process"
+     xmlns:inp1="http://xmlns.oracle.com/pfm-mustic9/master_soa/Get_Processor_Info_Process"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <plnk:partnerLinkType name="Get_Processor_Info_Process">
+        <plnk:role name="Get_Processor_Info_ProcessProvider" portType="tns:get_processor_info_ptt"/>
+    </plnk:partnerLinkType>
+    <wsdl:import namespace="http://processors.ws.master.cracking.uem.es/" location="wsdl/Master_Processor_WS.wsdl"/>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://xmlns.oracle.com/pfm-mustic9/master_soa/Get_Processor_Info_Process"
+             elementFormDefault="qualified">
+            <element name="string" type="string"/>
+            <element name="int" type="int"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="requestMessage">
+        <wsdl:part name="processorName" element="tns:string"/>
+        <wsdl:part name="attackType" element="tns:string"/>
+    </wsdl:message>
+    <wsdl:message name="replyMessage">
+        <wsdl:part name="wordsPerMinute" element="tns:int"/>
+    </wsdl:message>
+    <wsdl:portType name="get_processor_info_ptt">
+        <wsdl:operation name="getProcessorInfo">
+            <wsdl:input message="tns:requestMessage"/>
+            <wsdl:output message="tns:replyMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

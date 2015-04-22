@@ -20,7 +20,21 @@
          xmlns:ns3="http://ws.slave.cracking.uem.es/"
          xmlns:ns4="http://xmlns.oracle.com/Window_Size_Rules/Window_Size_Rules_DecisionService_1"
          xmlns:ns5="http://attacks.ws.master.cracking.uem.es/"
-         xmlns:ns6="http://words.ws.master.cracking.uem.es/">
+         xmlns:ns6="http://words.ws.master.cracking.uem.es/"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:ns7="http://xmlns.oracle.com/pfm-mustic9/master_soa/Get_Processor_Info_Process"
+         xmlns:ns8="http://xmlns.oracle.com/bpel"
+         xmlns:ns9="http://windows.master.cracking.uem.es/">
 
   <!-- 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,6 +66,9 @@
     <partnerLink name="Get_Words_Range_Process.get_words_range_process_client"
                  partnerLinkType="ns6:Get_Words_Range_Process"
                  partnerRole="Master_Word_WS"/>
+    <partnerLink name="Get_Processor_Info_Process.get_processor_info_process_client"
+                 partnerLinkType="ns7:Get_Processor_Info_Process"
+                 partnerRole="Get_Processor_Info_ProcessProvider"/>
   </partnerLinks>
 
   <!-- 
@@ -63,7 +80,8 @@
   <variables>
     <!-- Reference to the message passed as input during initiation -->
     <variable name="inputVariable" messageType="ns1:dispatchRequest"/>
-
+    <variable name="getAllActiveAttacksId_OutputVariable"
+              messageType="ns5:getAllActiveAttacksIdResponse"/>
   </variables>
 
   <!-- 
@@ -77,6 +95,168 @@
 
     <!-- Receive input from requestor. (Note: This maps to operation defined in Master_Dispatcher_Process.wsdl) -->
     <receive name="receiveInput" partnerLink="master_dispatcher_process_client" portType="ns1:Master_Dispatcher" operation="dispatch" variable="inputVariable" createInstance="yes"/>
-    <empty name="NothingToDo"/>
+    <scope name="GetActiveAttacksScope" exitOnStandardFault="no">
+      <variables>
+        <variable name="getActiveAttacksInvoke_getAllActiveAttacksId_InputVariable"
+                  messageType="ns5:getAllActiveAttacksId"/>
+      </variables>
+      <invoke name="getActiveAttacksInvoke" partnerLink="Master_Attack_WS"
+              portType="ns5:Master_Attack_WS" operation="getAllActiveAttacksId"
+              inputVariable="getActiveAttacksInvoke_getAllActiveAttacksId_InputVariable"
+              outputVariable="getAllActiveAttacksId_OutputVariable"
+              bpelx:invokeAsDetail="no"/>
+    </scope>
+    <if name="CheckActiveAttacks">
+      <documentation>
+        <![CDATA[EmptyActiveAttacks]]>
+      </documentation>
+      <condition>$getAllActiveAttacksId_OutputVariable.parameters/return/ids = '' or ora:countNodes('getAllActiveAttacksId_OutputVariable','parameters','return/ids/id') = 0</condition>
+      <exit name="ThereAreNotActiveAttacks"/>
+      <else>
+        <documentation>
+          <![CDATA[ThereAreActiveAttacks]]>
+        </documentation>
+        <scope name="ProcessActiveAttackScope" exitOnStandardFault="no">
+          <variables>
+            <variable name="getAvailableSlavesInvoke_getAvailableSlaves_InputVariable"
+                      messageType="ns2:getAvailableSlaves"/>
+            <variable name="getAvailableSlavesInvoke_getAvailableSlaves_OutputVariable"
+                      messageType="ns2:getAvailableSlavesResponse"/>
+            <variable name="maxActiveAttacks" type="xsd:int">
+              <from>ora:countNodes('getAllActiveAttacksId_OutputVariable','parameters','return/ids/id')</from>
+            </variable>
+            <variable name="currentActiveAttack" type="xsd:int">
+              <from>1</from>
+            </variable>
+          </variables>
+          <sequence name="Sequence1">
+            <invoke name="getAvailableSlavesInvoke"
+                    partnerLink="OSB_Name_Server_WS"
+                    portType="ns2:Name_Server_WS" operation="getAvailableSlaves"
+                    inputVariable="getAvailableSlavesInvoke_getAvailableSlaves_InputVariable"
+                    outputVariable="getAvailableSlavesInvoke_getAvailableSlaves_OutputVariable"
+                    bpelx:invokeAsDetail="no"/>
+            <if name="CheckAvailableSlaves">
+              <documentation>
+                <![CDATA[ThereAreNotAvailables]]>
+              </documentation>
+              <condition>ora:countNodes('getAvailableSlavesInvoke_getAvailableSlaves_OutputVariable','parameters','return/availableSlaves') = 0</condition>
+              <exit name="ThereAreNotAvailables"/>
+              <else>
+                <documentation>
+                  <![CDATA[ThereAreAvailables]]>
+                </documentation>
+                <forEach parallel="no" counterName="ForEachSlaveCounter"
+                         name="ForEachSlave">
+                  <startCounterValue>1</startCounterValue>
+                  <finalCounterValue>ora:countNodes('getAvailableSlavesInvoke_getAvailableSlaves_OutputVariable','parameters','return/availableSlaves')</finalCounterValue>
+                  <scope name="SlaveInvocationScope" exitOnStandardFault="no">
+                    <variables>
+                      <variable name="getCurrentActiveAttackInvoke_getActiveAttack_InputVariable"
+                                messageType="ns5:getActiveAttack"/>
+                      <variable name="getCurrentActiveAttackInvoke_getActiveAttack_OutputVariable"
+                                messageType="ns5:getActiveAttackResponse"/>
+                      <variable name="getProcessorInfoInvoke_getProcessorInfo_InputVariable"
+                                messageType="ns7:requestMessage"/>
+                      <variable name="getProcessorInfoInvoke_getProcessorInfo_OutputVariable"
+                                messageType="ns7:replyMessage"/>
+                      <variable name="windowSize" type="xsd:int"/>
+                      <variable name="windowCount" type="xsd:int"/>
+                    </variables>
+                    <sequence name="Sequence2">
+                      <assign name="prepareInputGetCurrentActiveAttack">
+                        <copy>
+                          <from>$getAllActiveAttacksId_OutputVariable.parameters/return/ids/id[$currentActiveAttack]</from>
+                          <to>$getCurrentActiveAttackInvoke_getActiveAttack_InputVariable.parameters/getActiveAttackRequest/id</to>
+                        </copy>
+                      </assign>
+                      <invoke name="getCurrentActiveAttackInvoke"
+                              partnerLink="Master_Attack_WS"
+                              portType="ns5:Master_Attack_WS"
+                              operation="getActiveAttack"
+                              inputVariable="getCurrentActiveAttackInvoke_getActiveAttack_InputVariable"
+                              outputVariable="getCurrentActiveAttackInvoke_getActiveAttack_OutputVariable"
+                              bpelx:invokeAsDetail="no"/>
+                      <assign name="prepareInputGetProcessorInfo">
+                        <copy>
+                          <from>$getAvailableSlavesInvoke_getAvailableSlaves_OutputVariable.parameters/return/availableSlaves[$ForEachSlaveCounter]/processor_name</from>
+                          <to>$getProcessorInfoInvoke_getProcessorInfo_InputVariable.processorName</to>
+                        </copy>
+                        <copy>
+                          <from>$getCurrentActiveAttackInvoke_getActiveAttack_OutputVariable.parameters/return/tool</from>
+                          <to>$getProcessorInfoInvoke_getProcessorInfo_InputVariable.attackType</to>
+                        </copy>
+                      </assign>
+                      <invoke name="getProcessorInfoInvoke"
+                              partnerLink="Get_Processor_Info_Process.get_processor_info_process_client"
+                              portType="ns7:get_processor_info_ptt"
+                              operation="getProcessorInfo"
+                              inputVariable="getProcessorInfoInvoke_getProcessorInfo_InputVariable"
+                              outputVariable="getProcessorInfoInvoke_getProcessorInfo_OutputVariable"
+                              bpelx:invokeAsDetail="no"/>
+                      <scope name="Rule1" exitOnStandardFault="no">
+                        <bpelx:annotation>
+                          <bpelx:pattern patternName="bpelx:decide"/>
+                          <bpelx:general>
+                            <bpelx:property name="userLabel">
+                              <![CDATA[Rules]]>
+                            </bpelx:property>
+                          </bpelx:general>
+                        </bpelx:annotation>
+                        <variables>
+                          <variable name="dsIn"
+                                    messageType="ns4:callFunctionStatelessMessage"/>
+                          <variable name="dsOut"
+                                    messageType="ns4:callFunctionStatelessDecisionMessage"/>
+                        </variables>
+                        <sequence name="Sequence3">
+                          <assign name="Facts_To_Rule_Service">
+                            <copy>
+                              <from>$getAvailableSlavesInvoke_getAvailableSlaves_OutputVariable.parameters/return/availableSlaves[$ForEachSlaveCounter]/processor_name</from>
+                              <to>$dsIn.payload/ns4:parameterList/ns9:windowSizeRequest/processor_name</to>
+                            </copy>
+                            <copy>
+                              <from>0</from>
+                              <to>$dsIn.payload/ns4:parameterList/ns9:windowSizeRequest/totalWords</to>
+                            </copy>
+                            <copy>
+                              <from>$getProcessorInfoInvoke_getProcessorInfo_OutputVariable.wordsPerMinute</from>
+                              <to>$dsIn.payload/ns4:parameterList/ns9:windowSizeRequest/words_per_minute</to>
+                            </copy>
+                          </assign>
+                          <assign name="BPEL_Header">
+                            <copy>
+                              <from>"Window_Size_Rules_DecisionService_1"</from>
+                              <to variable="dsIn" part="payload">
+                                <query>@name</query>
+                              </to>
+                            </copy>
+                          </assign>
+                          <invoke name="Invoke"
+                                  partnerLink="Window_Size_Rules.Window_Size_Rules_DecisionService_1"
+                                  portType="ns4:IDecisionService"
+                                  operation="callFunctionStateless"
+                                  inputVariable="dsIn" outputVariable="dsOut"/>
+                          <assign name="Rule_Service_To_Facts">
+                            <copy>
+                              <from>$dsOut.payload/ns4:resultList/ns9:windowSizeResponse/windowSize</from>
+                              <to>$windowSize</to>
+                            </copy>
+                            <copy>
+                              <from>$dsOut.payload/ns4:resultList/ns9:windowSizeResponse/windowsCount</from>
+                              <to>$windowCount</to>
+                            </copy>
+                          </assign>
+                        </sequence>
+                      </scope>
+                    </sequence>
+                  </scope>
+                </forEach>
+              </else>
+            </if>
+          </sequence>
+        </scope>
+      </else>
+    </if>
   </sequence>
 </process>

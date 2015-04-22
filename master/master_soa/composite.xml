@@ -72,6 +72,10 @@
           location="Master_Word_WSWrapper3.wsdl" importType="wsdl"/>
   <import namespace="http://words.ws.master.cracking.uem.es/"
           location="Master_Word_WSWrapper4.wsdl" importType="wsdl"/>
+  <import namespace="http://xmlns.oracle.com/pfm-mustic9/master_soa/Get_Processor_Info_Process"
+          location="Get_Processor_Info_Process.wsdl" importType="wsdl"/>
+  <import namespace="http://processors.ws.master.cracking.uem.es/"
+          location="Master_Processor_WSWrapper1.wsdl" importType="wsdl"/>
   <service name="Slave_JMS_Notification_WS"
            ui:wsdlLocation="wsdl/Slave_JMS_Notification_WS.wsdl">
     <interface.wsdl interface="http://notification.slave.cracking.uem.es/#wsdl.interface(Slave_JMS_Notification_WS)"/>
@@ -138,6 +142,12 @@
   </component>
   <component name="Get_Words_Range_Process" version="2.0">
     <implementation.bpel src="Get_Words_Range_Process.bpel"/>
+    <property name="bpel.config.transaction" type="xs:string" many="false">requiresNew</property>
+    <property name="bpel.config.oneWayDeliveryPolicy" type="xs:string"
+              many="false">async.cache</property>
+  </component>
+  <component name="Get_Processor_Info_Process" version="2.0">
+    <implementation.bpel src="Get_Processor_Info_Process.bpel"/>
     <property name="bpel.config.transaction" type="xs:string" many="false">requiresNew</property>
     <property name="bpel.config.oneWayDeliveryPolicy" type="xs:string"
               many="false">async.cache</property>
@@ -289,5 +299,13 @@
   <wire>
     <source.uri>Master_Dispatcher_Process/Get_Words_Range_Process.get_words_range_process_client</source.uri>
     <target.uri>Get_Words_Range_Process/get_words_range_process_client</target.uri>
+  </wire>
+  <wire>
+    <source.uri>Master_Dispatcher_Process/Get_Processor_Info_Process.get_processor_info_process_client</source.uri>
+    <target.uri>Get_Processor_Info_Process/get_processor_info_process_client</target.uri>
+  </wire>
+  <wire>
+    <source.uri>Get_Processor_Info_Process/Master_Processor_WS</source.uri>
+    <target.uri>Master_Processor_WS</target.uri>
   </wire>
 </composite>
