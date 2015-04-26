@@ -19,6 +19,9 @@
 		<maven.install.plugin.version>2.4</maven.install.plugin.version>
 		<maven.replacer.plugin.version>1.5.3</maven.replacer.plugin.version>
 		<maven.antrun.plugin.version>1.7</maven.antrun.plugin.version>
+		<yeoman.maven.plugin.version>0.4</yeoman.maven.plugin.version>
+		<maven.war.plugin.version>2.3</maven.war.plugin.version>
+		<maven.clean.plugin.version>2.5</maven.clean.plugin.version>
 	
         <!-- Dependencies version -->
         <javax.ejb-api.version>3.2</javax.ejb-api.version>
@@ -119,6 +122,21 @@
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-antrun-plugin</artifactId>
 			<version>${maven.antrun.plugin.version}</version>
+		</plugin>
+		
+		<!-- Plugins for UI -->
+		<plugin>    
+		    <groupId>com.github.trecloux</groupId>
+		    <artifactId>yeoman-maven-plugin</artifactId>
+		    <version>${yeoman.maven.plugin.version}</version>
+		</plugin>
+		<plugin>
+		    <artifactId>maven-war-plugin</artifactId>
+		    <version>${maven.war.plugin.version}</version>
+		</plugin>
+		<plugin>
+		    <artifactId>maven-clean-plugin</artifactId>
+		    <version>${maven.clean.plugin.version}</version>
 		</plugin>
 	   </plugins>
   	</pluginManagement>

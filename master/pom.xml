@@ -11,6 +11,7 @@
   <description>Master node</description>
 
   <modules>
+        <module>master_ui</module>
   	<module>master_osb</module>
   	<module>master_soa_sched</module>
 	<module>master_soa</module>
