@@ -4,9 +4,19 @@
 Distributed computing systems for cracking
 
 
+## Compile Prerequisites
+Before you try compile the full project, you must have installed the next software:
++ Apache Maven 3
++ Node.js (npm), Bower, Grunt
++ Oracle JDeveloper 11g R1 11.1.1.7.0
++ Weblogic Server Version 10.3.6.0
++ Oracle Service Bus 11g R1 11.1.1.7.0
++ Oracle SOA Suite 11g R1 11.1.1.7.0 
+
+
 ## Compile Instructions
 If you want compile the full project, you must have set the environment variables named `MW_HOME` and `JDEV_HOME`:
-+ `MW_HOME` variable references your Oracle Middleware instalation path (Weblogic Server Version 10.3.6.0 & OSB Version 11.1.1.7).
++ `MW_HOME` variable references your Oracle Middleware instalation path (Weblogic Server Version 10.3.6.0 & Oracle Service Bus 11g R1 11.1.1.7.0).
 + `JDEV_HOME` variable references your Oracle JDeveloper instalation path (Oracle JDeveloper 11g R1 11.1.1.7.0).
 
 After that, you can run maven: 
