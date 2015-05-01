@@ -76,6 +76,8 @@
           location="Get_Processor_Info_Process.wsdl" importType="wsdl"/>
   <import namespace="http://processors.ws.master.cracking.uem.es/"
           location="Master_Processor_WSWrapper1.wsdl" importType="wsdl"/>
+  <import namespace="http://master.cracking.uem.es/"
+          location="MasterHelperInterfaceWrapper.wsdl" importType="wsdl"/>
   <service name="Slave_JMS_Notification_WS"
            ui:wsdlLocation="wsdl/Slave_JMS_Notification_WS.wsdl">
     <interface.wsdl interface="http://notification.slave.cracking.uem.es/#wsdl.interface(Slave_JMS_Notification_WS)"/>
@@ -151,6 +153,9 @@
     <property name="bpel.config.transaction" type="xs:string" many="false">requiresNew</property>
     <property name="bpel.config.oneWayDeliveryPolicy" type="xs:string"
               many="false">async.cache</property>
+  </component>
+  <component name="MasterHelper">
+    <implementation.spring src="MasterHelper.xml"/>
   </component>
   <reference name="Master_Word_WS" ui:wsdlLocation="wsdl/Master_Word_WS.wsdl">
     <interface.wsdl interface="http://words.ws.master.cracking.uem.es/#wsdl.interface(Master_Word_WS)"/>
@@ -307,5 +312,9 @@
   <wire>
     <source.uri>Get_Processor_Info_Process/Master_Processor_WS</source.uri>
     <target.uri>Master_Processor_WS</target.uri>
+  </wire>
+  <wire>
+    <source.uri>Master_Dispatcher_Process/MasterHelper.MasterHelperService</source.uri>
+    <target.uri>MasterHelper/MasterHelperService</target.uri>
   </wire>
 </composite>

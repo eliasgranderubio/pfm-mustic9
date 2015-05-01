@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions
+     name="MasterHelperInterface"
+     targetNamespace="http://master.cracking.uem.es/"
+     xmlns:tns="http://master.cracking.uem.es/"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+     xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+     xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+    >
+    <wsdl:types>
+        <xsd:schema targetNamespace="http://master.cracking.uem.es/" xmlns:tns="http://master.cracking.uem.es/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:complexType name="getDateTimeInMilliseconds">
+                <xsd:sequence/>
+            </xsd:complexType>
+            <xsd:element name="getDateTimeInMilliseconds" type="tns:getDateTimeInMilliseconds"/>
+            <xsd:complexType name="getDateTimeInMillisecondsResponse">
+                <xsd:sequence>
+                    <xsd:element name="return" type="xsd:long"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:element name="getDateTimeInMillisecondsResponse" type="tns:getDateTimeInMillisecondsResponse"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="getDateTimeInMillisecondsInput">
+        <wsdl:part name="parameters" element="tns:getDateTimeInMilliseconds"/>
+    </wsdl:message>
+    <wsdl:message name="getDateTimeInMillisecondsOutput">
+        <wsdl:part name="parameters" element="tns:getDateTimeInMillisecondsResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="MasterHelperInterface">
+        <wsdl:operation name="getDateTimeInMilliseconds">
+            <wsdl:input message="tns:getDateTimeInMillisecondsInput" xmlns:ns1="http://www.w3.org/2006/05/addressing/wsdl"
+                 ns1:Action=""/>
+            <wsdl:output message="tns:getDateTimeInMillisecondsOutput" xmlns:ns1="http://www.w3.org/2006/05/addressing/wsdl"
+                 ns1:Action=""/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

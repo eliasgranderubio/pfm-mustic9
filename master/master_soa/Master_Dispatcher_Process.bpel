@@ -34,7 +34,8 @@
          xmlns:xsd="http://www.w3.org/2001/XMLSchema"
          xmlns:ns7="http://xmlns.oracle.com/pfm-mustic9/master_soa/Get_Processor_Info_Process"
          xmlns:ns8="http://xmlns.oracle.com/bpel"
-         xmlns:ns9="http://windows.master.cracking.uem.es/">
+         xmlns:ns9="http://windows.master.cracking.uem.es/"
+         xmlns:ns10="http://master.cracking.uem.es/">
 
   <!-- 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,6 +70,9 @@
     <partnerLink name="Get_Processor_Info_Process.get_processor_info_process_client"
                  partnerLinkType="ns7:Get_Processor_Info_Process"
                  partnerRole="Get_Processor_Info_ProcessProvider"/>
+    <partnerLink name="MasterHelper.MasterHelperService"
+                 partnerLinkType="ns10:MasterHelper.MasterHelperService"
+                 partnerRole="MasterHelperInterface"/>
   </partnerLinks>
 
   <!-- 
@@ -168,6 +172,10 @@
                                 messageType="ns5:getAttackWindowIdsToSendResponse"/>
                       <variable name="johnTheRipperAttack_InputVariable"
                                 messageType="ns3:johnTheRipperAttack"/>
+                      <variable name="deleteFromNameServerInvoke_deleteLockedSlave_InputVariable"
+                                messageType="ns2:deleteLockedSlave"/>
+                      <variable name="deleteFromNameServerInvoke_deleteLockedSlave_OutputVariable"
+                                messageType="ns2:deleteLockedSlaveResponse"/>
                     </variables>
                     <sequence name="Sequence2">
                       <if name="CheckCurrentAttack">
@@ -176,40 +184,49 @@
                         </documentation>
                         <condition>$currentActiveAttack &gt; $maxActiveAttacks</condition>
                         <sequence name="Sequence5">
-                          <assign name="prepareReleaseSlave">
-                            <copy>
-                              <from>$getAvailableSlavesInvoke_getAvailableSlaves_OutputVariable.parameters/return/availableSlaves[$ForEachSlaveCounter]/ip</from>
-                              <to>$johnTheRipperAttack_InputVariable.parameters/johnTheRipperAttackRequest/routing/ip</to>
-                            </copy>
-                            <copy>
-                              <from>$getAvailableSlavesInvoke_getAvailableSlaves_OutputVariable.parameters/return/availableSlaves[$ForEachSlaveCounter]/port</from>
-                              <to>$johnTheRipperAttack_InputVariable.parameters/johnTheRipperAttackRequest/routing/port</to>
-                            </copy>
-                            <copy>
-                              <from>0</from>
-                              <to>$johnTheRipperAttack_InputVariable.parameters/johnTheRipperAttackRequest/activeAttackId</to>
-                            </copy>
-                            <copy>
-                              <from>0</from>
-                              <to>$johnTheRipperAttack_InputVariable.parameters/johnTheRipperAttackRequest/attackWindowId</to>
-                            </copy>
-                            <copy>
-                              <from>'releaseHash'</from>
-                              <to>$johnTheRipperAttack_InputVariable.parameters/johnTheRipperAttackRequest/hashToCrack</to>
-                            </copy>
-                            <extensionAssignOperation>
-                              <bpelx:append>
-                                <bpelx:from>'release1'</bpelx:from>
-                                <bpelx:to>$johnTheRipperAttack_InputVariable.parameters/johnTheRipperAttackRequest/dictionary/word</bpelx:to>
-                              </bpelx:append>
-                            </extensionAssignOperation>
-                          </assign>
-                          <invoke name="releaseSlaveMockAttackInvoke"
-                                  partnerLink="OSB_Slave_John_The_Ripper_WS"
-                                  portType="ns3:Slave_John_The_Ripper_WS"
-                                  operation="johnTheRipperAttack"
-                                  inputVariable="johnTheRipperAttack_InputVariable"
-                                  bpelx:invokeAsDetail="no"/>
+                          <scope name="Scope1">
+                            <faultHandlers>
+                              <catchAll>
+                                <empty name="NothingToDo"/>
+                              </catchAll>
+                            </faultHandlers>
+                            <sequence>
+                              <assign name="prepareReleaseSlave">
+                                <copy>
+                                  <from>$getAvailableSlavesInvoke_getAvailableSlaves_OutputVariable.parameters/return/availableSlaves[$ForEachSlaveCounter]/ip</from>
+                                  <to>$johnTheRipperAttack_InputVariable.parameters/johnTheRipperAttackRequest/routing/ip</to>
+                                </copy>
+                                <copy>
+                                  <from>$getAvailableSlavesInvoke_getAvailableSlaves_OutputVariable.parameters/return/availableSlaves[$ForEachSlaveCounter]/port</from>
+                                  <to>$johnTheRipperAttack_InputVariable.parameters/johnTheRipperAttackRequest/routing/port</to>
+                                </copy>
+                                <copy>
+                                  <from>0</from>
+                                  <to>$johnTheRipperAttack_InputVariable.parameters/johnTheRipperAttackRequest/activeAttackId</to>
+                                </copy>
+                                <copy>
+                                  <from>0</from>
+                                  <to>$johnTheRipperAttack_InputVariable.parameters/johnTheRipperAttackRequest/attackWindowId</to>
+                                </copy>
+                                <copy>
+                                  <from>'releaseHash'</from>
+                                  <to>$johnTheRipperAttack_InputVariable.parameters/johnTheRipperAttackRequest/hashToCrack</to>
+                                </copy>
+                                <copy>
+                                  <from><literal><dictionary>
+    <word>release1</word>
+</dictionary></literal></from>
+                                  <to>$johnTheRipperAttack_InputVariable.parameters/johnTheRipperAttackRequest/dictionary</to>
+                                </copy>
+                              </assign>
+                              <invoke name="releaseSlaveMockAttackInvoke"
+                                      partnerLink="OSB_Slave_John_The_Ripper_WS"
+                                      portType="ns3:Slave_John_The_Ripper_WS"
+                                      operation="johnTheRipperAttack"
+                                      inputVariable="johnTheRipperAttack_InputVariable"
+                                      bpelx:invokeAsDetail="no"/>
+                            </sequence>
+                          </scope>
                         </sequence>
                         <else>
                           <documentation>
@@ -345,40 +362,49 @@
                               </documentation>
                               <condition>$currentActiveAttack &gt; $maxActiveAttacks</condition>
                               <sequence name="Sequence7">
-                                <assign name="prepareReleaseSlave">
-                                  <copy>
-                                    <from>$getAvailableSlavesInvoke_getAvailableSlaves_OutputVariable.parameters/return/availableSlaves[$ForEachSlaveCounter]/ip</from>
-                                    <to>$johnTheRipperAttack_InputVariable.parameters/johnTheRipperAttackRequest/routing/ip</to>
-                                  </copy>
-                                  <copy>
-                                    <from>$getAvailableSlavesInvoke_getAvailableSlaves_OutputVariable.parameters/return/availableSlaves[$ForEachSlaveCounter]/port</from>
-                                    <to>$johnTheRipperAttack_InputVariable.parameters/johnTheRipperAttackRequest/routing/port</to>
-                                  </copy>
-                                  <copy>
-                                    <from>0</from>
-                                    <to>$johnTheRipperAttack_InputVariable.parameters/johnTheRipperAttackRequest/activeAttackId</to>
-                                  </copy>
-                                  <copy>
-                                    <from>0</from>
-                                    <to>$johnTheRipperAttack_InputVariable.parameters/johnTheRipperAttackRequest/attackWindowId</to>
-                                  </copy>
-                                  <copy>
-                                    <from>'releaseHash'</from>
-                                    <to>$johnTheRipperAttack_InputVariable.parameters/johnTheRipperAttackRequest/hashToCrack</to>
-                                  </copy>
-                                  <extensionAssignOperation>
-                                    <bpelx:append>
-                                      <bpelx:from>'release1'</bpelx:from>
-                                      <bpelx:to>$johnTheRipperAttack_InputVariable.parameters/johnTheRipperAttackRequest/dictionary/word</bpelx:to>
-                                    </bpelx:append>
-                                  </extensionAssignOperation>
-                                </assign>
-                                <invoke name="releaseSlaveMockAttackInvoke"
-                                        partnerLink="OSB_Slave_John_The_Ripper_WS"
-                                        portType="ns3:Slave_John_The_Ripper_WS"
-                                        operation="johnTheRipperAttack"
-                                        inputVariable="johnTheRipperAttack_InputVariable"
-                                        bpelx:invokeAsDetail="no"/>
+                                <scope name="Scope2">
+                                  <faultHandlers>
+                                    <catchAll>
+                                      <empty name="NothingToDo"/>
+                                    </catchAll>
+                                  </faultHandlers>
+                                  <sequence>
+                                    <assign name="prepareReleaseSlave">
+                                      <copy>
+                                        <from>$getAvailableSlavesInvoke_getAvailableSlaves_OutputVariable.parameters/return/availableSlaves[$ForEachSlaveCounter]/ip</from>
+                                        <to>$johnTheRipperAttack_InputVariable.parameters/johnTheRipperAttackRequest/routing/ip</to>
+                                      </copy>
+                                      <copy>
+                                        <from>$getAvailableSlavesInvoke_getAvailableSlaves_OutputVariable.parameters/return/availableSlaves[$ForEachSlaveCounter]/port</from>
+                                        <to>$johnTheRipperAttack_InputVariable.parameters/johnTheRipperAttackRequest/routing/port</to>
+                                      </copy>
+                                      <copy>
+                                        <from>0</from>
+                                        <to>$johnTheRipperAttack_InputVariable.parameters/johnTheRipperAttackRequest/activeAttackId</to>
+                                      </copy>
+                                      <copy>
+                                        <from>0</from>
+                                        <to>$johnTheRipperAttack_InputVariable.parameters/johnTheRipperAttackRequest/attackWindowId</to>
+                                      </copy>
+                                      <copy>
+                                        <from>'releaseHash'</from>
+                                        <to>$johnTheRipperAttack_InputVariable.parameters/johnTheRipperAttackRequest/hashToCrack</to>
+                                      </copy>
+                                      <copy>
+                                        <from><literal><dictionary>
+    <word>release1</word>
+</dictionary></literal></from>
+                                        <to>$johnTheRipperAttack_InputVariable.parameters/johnTheRipperAttackRequest/dictionary</to>
+                                      </copy>
+                                    </assign>
+                                    <invoke name="releaseSlaveMockAttackInvoke"
+                                            partnerLink="OSB_Slave_John_The_Ripper_WS"
+                                            portType="ns3:Slave_John_The_Ripper_WS"
+                                            operation="johnTheRipperAttack"
+                                            inputVariable="johnTheRipperAttack_InputVariable"
+                                            bpelx:invokeAsDetail="no"/>
+                                  </sequence>
+                                </scope>
                               </sequence>
                               <else>
                                 <documentation>
@@ -409,8 +435,132 @@
                                         <to>$firstAttackWindow</to>
                                       </copy>
                                     </assign>
-                                    <empty name="PendingGetAttackWindows"/>
-                                    <empty name="UpdateAttackWindow"/>
+                                    <forEach parallel="yes"
+                                             counterName="ForEachAttackWindowCounter"
+                                             name="ForEachAttackWindow">
+                                      <startCounterValue>1</startCounterValue>
+                                      <finalCounterValue>ora:countNodes('GetAttackWindowsInvoke_getAttackWindowIdsToSend_OutputVariable','parameters','return/ids/id')</finalCounterValue>
+                                      <scope name="ForEachAttackWindowScope"
+                                             exitOnStandardFault="no">
+                                        <variables>
+                                          <variable name="findAttackWindowById_InputVariable"
+                                                    messageType="ns5:findAttackWindowById"/>
+                                          <variable name="findAttackWindowById_OutputVariable"
+                                                    messageType="ns5:findAttackWindowByIdResponse"/>
+                                          <variable name="UpdateAttackWindowInvoke_updateAttackWindow_InputVariable"
+                                                    messageType="ns5:updateAttackWindow"/>
+                                          <variable name="UpdateAttackWindowInvoke_updateAttackWindow_OutputVariable"
+                                                    messageType="ns5:updateAttackWindowResponse"/>
+                                          <variable name="getNowInvoke_getDateTimeInMilliseconds_InputVariable"
+                                                    messageType="ns10:getDateTimeInMillisecondsInput"/>
+                                          <variable name="getNowInvoke_getDateTimeInMilliseconds_OutputVariable"
+                                                    messageType="ns10:getDateTimeInMillisecondsOutput"/>
+                                        </variables>
+                                        <sequence name="Sequence11">
+                                          <assign name="prepareGetAttackWindow">
+                                            <copy>
+                                              <from>$GetAttackWindowsInvoke_getAttackWindowIdsToSend_OutputVariable.parameters/return/ids/id[$ForEachAttackWindowCounter]</from>
+                                              <to>$findAttackWindowById_InputVariable.parameters/findAttackWindowByIdRequest/id</to>
+                                            </copy>
+                                          </assign>
+                                          <invoke name="getAttackWindowInvoke"
+                                                  partnerLink="Master_Attack_WS"
+                                                  portType="ns5:Master_Attack_WS"
+                                                  operation="findAttackWindowById"
+                                                  inputVariable="findAttackWindowById_InputVariable"
+                                                  outputVariable="findAttackWindowById_OutputVariable"
+                                                  bpelx:invokeAsDetail="no"/>
+                                          <if name="CheckIfFirst">
+                                            <documentation>
+                                              <![CDATA[First]]>
+                                            </documentation>
+                                            <condition>$ForEachAttackWindowCounter = 1</condition>
+                                            <assign name="AssignFirst">
+                                              <copy>
+                                                <from>$findAttackWindowById_OutputVariable.parameters/return/firstDictionaryWord</from>
+                                                <to>$includeFrom</to>
+                                              </copy>
+                                            </assign>
+                                            <else>
+                                              <documentation>
+                                                <![CDATA[NoFirst]]>
+                                              </documentation>
+                                              <empty name="NothingToDo"/>
+                                            </else>
+                                          </if>
+                                          <if name="CheckLast">
+                                            <documentation>
+                                              <![CDATA[Last]]>
+                                            </documentation>
+                                            <condition>ora:countNodes('GetAttackWindowsInvoke_getAttackWindowIdsToSend_OutputVariable','parameters','return/ids/id') = $ForEachAttackWindowCounter</condition>
+                                            <assign name="AssignLast">
+                                              <copy>
+                                                <from>$findAttackWindowById_OutputVariable.parameters/return/lastDictionaryWord</from>
+                                                <to>$includeTo</to>
+                                              </copy>
+                                            </assign>
+                                            <else>
+                                              <documentation>
+                                                <![CDATA[NoLast]]>
+                                              </documentation>
+                                              <empty name="NothinToDo"/>
+                                            </else>
+                                          </if>
+                                          <invoke name="getNowInvoke"
+                                                  partnerLink="MasterHelper.MasterHelperService"
+                                                  portType="ns10:MasterHelperInterface"
+                                                  operation="getDateTimeInMilliseconds"
+                                                  inputVariable="getNowInvoke_getDateTimeInMilliseconds_InputVariable"
+                                                  outputVariable="getNowInvoke_getDateTimeInMilliseconds_OutputVariable"
+                                                  bpelx:invokeAsDetail="no"/>
+                                          <assign name="prepareUpdate">
+                                            <copy>
+                                              <from>$findAttackWindowById_OutputVariable.parameters/return/id</from>
+                                              <to>$UpdateAttackWindowInvoke_updateAttackWindow_InputVariable.parameters/updateAttackWindowRequest/id</to>
+                                            </copy>
+                                            <copy>
+                                              <from>$findAttackWindowById_OutputVariable.parameters/return/activeAttackId</from>
+                                              <to>$UpdateAttackWindowInvoke_updateAttackWindow_InputVariable.parameters/updateAttackWindowRequest/activeAttackId</to>
+                                            </copy>
+                                            <copy>
+                                              <from>($findAttackWindowById_OutputVariable.parameters/return/attemps) + 1</from>
+                                              <to>$UpdateAttackWindowInvoke_updateAttackWindow_InputVariable.parameters/updateAttackWindowRequest/attemps</to>
+                                            </copy>
+                                            <copy>
+                                              <from>$findAttackWindowById_OutputVariable.parameters/return/processed</from>
+                                              <to>$UpdateAttackWindowInvoke_updateAttackWindow_InputVariable.parameters/updateAttackWindowRequest/processed</to>
+                                            </copy>
+                                            <copy>
+                                              <from>(ora:countNodes('GetAttackWindowsInvoke_getAttackWindowIdsToSend_OutputVariable','parameters','return/ids/id')) - 1</from>
+                                              <to>$UpdateAttackWindowInvoke_updateAttackWindow_InputVariable.parameters/updateAttackWindowRequest/factor</to>
+                                            </copy>
+                                            <copy ignoreMissingFromData="yes">
+                                              <from>$findAttackWindowById_OutputVariable.parameters/return/firstDictionaryWord</from>
+                                              <to>$UpdateAttackWindowInvoke_updateAttackWindow_InputVariable.parameters/updateAttackWindowRequest/firstDictionaryWord</to>
+                                            </copy>
+                                            <copy ignoreMissingFromData="yes">
+                                              <from>$findAttackWindowById_OutputVariable.parameters/return/lastDictionaryWord</from>
+                                              <to>$UpdateAttackWindowInvoke_updateAttackWindow_InputVariable.parameters/updateAttackWindowRequest/lastDictionaryWord</to>
+                                            </copy>
+                                            <copy ignoreMissingFromData="yes">
+                                              <from>$findAttackWindowById_OutputVariable.parameters/return/bfPattern</from>
+                                              <to>$UpdateAttackWindowInvoke_updateAttackWindow_InputVariable.parameters/updateAttackWindowRequest/bfPattern</to>
+                                            </copy>
+                                            <copy>
+                                              <from>$getNowInvoke_getDateTimeInMilliseconds_OutputVariable.parameters/return</from>
+                                              <to>$UpdateAttackWindowInvoke_updateAttackWindow_InputVariable.parameters/updateAttackWindowRequest/sentTimestamp</to>
+                                            </copy>
+                                          </assign>
+                                          <invoke name="UpdateAttackWindowInvoke"
+                                                  partnerLink="Master_Attack_WS"
+                                                  portType="ns5:Master_Attack_WS"
+                                                  operation="updateAttackWindow"
+                                                  inputVariable="UpdateAttackWindowInvoke_updateAttackWindow_InputVariable"
+                                                  outputVariable="UpdateAttackWindowInvoke_updateAttackWindow_OutputVariable"
+                                                  bpelx:invokeAsDetail="no"/>
+                                        </sequence>
+                                      </scope>
+                                    </forEach>
                                     <assign name="prepareGetWordsRange">
                                       <copy>
                                         <from>$includeFrom</from>
@@ -470,12 +620,19 @@
                                             <to>$johnTheRipperAttack.parameters/johnTheRipperAttackRequest/hashToCrack</to>
                                           </copy>
                                         </assign>
-                                        <invoke name="JohnInvoke"
-                                                partnerLink="OSB_Slave_John_The_Ripper_WS"
-                                                portType="ns3:Slave_John_The_Ripper_WS"
-                                                operation="johnTheRipperAttack"
-                                                inputVariable="johnTheRipperAttack"
-                                                bpelx:invokeAsDetail="no"/>
+                                        <scope name="Scope4">
+                                          <faultHandlers>
+                                            <catchAll>
+                                              <empty name="NothingToDo"/>
+                                            </catchAll>
+                                          </faultHandlers>
+                                          <invoke name="JohnInvoke"
+                                                  partnerLink="OSB_Slave_John_The_Ripper_WS"
+                                                  portType="ns3:Slave_John_The_Ripper_WS"
+                                                  operation="johnTheRipperAttack"
+                                                  inputVariable="johnTheRipperAttack"
+                                                  bpelx:invokeAsDetail="no"/>
+                                        </scope>
                                       </sequence>
                                       <else>
                                         <documentation>
@@ -530,12 +687,19 @@
                                               <to>$thcHydraAttack.parameters/thcHydraAttackRequest/extraParam</to>
                                             </copy>
                                           </assign>
-                                          <invoke name="HydraInvoke"
-                                                  partnerLink="OSB_Slave_THC_Hydra_WS"
-                                                  portType="ns3:Slave_THC_Hydra_WS"
-                                                  operation="thcHydraAttack"
-                                                  inputVariable="thcHydraAttack"
-                                                  bpelx:invokeAsDetail="no"/>
+                                          <scope name="Scope5">
+                                            <faultHandlers>
+                                              <catchAll>
+                                                <empty name="NothingToDo"/>
+                                              </catchAll>
+                                            </faultHandlers>
+                                            <invoke name="HydraInvoke"
+                                                    partnerLink="OSB_Slave_THC_Hydra_WS"
+                                                    portType="ns3:Slave_THC_Hydra_WS"
+                                                    operation="thcHydraAttack"
+                                                    inputVariable="thcHydraAttack"
+                                                    bpelx:invokeAsDetail="no"/>
+                                          </scope>
                                         </sequence>
                                       </else>
                                     </if>
@@ -546,6 +710,28 @@
                           </sequence>
                         </else>
                       </if>
+                      <scope name="Scope3">
+                        <faultHandlers>
+                          <catchAll>
+                            <empty name="NothingToDo"/>
+                          </catchAll>
+                        </faultHandlers>
+                        <sequence>
+                          <assign name="prepareDeleteFromNameServer">
+                            <copy>
+                              <from>$getAvailableSlavesInvoke_getAvailableSlaves_OutputVariable.parameters/return/availableSlaves[$ForEachSlaveCounter]/id</from>
+                              <to>$deleteFromNameServerInvoke_deleteLockedSlave_InputVariable.parameters/deleteLockedSlaveRequest/id</to>
+                            </copy>
+                          </assign>
+                          <invoke name="deleteFromNameServerInvoke"
+                                  partnerLink="OSB_Name_Server_WS"
+                                  portType="ns2:Name_Server_WS"
+                                  operation="deleteLockedSlave"
+                                  inputVariable="deleteFromNameServerInvoke_deleteLockedSlave_InputVariable"
+                                  outputVariable="deleteFromNameServerInvoke_deleteLockedSlave_OutputVariable"
+                                  bpelx:invokeAsDetail="no"/>
+                        </sequence>
+                      </scope>
                     </sequence>
                   </scope>
                 </forEach>

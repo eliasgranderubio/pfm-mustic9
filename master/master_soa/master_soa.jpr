@@ -114,6 +114,9 @@
    <value n="Namespace" v="http://xmlns.oracle.com/pfm_mustic9/master_soa/Master_Dispatcher_Process"/>
    <hash n="oracle.ide.model.ResourcePaths">
       <hash n="resourcesContentSet">
+         <list n="pattern-filters">
+            <string v="+src/"/>
+         </list>
          <list n="url-path"/>
       </hash>
    </hash>
@@ -316,9 +319,309 @@
             <value n="profileClass" v="oracle.tip.tools.ide.fabric.deploy.sar.SarProfile"/>
             <value n="profileName" v="master_soa"/>
          </hash>
+         <hash n="WebServices">
+            <hash n="appletArchives"/>
+            <hash n="appletFiles">
+               <value n="autoInclude" v="true"/>
+               <list n="selectionFilters">
+                  <string v="oracle.jdevimpl.deploy.common.JavaSelectionFilter"/>
+               </list>
+            </hash>
+            <hash n="archiveOptions">
+               <value n="hasManifest" v="false"/>
+            </hash>
+            <url n="earURL" path="deploy/pfm-mustic9-master_soa-context-root.ear"/>
+            <value n="enterpriseAppName" v="pfm-mustic9-master_soa-context-root"/>
+            <hash n="fileGroups">
+               <list n="groups">
+                  <hash>
+                     <list n="contributors">
+                        <hash>
+                           <value n="type" v="5"/>
+                        </hash>
+                     </list>
+                     <value n="displayName" v="Web Files"/>
+                     <hash n="filters">
+                        <list n="rules">
+                           <hash>
+                              <value n="pattern" v="**.xml"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.wsdl"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.xsd"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="WEB-INF/web.xml"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="WEB-INF/temp/**"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="WEB-INF/classes/jsp_servlet/**"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v=".wlsjsps/"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v=".wlLibs/"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**/.svn/"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**/CVS/"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**/.ade_path"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**/.data/**"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.cdi"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.contrib"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.keep"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.rvi"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v=".jsps/"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v=".tags/"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v=".dtags/"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**/*.jht"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**/*.jjt"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**/*.jxt"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                        </list>
+                     </hash>
+                     <value n="internalName" v="web-files"/>
+                     <value n="type" v="1"/>
+                  </hash>
+                  <hash>
+                     <list n="contributors">
+                        <hash>
+                           <value n="type" v="2"/>
+                        </hash>
+                        <hash>
+                           <value n="type" v="7"/>
+                        </hash>
+                     </list>
+                     <value n="displayName" v="WEB-INF/classes"/>
+                     <hash n="filters">
+                        <list n="rules">
+                           <hash>
+                              <value n="pattern" v="**.exm"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.xsd"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.xsl"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.xlf"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.tag"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.tld"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.ini"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.wsdl"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.sva"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.dcx"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.cpx"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.xcfg"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.ejx"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.xml"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.properties"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.PNG"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.png"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.JPEG"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.jpeg"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.JPG"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.jpg"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.GIF"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.gif"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.class"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="WEB-INF/temp/**"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="WEB-INF/classes/jsp_servlet/**"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v=".wlsjsps/"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v=".wlLibs/"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**/.svn/"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**/CVS/"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**/.ade_path"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**/.data/**"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.cdi"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.contrib"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.keep"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**.rvi"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v=".jsps/"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v=".tags/"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v=".dtags/"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**/*.jht"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**/*.jjt"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**/*.jxt"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                        </list>
+                     </hash>
+                     <value n="internalName" v="project-output"/>
+                     <value n="targetWithinJar" v="WEB-INF/classes"/>
+                     <value n="type" v="1"/>
+                  </hash>
+                  <hash>
+                     <value n="displayName" v="WEB-INF/lib"/>
+                     <hash n="filters">
+                        <list n="rules">
+                           <hash>
+                              <value n="pattern" v="**"/>
+                           </hash>
+                        </list>
+                     </hash>
+                     <value n="internalName" v="libraries"/>
+                     <value n="targetWithinJar" v="WEB-INF/lib"/>
+                     <value n="type" v="3"/>
+                  </hash>
+               </list>
+            </hash>
+            <url n="jarURL" path="deploy/pfm-mustic9-master_soa-context-root.war"/>
+            <hash n="libraryDependencies">
+               <value n="IncludeLibrariesFromOtherContainers" v="true"/>
+            </hash>
+            <value n="platformType" v="WEBLOGIC"/>
+            <value n="platformVersion" v="10.3.0.0"/>
+            <value n="profileClass" v="oracle.jdeveloper.deploy.war.WarProfile"/>
+            <value n="profileName" v="WebServices"/>
+         </hash>
       </hash>
       <list n="profileList">
          <string v="master_soa"/>
+         <string v="WebServices"/>
       </list>
    </hash>
    <hash n="oracle.jdeveloper.model.J2eeSettings">
@@ -397,6 +700,18 @@
             <value n="id" v="Oracle Rules"/>
             <value n="isJDK" v="false"/>
          </hash>
+         <hash>
+            <value n="id" v="Spring 2.5"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Commons Logging 1.0.4"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="JAX-WS Web Services"/>
+            <value n="isJDK" v="false"/>
+         </hash>
       </list>
       <list n="libraryReferences">
          <hash>
@@ -445,6 +760,18 @@
          </hash>
          <hash>
             <value n="id" v="Oracle Rules"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Spring 2.5"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Commons Logging 1.0.4"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="JAX-WS Web Services"/>
             <value n="isJDK" v="false"/>
          </hash>
       </list>

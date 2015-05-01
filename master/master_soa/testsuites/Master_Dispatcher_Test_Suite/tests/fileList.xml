@@ -2,4 +2,6 @@
 <properties>
   <entry key="ThereAreNotActiveAttacksTest.xml"/>
   <entry key="ThereAreNotAvailableSlavesTest.xml"/>
+  <entry key="ReleaseSlaveTest.xml"/>
+  <entry key="CompleteDispatcherOkTest.xml"/>
 </properties>

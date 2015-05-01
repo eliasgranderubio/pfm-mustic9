@@ -36,4 +36,8 @@
              ui:wsdlLocation="Get_Processor_Info_Process.wsdl">
     <interface.wsdl interface="http://xmlns.oracle.com/pfm-mustic9/master_soa/Get_Processor_Info_Process#wsdl.interface(get_processor_info_ptt)"/>
   </reference>
+  <reference name="MasterHelper.MasterHelperService"
+             ui:wsdlLocation="MasterHelperInterfaceWrapper.wsdl">
+    <interface.wsdl interface="http://master.cracking.uem.es/#wsdl.interface(MasterHelperInterface)"/>
+  </reference>
 </componentType>

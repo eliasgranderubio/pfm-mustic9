@@ -1,0 +1,15 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="MasterHelperInterface"
+     targetNamespace="http://master.cracking.uem.es/"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:tns="http://master.cracking.uem.es/"
+     xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    >
+    <plnk:partnerLinkType name="MasterHelper.MasterHelperService">
+        <plnk:role name="MasterHelperInterface" portType="tns:MasterHelperInterface"/>
+    </plnk:partnerLinkType>
+    <wsdl:import namespace="http://master.cracking.uem.es/" location="MasterHelperInterface.wsdl"/>
+</wsdl:definitions>

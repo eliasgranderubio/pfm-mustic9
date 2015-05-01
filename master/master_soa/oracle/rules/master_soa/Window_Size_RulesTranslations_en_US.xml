@@ -1,6 +1,10 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <properties>
+   <entry key="AG}5c46a4e4:14d10da5c5b:-7c36">WordsPerMinuteGreenRule</entry>
+   <entry key="AG}5c46a4e4:14d10da5c5b:-7c35">WordsPerMinuteYellowRule</entry>
    <entry key="AG}-4a2f0e33:14cb40c910b:-7c26">TotalWordRule</entry>
+   <entry key="AG}5c46a4e4:14d10da5c5b:-7c34">WordPerMinuteOrangeRule</entry>
    <entry key="AG}-4a2f0e33:14cb40c910b:-7c2b">WindowSizeRuleset</entry>
+   <entry key="AG}5c46a4e4:14d10da5c5b:-7c33">WordsPerMinuteRedRule</entry>
    <entry key="AG}-4a2f0e33:14cb40c910b:-7c25">WINDOW_DEFAULT_SIZE</entry>
 </properties>

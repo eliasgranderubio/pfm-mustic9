@@ -542,14 +542,14 @@
             <RuleFiringLimit>10000</RuleFiringLimit>
             <RuleFiringLimitError>true</RuleFiringLimitError>
         </DecisionFunction>
-        <UpdateNumber>35</UpdateNumber>
-        <ValidationUpdateNumber>31</ValidationUpdateNumber>
+        <UpdateNumber>41</UpdateNumber>
+        <ValidationUpdateNumber>41</ValidationUpdateNumber>
         <UpdateTime>-9223372036854775808</UpdateTime>
     </DataModel>
     <RuleSet id="G}-4a2f0e33:14cb40c910b:-7c2b">
         <Name>WindowSizeRuleset</Name>
         <Alias>WindowSizeRuleset</Alias>
-        <ValidationUpdateNumber>37</ValidationUpdateNumber>
+        <ValidationUpdateNumber>119</ValidationUpdateNumber>
         <Customizable>true</Customizable>
         <Active>true</Active>
         <CalendarForm>DateTime</CalendarForm>
@@ -674,10 +674,532 @@
                 </Expression>
             </Action>
         </Rule>
+        <Rule id="G}5c46a4e4:14d10da5c5b:-7c36">
+            <Name>WordsPerMinuteGreenRule</Name>
+            <Alias>WordsPerMinuteGreenRule</Alias>
+            <ValidationUpdateNumber>64</ValidationUpdateNumber>
+            <Priority>medium</Priority>
+            <Customizable>true</Customizable>
+            <Active>true</Active>
+            <CalendarForm>DateTime</CalendarForm>
+            <Pattern id="L}132">
+                <Form>Fact Type</Form>
+                <FactType>windowSizeRequest</FactType>
+                <IDofFactType>J}es.uem.cracking.master.windows.WindowSizeRequest</IDofFactType>
+                <Connective>&amp;&amp;</Connective>
+                <TestForm>Simple</TestForm>
+                <Expression id="L}133">
+                    <IsConstant>false</IsConstant>
+                    <ParameterID>B}nil</ParameterID>
+                    <Customizable>false</Customizable>
+                </Expression>
+                <Operator>(for each case where)</Operator>
+                <SimpleTest id="L}138">
+                    <Expression id="L}144">
+                        <IsConstant>false</IsConstant>
+                        <ParameterID>B}nil</ParameterID>
+                        <Customizable>false</Customizable>
+                    </Expression>
+                    <Expression id="L}145">
+                        <IsConstant>false</IsConstant>
+                        <ParameterID>B}nil</ParameterID>
+                        <Customizable>false</Customizable>
+                    </Expression>
+                    <IDofOperator>B}nil</IDofOperator>
+                    <Connective>&amp;&amp;</Connective>
+                    <Form>FormNested</Form>
+                    <SimpleTest id="L}148">
+                        <Expression id="L}149">
+                            <Value>windowSizeRequest.processorName</Value>
+                            <ResolvedValue>`L}132`.`J}es.uem.cracking.master.windows.WindowSizeRequest.{processorName}`</ResolvedValue>
+                            <IsConstant>false</IsConstant>
+                            <ParameterID>B}nil</ParameterID>
+                            <Customizable>false</Customizable>
+                        </Expression>
+                        <Expression id="L}150">
+                            <Value>null</Value>
+                            <ResolvedValue>null</ResolvedValue>
+                            <IsConstant>false</IsConstant>
+                            <ParameterID>B}nil</ParameterID>
+                            <Customizable>false</Customizable>
+                        </Expression>
+                        <IDofOperator>B}!=</IDofOperator>
+                        <Connective>&amp;&amp;</Connective>
+                        <Form>FormNotNested</Form>
+                    </SimpleTest>
+                    <SimpleTest id="L}159">
+                        <Expression id="L}160">
+                            <Value>windowSizeRequest.processorName.length()</Value>
+                            <ResolvedValue>`L}132`.`J}es.uem.cracking.master.windows.WindowSizeRequest.{processorName}`.`J}public int java.lang.String.length()`()</ResolvedValue>
+                            <IsConstant>false</IsConstant>
+                            <ParameterID>B}nil</ParameterID>
+                            <Customizable>false</Customizable>
+                        </Expression>
+                        <Expression id="L}161">
+                            <Value>0</Value>
+                            <ResolvedValue>0</ResolvedValue>
+                            <IsConstant>false</IsConstant>
+                            <ParameterID>B}nil</ParameterID>
+                            <Customizable>false</Customizable>
+                        </Expression>
+                        <IDofOperator>B}&gt;</IDofOperator>
+                        <Connective>&amp;&amp;</Connective>
+                        <Form>FormNotNested</Form>
+                    </SimpleTest>
+                </SimpleTest>
+                <SimpleTest id="L}170">
+                    <Expression id="L}171">
+                        <Value>windowSizeRequest.wordsPerMinute * 5</Value>
+                        <ResolvedValue>`L}132`.`J}es.uem.cracking.master.windows.WindowSizeRequest.{wordsPerMinute}` * 5</ResolvedValue>
+                        <IsConstant>false</IsConstant>
+                        <ParameterID>B}nil</ParameterID>
+                        <Customizable>false</Customizable>
+                    </Expression>
+                    <Expression id="L}172">
+                        <Value>WINDOW_DEFAULT_SIZE</Value>
+                        <ResolvedValue>`G}-4a2f0e33:14cb40c910b:-7c25`</ResolvedValue>
+                        <IsConstant>false</IsConstant>
+                        <ParameterID>B}nil</ParameterID>
+                        <Customizable>false</Customizable>
+                    </Expression>
+                    <IDofOperator>B}&lt;=</IDofOperator>
+                    <Connective>&amp;&amp;</Connective>
+                    <Form>FormNotNested</Form>
+                </SimpleTest>
+                <FactPath>windowSizeRequest</FactPath>
+                <FactPathIDs>L}132</FactPathIDs>
+            </Pattern>
+            <ShowPatterns>false</ShowPatterns>
+            <TreeMode>false</TreeMode>
+            <Visible>true</Visible>
+            <Logical>false</Logical>
+            <Action id="L}185">
+                <Form>Assert New</Form>
+                <Target>windowSizeResponse</Target>
+                <ResolvedTarget>`J}public es.uem.cracking.master.windows.WindowSizeResponse()`</ResolvedTarget>
+                <Expression id="L}188">
+                    <Value>WINDOW_DEFAULT_SIZE</Value>
+                    <ResolvedValue>`G}-4a2f0e33:14cb40c910b:-7c25`</ResolvedValue>
+                    <IsConstant>false</IsConstant>
+                    <ParameterAlias>windowSize</ParameterAlias>
+                    <ParameterID>J}es.uem.cracking.master.windows.WindowSizeResponse.{windowSize}</ParameterID>
+                    <Customizable>false</Customizable>
+                </Expression>
+                <Expression id="L}189">
+                    <Value>1</Value>
+                    <ResolvedValue>1</ResolvedValue>
+                    <IsConstant>false</IsConstant>
+                    <ParameterAlias>windowsCount</ParameterAlias>
+                    <ParameterID>J}es.uem.cracking.master.windows.WindowSizeResponse.{windowsCount}</ParameterID>
+                    <Customizable>false</Customizable>
+                </Expression>
+            </Action>
+        </Rule>
+        <Rule id="G}5c46a4e4:14d10da5c5b:-7c35">
+            <Name>WordsPerMinuteYellowRule</Name>
+            <Alias>WordsPerMinuteYellowRule</Alias>
+            <ValidationUpdateNumber>89</ValidationUpdateNumber>
+            <Priority>medium</Priority>
+            <Customizable>true</Customizable>
+            <Active>true</Active>
+            <CalendarForm>DateTime</CalendarForm>
+            <Pattern id="L}196">
+                <Form>Fact Type</Form>
+                <FactType>windowSizeRequest</FactType>
+                <IDofFactType>J}es.uem.cracking.master.windows.WindowSizeRequest</IDofFactType>
+                <Connective>&amp;&amp;</Connective>
+                <TestForm>Simple</TestForm>
+                <Expression id="L}197">
+                    <IsConstant>false</IsConstant>
+                    <ParameterID>B}nil</ParameterID>
+                    <Customizable>false</Customizable>
+                </Expression>
+                <Operator>(for each case where)</Operator>
+                <SimpleTest id="L}208">
+                    <Expression id="L}213">
+                        <IsConstant>false</IsConstant>
+                        <ParameterID>B}nil</ParameterID>
+                        <Customizable>false</Customizable>
+                    </Expression>
+                    <Expression id="L}214">
+                        <IsConstant>false</IsConstant>
+                        <ParameterID>B}nil</ParameterID>
+                        <Customizable>false</Customizable>
+                    </Expression>
+                    <IDofOperator>B}nil</IDofOperator>
+                    <Connective>&amp;&amp;</Connective>
+                    <Form>FormNested</Form>
+                    <SimpleTest id="L}217">
+                        <Expression id="L}218">
+                            <Value>windowSizeRequest.processorName</Value>
+                            <ResolvedValue>`L}196`.`J}es.uem.cracking.master.windows.WindowSizeRequest.{processorName}`</ResolvedValue>
+                            <IsConstant>false</IsConstant>
+                            <ParameterID>B}nil</ParameterID>
+                            <Customizable>false</Customizable>
+                        </Expression>
+                        <Expression id="L}219">
+                            <Value>null</Value>
+                            <ResolvedValue>null</ResolvedValue>
+                            <IsConstant>false</IsConstant>
+                            <ParameterID>B}nil</ParameterID>
+                            <Customizable>false</Customizable>
+                        </Expression>
+                        <IDofOperator>B}!=</IDofOperator>
+                        <Connective>&amp;&amp;</Connective>
+                        <Form>FormNotNested</Form>
+                    </SimpleTest>
+                    <SimpleTest id="L}228">
+                        <Expression id="L}229">
+                            <Value>windowSizeRequest.processorName.length()</Value>
+                            <ResolvedValue>`L}196`.`J}es.uem.cracking.master.windows.WindowSizeRequest.{processorName}`.`J}public int java.lang.String.length()`()</ResolvedValue>
+                            <IsConstant>false</IsConstant>
+                            <ParameterID>B}nil</ParameterID>
+                            <Customizable>false</Customizable>
+                        </Expression>
+                        <Expression id="L}230">
+                            <Value>0</Value>
+                            <ResolvedValue>0</ResolvedValue>
+                            <IsConstant>false</IsConstant>
+                            <ParameterID>B}nil</ParameterID>
+                            <Customizable>false</Customizable>
+                        </Expression>
+                        <IDofOperator>B}&gt;</IDofOperator>
+                        <Connective>&amp;&amp;</Connective>
+                        <Form>FormNotNested</Form>
+                    </SimpleTest>
+                </SimpleTest>
+                <SimpleTest id="L}239">
+                    <Expression id="L}240">
+                        <Value>windowSizeRequest.wordsPerMinute * 5</Value>
+                        <ResolvedValue>`L}196`.`J}es.uem.cracking.master.windows.WindowSizeRequest.{wordsPerMinute}` * 5</ResolvedValue>
+                        <IsConstant>false</IsConstant>
+                        <ParameterID>B}nil</ParameterID>
+                        <Customizable>false</Customizable>
+                    </Expression>
+                    <Expression id="L}241">
+                        <Value>WINDOW_DEFAULT_SIZE</Value>
+                        <ResolvedValue>`G}-4a2f0e33:14cb40c910b:-7c25`</ResolvedValue>
+                        <IsConstant>false</IsConstant>
+                        <ParameterID>B}nil</ParameterID>
+                        <Customizable>false</Customizable>
+                    </Expression>
+                    <IDofOperator>B}&gt;</IDofOperator>
+                    <Connective>&amp;&amp;</Connective>
+                    <Form>FormNotNested</Form>
+                </SimpleTest>
+                <SimpleTest id="L}252">
+                    <Expression id="L}253">
+                        <Value>windowSizeRequest.wordsPerMinute * 5</Value>
+                        <ResolvedValue>`L}196`.`J}es.uem.cracking.master.windows.WindowSizeRequest.{wordsPerMinute}` * 5</ResolvedValue>
+                        <IsConstant>false</IsConstant>
+                        <ParameterID>B}nil</ParameterID>
+                        <Customizable>false</Customizable>
+                    </Expression>
+                    <Expression id="L}254">
+                        <Value>WINDOW_DEFAULT_SIZE * 2</Value>
+                        <ResolvedValue>`G}-4a2f0e33:14cb40c910b:-7c25` * 2</ResolvedValue>
+                        <IsConstant>false</IsConstant>
+                        <ParameterID>B}nil</ParameterID>
+                        <Customizable>false</Customizable>
+                    </Expression>
+                    <IDofOperator>B}&lt;=</IDofOperator>
+                    <Connective>&amp;&amp;</Connective>
+                    <Form>FormNotNested</Form>
+                </SimpleTest>
+                <FactPath>windowSizeRequest</FactPath>
+                <FactPathIDs>L}196</FactPathIDs>
+            </Pattern>
+            <ShowPatterns>false</ShowPatterns>
+            <TreeMode>false</TreeMode>
+            <Visible>true</Visible>
+            <Logical>false</Logical>
+            <Action id="L}267">
+                <Form>Assert New</Form>
+                <Target>windowSizeResponse</Target>
+                <ResolvedTarget>`J}public es.uem.cracking.master.windows.WindowSizeResponse()`</ResolvedTarget>
+                <Expression id="L}270">
+                    <Value>WINDOW_DEFAULT_SIZE</Value>
+                    <ResolvedValue>`G}-4a2f0e33:14cb40c910b:-7c25`</ResolvedValue>
+                    <IsConstant>false</IsConstant>
+                    <ParameterAlias>windowSize</ParameterAlias>
+                    <ParameterID>J}es.uem.cracking.master.windows.WindowSizeResponse.{windowSize}</ParameterID>
+                    <Customizable>false</Customizable>
+                </Expression>
+                <Expression id="L}271">
+                    <Value>2</Value>
+                    <ResolvedValue>2</ResolvedValue>
+                    <IsConstant>false</IsConstant>
+                    <ParameterAlias>windowsCount</ParameterAlias>
+                    <ParameterID>J}es.uem.cracking.master.windows.WindowSizeResponse.{windowsCount}</ParameterID>
+                    <Customizable>false</Customizable>
+                </Expression>
+            </Action>
+        </Rule>
+        <Rule id="G}5c46a4e4:14d10da5c5b:-7c34">
+            <Name>WordPerMinuteOrangeRule</Name>
+            <Alias>WordPerMinuteOrangeRule</Alias>
+            <ValidationUpdateNumber>106</ValidationUpdateNumber>
+            <Priority>medium</Priority>
+            <Customizable>true</Customizable>
+            <Active>true</Active>
+            <CalendarForm>DateTime</CalendarForm>
+            <Pattern id="L}278">
+                <Form>Fact Type</Form>
+                <FactType>windowSizeRequest</FactType>
+                <IDofFactType>J}es.uem.cracking.master.windows.WindowSizeRequest</IDofFactType>
+                <Connective>&amp;&amp;</Connective>
+                <TestForm>Simple</TestForm>
+                <Expression id="L}279">
+                    <IsConstant>false</IsConstant>
+                    <ParameterID>B}nil</ParameterID>
+                    <Customizable>false</Customizable>
+                </Expression>
+                <Operator>(for each case where)</Operator>
+                <SimpleTest id="L}295">
+                    <Expression id="L}302">
+                        <IsConstant>false</IsConstant>
+                        <ParameterID>B}nil</ParameterID>
+                        <Customizable>false</Customizable>
+                    </Expression>
+                    <Expression id="L}303">
+                        <IsConstant>false</IsConstant>
+                        <ParameterID>B}nil</ParameterID>
+                        <Customizable>false</Customizable>
+                    </Expression>
+                    <IDofOperator>B}nil</IDofOperator>
+                    <Connective>&amp;&amp;</Connective>
+                    <Form>FormNested</Form>
+                    <SimpleTest id="L}296">
+                        <Expression id="L}297">
+                            <Value>windowSizeRequest.processorName</Value>
+                            <ResolvedValue>`L}278`.`J}es.uem.cracking.master.windows.WindowSizeRequest.{processorName}`</ResolvedValue>
+                            <IsConstant>false</IsConstant>
+                            <ParameterID>B}nil</ParameterID>
+                            <Customizable>false</Customizable>
+                        </Expression>
+                        <Expression id="L}298">
+                            <Value>null</Value>
+                            <ResolvedValue>null</ResolvedValue>
+                            <IsConstant>false</IsConstant>
+                            <ParameterID>B}nil</ParameterID>
+                            <Customizable>false</Customizable>
+                        </Expression>
+                        <IDofOperator>B}!=</IDofOperator>
+                        <Connective>&amp;&amp;</Connective>
+                        <Form>FormNotNested</Form>
+                    </SimpleTest>
+                    <SimpleTest id="L}299">
+                        <Expression id="L}300">
+                            <Value>windowSizeRequest.processorName.length()</Value>
+                            <ResolvedValue>`L}278`.`J}es.uem.cracking.master.windows.WindowSizeRequest.{processorName}`.`J}public int java.lang.String.length()`()</ResolvedValue>
+                            <IsConstant>false</IsConstant>
+                            <ParameterID>B}nil</ParameterID>
+                            <Customizable>false</Customizable>
+                        </Expression>
+                        <Expression id="L}301">
+                            <Value>0</Value>
+                            <ResolvedValue>0</ResolvedValue>
+                            <IsConstant>false</IsConstant>
+                            <ParameterID>B}nil</ParameterID>
+                            <Customizable>false</Customizable>
+                        </Expression>
+                        <IDofOperator>B}&gt;</IDofOperator>
+                        <Connective>&amp;&amp;</Connective>
+                        <Form>FormNotNested</Form>
+                    </SimpleTest>
+                </SimpleTest>
+                <SimpleTest id="L}308">
+                    <Expression id="L}309">
+                        <Value>windowSizeRequest.wordsPerMinute * 5</Value>
+                        <ResolvedValue>`L}278`.`J}es.uem.cracking.master.windows.WindowSizeRequest.{wordsPerMinute}` * 5</ResolvedValue>
+                        <IsConstant>false</IsConstant>
+                        <ParameterID>B}nil</ParameterID>
+                        <Customizable>false</Customizable>
+                    </Expression>
+                    <Expression id="L}310">
+                        <Value>WINDOW_DEFAULT_SIZE * 2</Value>
+                        <ResolvedValue>`G}-4a2f0e33:14cb40c910b:-7c25` * 2</ResolvedValue>
+                        <IsConstant>false</IsConstant>
+                        <ParameterID>B}nil</ParameterID>
+                        <Customizable>false</Customizable>
+                    </Expression>
+                    <IDofOperator>B}&gt;</IDofOperator>
+                    <Connective>&amp;&amp;</Connective>
+                    <Form>FormNotNested</Form>
+                </SimpleTest>
+                <SimpleTest id="L}290">
+                    <Expression id="L}291">
+                        <Value>windowSizeRequest.wordsPerMinute * 5</Value>
+                        <ResolvedValue>`L}278`.`J}es.uem.cracking.master.windows.WindowSizeRequest.{wordsPerMinute}` * 5</ResolvedValue>
+                        <IsConstant>false</IsConstant>
+                        <ParameterID>B}nil</ParameterID>
+                        <Customizable>false</Customizable>
+                    </Expression>
+                    <Expression id="L}292">
+                        <Value>WINDOW_DEFAULT_SIZE * 3</Value>
+                        <ResolvedValue>`G}-4a2f0e33:14cb40c910b:-7c25` * 3</ResolvedValue>
+                        <IsConstant>false</IsConstant>
+                        <ParameterID>B}nil</ParameterID>
+                        <Customizable>false</Customizable>
+                    </Expression>
+                    <IDofOperator>B}&lt;=</IDofOperator>
+                    <Connective>&amp;&amp;</Connective>
+                    <Form>FormNotNested</Form>
+                </SimpleTest>
+                <FactPath>windowSizeRequest</FactPath>
+                <FactPathIDs>L}278</FactPathIDs>
+            </Pattern>
+            <ShowPatterns>false</ShowPatterns>
+            <TreeMode>false</TreeMode>
+            <Visible>true</Visible>
+            <Logical>false</Logical>
+            <Action id="L}323">
+                <Form>Assert New</Form>
+                <Target>windowSizeResponse</Target>
+                <ResolvedTarget>`J}public es.uem.cracking.master.windows.WindowSizeResponse()`</ResolvedTarget>
+                <Expression id="L}326">
+                    <Value>WINDOW_DEFAULT_SIZE</Value>
+                    <ResolvedValue>`G}-4a2f0e33:14cb40c910b:-7c25`</ResolvedValue>
+                    <IsConstant>false</IsConstant>
+                    <ParameterAlias>windowSize</ParameterAlias>
+                    <ParameterID>J}es.uem.cracking.master.windows.WindowSizeResponse.{windowSize}</ParameterID>
+                    <Customizable>false</Customizable>
+                </Expression>
+                <Expression id="L}327">
+                    <Value>3</Value>
+                    <ResolvedValue>3</ResolvedValue>
+                    <IsConstant>false</IsConstant>
+                    <ParameterAlias>windowsCount</ParameterAlias>
+                    <ParameterID>J}es.uem.cracking.master.windows.WindowSizeResponse.{windowsCount}</ParameterID>
+                    <Customizable>false</Customizable>
+                </Expression>
+            </Action>
+        </Rule>
+        <Rule id="G}5c46a4e4:14d10da5c5b:-7c33">
+            <Name>WordsPerMinuteRedRule</Name>
+            <Alias>WordsPerMinuteRedRule</Alias>
+            <ValidationUpdateNumber>119</ValidationUpdateNumber>
+            <Priority>medium</Priority>
+            <Customizable>true</Customizable>
+            <Active>true</Active>
+            <CalendarForm>DateTime</CalendarForm>
+            <Pattern id="L}282">
+                <Form>Fact Type</Form>
+                <FactType>windowSizeRequest</FactType>
+                <IDofFactType>J}es.uem.cracking.master.windows.WindowSizeRequest</IDofFactType>
+                <Connective>&amp;&amp;</Connective>
+                <TestForm>Simple</TestForm>
+                <Expression id="L}283">
+                    <IsConstant>false</IsConstant>
+                    <ParameterID>B}nil</ParameterID>
+                    <Customizable>false</Customizable>
+                </Expression>
+                <Operator>(for each case where)</Operator>
+                <SimpleTest id="L}339">
+                    <Expression id="L}346">
+                        <IsConstant>false</IsConstant>
+                        <ParameterID>B}nil</ParameterID>
+                        <Customizable>false</Customizable>
+                    </Expression>
+                    <Expression id="L}347">
+                        <IsConstant>false</IsConstant>
+                        <ParameterID>B}nil</ParameterID>
+                        <Customizable>false</Customizable>
+                    </Expression>
+                    <IDofOperator>B}nil</IDofOperator>
+                    <Connective>&amp;&amp;</Connective>
+                    <Form>FormNested</Form>
+                    <SimpleTest id="L}340">
+                        <Expression id="L}341">
+                            <Value>windowSizeRequest.processorName</Value>
+                            <ResolvedValue>`L}282`.`J}es.uem.cracking.master.windows.WindowSizeRequest.{processorName}`</ResolvedValue>
+                            <IsConstant>false</IsConstant>
+                            <ParameterID>B}nil</ParameterID>
+                            <Customizable>false</Customizable>
+                        </Expression>
+                        <Expression id="L}342">
+                            <Value>null</Value>
+                            <ResolvedValue>null</ResolvedValue>
+                            <IsConstant>false</IsConstant>
+                            <ParameterID>B}nil</ParameterID>
+                            <Customizable>false</Customizable>
+                        </Expression>
+                        <IDofOperator>B}!=</IDofOperator>
+                        <Connective>&amp;&amp;</Connective>
+                        <Form>FormNotNested</Form>
+                    </SimpleTest>
+                    <SimpleTest id="L}343">
+                        <Expression id="L}344">
+                            <Value>windowSizeRequest.processorName.length()</Value>
+                            <ResolvedValue>`L}282`.`J}es.uem.cracking.master.windows.WindowSizeRequest.{processorName}`.`J}public int java.lang.String.length()`()</ResolvedValue>
+                            <IsConstant>false</IsConstant>
+                            <ParameterID>B}nil</ParameterID>
+                            <Customizable>false</Customizable>
+                        </Expression>
+                        <Expression id="L}345">
+                            <Value>0</Value>
+                            <ResolvedValue>0</ResolvedValue>
+                            <IsConstant>false</IsConstant>
+                            <ParameterID>B}nil</ParameterID>
+                            <Customizable>false</Customizable>
+                        </Expression>
+                        <IDofOperator>B}&gt;</IDofOperator>
+                        <Connective>&amp;&amp;</Connective>
+                        <Form>FormNotNested</Form>
+                    </SimpleTest>
+                </SimpleTest>
+                <SimpleTest id="L}334">
+                    <Expression id="L}335">
+                        <Value>windowSizeRequest.wordsPerMinute * 5</Value>
+                        <ResolvedValue>`L}282`.`J}es.uem.cracking.master.windows.WindowSizeRequest.{wordsPerMinute}` * 5</ResolvedValue>
+                        <IsConstant>false</IsConstant>
+                        <ParameterID>B}nil</ParameterID>
+                        <Customizable>false</Customizable>
+                    </Expression>
+                    <Expression id="L}336">
+                        <Value>WINDOW_DEFAULT_SIZE * 3</Value>
+                        <ResolvedValue>`G}-4a2f0e33:14cb40c910b:-7c25` * 3</ResolvedValue>
+                        <IsConstant>false</IsConstant>
+                        <ParameterID>B}nil</ParameterID>
+                        <Customizable>false</Customizable>
+                    </Expression>
+                    <IDofOperator>B}&gt;</IDofOperator>
+                    <Connective>&amp;&amp;</Connective>
+                    <Form>FormNotNested</Form>
+                </SimpleTest>
+                <FactPath>windowSizeRequest</FactPath>
+                <FactPathIDs>L}282</FactPathIDs>
+            </Pattern>
+            <ShowPatterns>false</ShowPatterns>
+            <TreeMode>false</TreeMode>
+            <Visible>true</Visible>
+            <Logical>false</Logical>
+            <Action id="L}367">
+                <Form>Assert New</Form>
+                <Target>windowSizeResponse</Target>
+                <ResolvedTarget>`J}public es.uem.cracking.master.windows.WindowSizeResponse()`</ResolvedTarget>
+                <Expression id="L}370">
+                    <Value>WINDOW_DEFAULT_SIZE</Value>
+                    <ResolvedValue>`G}-4a2f0e33:14cb40c910b:-7c25`</ResolvedValue>
+                    <IsConstant>false</IsConstant>
+                    <ParameterAlias>windowSize</ParameterAlias>
+                    <ParameterID>J}es.uem.cracking.master.windows.WindowSizeResponse.{windowSize}</ParameterID>
+                    <Customizable>false</Customizable>
+                </Expression>
+                <Expression id="L}371">
+                    <Value>4</Value>
+                    <ResolvedValue>4</ResolvedValue>
+                    <IsConstant>false</IsConstant>
+                    <ParameterAlias>windowsCount</ParameterAlias>
+                    <ParameterID>J}es.uem.cracking.master.windows.WindowSizeResponse.{windowsCount}</ParameterID>
+                    <Customizable>false</Customizable>
+                </Expression>
+            </Action>
+        </Rule>
         <VisibilityFilterEnabled>false</VisibilityFilterEnabled>
         <CreationUpdateNumber>4</CreationUpdateNumber>
     </RuleSet>
-    <ValidationUpdateNumber>37</ValidationUpdateNumber>
-    <UpdateNumber>37</UpdateNumber>
+    <ValidationUpdateNumber>119</ValidationUpdateNumber>
+    <UpdateNumber>119</UpdateNumber>
     <ResourceBundle>Window_Size_RulesTranslations</ResourceBundle>
 </RuleDictionary>

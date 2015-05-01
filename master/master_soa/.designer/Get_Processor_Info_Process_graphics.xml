@@ -7,7 +7,7 @@
       <partnerlink name="get_processor_info_process_client" x="1" y="763" side="left"/>
       <partnerlink name="Master_Processor_WS" x="829" y="323" side="right"/>
    </partnerlink_locations>
-   <graph_layout viewport="27,1136,851,364" show_swimlanes="true">
+   <graph_layout viewport="0,900,863,329" show_swimlanes="true">
       <layout_item collapsed="false" xpath="/process" type="process" showhandlers="true"/>
       <layout_item collapsed="false" xpath="/process/sequence" type="sequence"/>
       <layout_item collapsed="false" xpath="/process/sequence/if[1]/sequence" type="sequence"/>

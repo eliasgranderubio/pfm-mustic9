@@ -4,16 +4,17 @@
    <annotationfile/>
    <iconize/>
    <partnerlink_locations>
-      <partnerlink name="master_dispatcher_process_client" x="4" y="90" side="left"/>
-      <partnerlink name="OSB_Name_Server_WS" x="2036" y="694" side="right"/>
-      <partnerlink name="OSB_Slave_John_The_Ripper_WS" x="2036" y="2273" side="right"/>
-      <partnerlink name="OSB_Slave_THC_Hydra_WS" x="2036" y="3146" side="right"/>
-      <partnerlink name="Window_Size_Rules.Window_Size_Rules_DecisionService_1" x="2036" y="18" side="right"/>
-      <partnerlink name="Master_Attack_WS" x="2036" y="1119" side="right"/>
-      <partnerlink name="Get_Words_Range_Process.get_words_range_process_client" x="2036" y="2740" side="right"/>
-      <partnerlink name="Get_Processor_Info_Process.get_processor_info_process_client" x="2036" y="1521" side="right"/>
+      <partnerlink name="master_dispatcher_process_client" x="0" y="90" side="left"/>
+      <partnerlink name="OSB_Name_Server_WS" x="2890" y="2736" side="right"/>
+      <partnerlink name="OSB_Slave_John_The_Ripper_WS" x="2890" y="2640" side="right"/>
+      <partnerlink name="OSB_Slave_THC_Hydra_WS" x="2890" y="4161" side="right"/>
+      <partnerlink name="Window_Size_Rules.Window_Size_Rules_DecisionService_1" x="2890" y="18" side="right"/>
+      <partnerlink name="Master_Attack_WS" x="2890" y="1898" side="right"/>
+      <partnerlink name="Get_Words_Range_Process.get_words_range_process_client" x="2890" y="3716" side="right"/>
+      <partnerlink name="Get_Processor_Info_Process.get_processor_info_process_client" x="2890" y="1521" side="right"/>
+      <partnerlink name="MasterHelper.MasterHelperService" x="2890" y="3289" side="right"/>
    </partnerlink_locations>
-   <graph_layout viewport="950,2862,851,321" show_swimlanes="true">
+   <graph_layout viewport="1652,3825,863,329" show_swimlanes="true">
       <layout_item collapsed="false" xpath="/process" type="process" showhandlers="true"/>
       <layout_item collapsed="false" xpath="/process/sequence" type="sequence"/>
       <layout_item collapsed="false" xpath="/process/sequence/scope" type="scope" showhandlers="true"/>
@@ -23,16 +24,32 @@
       <layout_item collapsed="false" xpath="/process/sequence/if/else/scope/sequence/if/else/forEach/scope" type="scope" showhandlers="true"/>
       <layout_item collapsed="false" xpath="/process/sequence/if/else/scope/sequence/if/else/forEach/scope/sequence" type="sequence"/>
       <layout_item collapsed="false" xpath="/process/sequence/if/else/scope/sequence/if/else/forEach/scope/sequence/if/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if/else/scope/sequence/if/else/forEach/scope/sequence/if/sequence/scope" type="scope" showhandlers="true"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if/else/scope/sequence/if/else/forEach/scope/sequence/if/sequence/scope/faultHandlers/catchAll" type="catchall"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if/else/scope/sequence/if/else/forEach/scope/sequence/if/sequence/scope/sequence" type="sequence"/>
       <layout_item collapsed="false" xpath="/process/sequence/if/else/scope/sequence/if/else/forEach/scope/sequence/if/else/sequence" type="sequence"/>
       <layout_item collapsed="false" xpath="/process/sequence/if/else/scope/sequence/if/else/forEach/scope/sequence/if/else/sequence/repeatUntil" type="repeatUntil"/>
       <layout_item collapsed="false" xpath="/process/sequence/if/else/scope/sequence/if/else/forEach/scope/sequence/if/else/sequence/repeatUntil/sequence" type="sequence"/>
       <layout_item collapsed="true" xpath="/process/sequence/if/else/scope/sequence/if/else/forEach/scope/sequence/if/else/sequence/repeatUntil/sequence/scope" type="rule" showhandlers="true"/>
       <layout_item collapsed="false" xpath="/process/sequence/if/else/scope/sequence/if/else/forEach/scope/sequence/if/else/sequence/repeatUntil/sequence/scope/sequence" type="sequence"/>
       <layout_item collapsed="false" xpath="/process/sequence/if/else/scope/sequence/if/else/forEach/scope/sequence/if/else/sequence/if/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if/else/scope/sequence/if/else/forEach/scope/sequence/if/else/sequence/if/sequence/scope" type="scope" showhandlers="true"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if/else/scope/sequence/if/else/forEach/scope/sequence/if/else/sequence/if/sequence/scope/faultHandlers/catchAll" type="catchall"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if/else/scope/sequence/if/else/forEach/scope/sequence/if/else/sequence/if/sequence/scope/sequence" type="sequence"/>
       <layout_item collapsed="false" xpath="/process/sequence/if/else/scope/sequence/if/else/forEach/scope/sequence/if/else/sequence/if/else/scope" type="scope" showhandlers="true"/>
       <layout_item collapsed="false" xpath="/process/sequence/if/else/scope/sequence/if/else/forEach/scope/sequence/if/else/sequence/if/else/scope/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if/else/scope/sequence/if/else/forEach/scope/sequence/if/else/sequence/if/else/scope/sequence/forEach" type="foreach"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if/else/scope/sequence/if/else/forEach/scope/sequence/if/else/sequence/if/else/scope/sequence/forEach/scope" type="scope" showhandlers="true"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if/else/scope/sequence/if/else/forEach/scope/sequence/if/else/sequence/if/else/scope/sequence/forEach/scope/sequence" type="sequence"/>
       <layout_item collapsed="false" xpath="/process/sequence/if/else/scope/sequence/if/else/forEach/scope/sequence/if/else/sequence/if/else/scope/sequence/if/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if/else/scope/sequence/if/else/forEach/scope/sequence/if/else/sequence/if/else/scope/sequence/if/sequence/scope" type="scope" showhandlers="true"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if/else/scope/sequence/if/else/forEach/scope/sequence/if/else/sequence/if/else/scope/sequence/if/sequence/scope/faultHandlers/catchAll" type="catchall"/>
       <layout_item collapsed="false" xpath="/process/sequence/if/else/scope/sequence/if/else/forEach/scope/sequence/if/else/sequence/if/else/scope/sequence/if/else/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if/else/scope/sequence/if/else/forEach/scope/sequence/if/else/sequence/if/else/scope/sequence/if/else/sequence/scope" type="scope" showhandlers="true"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if/else/scope/sequence/if/else/forEach/scope/sequence/if/else/sequence/if/else/scope/sequence/if/else/sequence/scope/faultHandlers/catchAll" type="catchall"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if/else/scope/sequence/if/else/forEach/scope/sequence/scope" type="scope" showhandlers="true"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if/else/scope/sequence/if/else/forEach/scope/sequence/scope/faultHandlers/catchAll" type="catchall"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if/else/scope/sequence/if/else/forEach/scope/sequence/scope/sequence" type="sequence"/>
    </graph_layout>
    <bookmarks/>
 </graphics>

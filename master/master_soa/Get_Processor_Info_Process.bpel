@@ -148,6 +148,9 @@
               <variable name="counter" type="xsd:int">
                 <from>1</from>
               </variable>
+              <variable name="counterMinus1" type="xsd:int">
+                <from>0</from>
+              </variable>
             </variables>
             <sequence name="Sequence4">
               <repeatUntil name="RepeatUntil">
@@ -156,14 +159,18 @@
                     <from>$counter + 1</from>
                     <to>$counter</to>
                   </copy>
+                  <copy>
+                    <from>$counterMinus1 + 1 </from>
+                    <to>$counterMinus1</to>
+                  </copy>
                 </assign>
-                <condition>$counter &gt; ora:countNodes('tmp','return/processors') or $tmp/return/processors[$counter]/processorName = $inputVariable.processorName</condition>
+                <condition>$counter &gt; ora:countNodes('tmp','return/processors') or ($tmp/return/processors[$counterMinus1]/processorName = $inputVariable.processorName)</condition>
               </repeatUntil>
               <if name="CheckCounter">
                 <documentation>
                   <![CDATA[CounterExceeded]]>
                 </documentation>
-                <condition>$counter &gt; ora:countNodes('tmp','return/processors')</condition>
+                <condition>$counter &gt; ora:countNodes('tmp','return/processors') and  ($tmp/return/processors[$counterMinus1]/processorName != $inputVariable.processorName)</condition>
                 <empty name="NothingToDo"/>
                 <else>
                   <documentation>
